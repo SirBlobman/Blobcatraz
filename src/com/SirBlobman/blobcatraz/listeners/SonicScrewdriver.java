@@ -39,7 +39,7 @@ public class SonicScrewdriver implements Listener
 		{
 			return;
 		}
-		if (!e.getPlayer().getInventory().getItemInMainHand().equals(sonic) || !e.getPlayer().getInventory().getItemInOffHand().equals(sonic)) 
+		if (!e.getPlayer().getItemInHand().equals(sonic)) 
 		{
 			return;
 		}

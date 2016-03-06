@@ -1,6 +1,6 @@
 main: com.SirBlobman.blobcatraz.Blobcatraz
 name: Blobcatraz
-version: 0.0.0.10
+version: 0.0.0.11
 author: SirBlobman
 description: Plugin used for nearly everything in the Blobcatraz server. 
 softdepend: [HolographicDisplays, LampControl]
@@ -45,6 +45,10 @@ commands:
     usage: /chat [on/off/clear/status]
     permission: blobcatraz.chat
     permission-message: You don't have permission to mess with chat. You need "blobcatraz.chat"
+  setmotd:
+    description: Changes the MOTD
+    usage: /setmotd <new motd>
+    permission: blobcatraz.set.motd
 permissions: 
     blobcatraz.*:
       description: Gives access to all commands!

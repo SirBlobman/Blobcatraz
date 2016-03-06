@@ -32,10 +32,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.SirBlobman.blobcatraz.listeners.AFK;
 import com.SirBlobman.blobcatraz.listeners.CellBarsUnbreakableWithoutPerm;
 import com.SirBlobman.blobcatraz.listeners.ChatMute;
+import com.SirBlobman.blobcatraz.listeners.ChatReplacer;
 import com.SirBlobman.blobcatraz.listeners.GiantDropsNotchApple;
 import com.SirBlobman.blobcatraz.listeners.JoinBroadcast;
 import com.SirBlobman.blobcatraz.listeners.LeaveBroadcast;
 import com.SirBlobman.blobcatraz.listeners.LightningRod;
+import com.SirBlobman.blobcatraz.listeners.SetMotd;
 import com.SirBlobman.blobcatraz.listeners.SonicScrewdriver;
 import com.SirBlobman.blobcatraz.listeners.UnkillableSlimes;
 import com.SirBlobman.blobcatraz.parts.Recipes;
@@ -76,9 +78,11 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 		instance = this;
 		config.addDefault("chat.disabled", false);
 		config.addDefault("protection.prevent-prison-escape", true);
-		config.addDefault("random.unkillable-slimes", false);
-		config.addDefault("random.giant-drops-notch-apple", false);
+		config.addDefault("random.unkillable-slimes", true);
+		config.addDefault("random.giant-drops-notch-apple", true);
 		config.addDefault("sonic-screwdriver.enabled", true);
+		config.addDefault("motd", "§1[§6Blobcatraz§1]§r This is the default MOTD");
+		config.addDefault("chat.use_special", true);
 		config.options().copyDefaults(true);
 		saveConfig();
 		savePortalConfig();
@@ -93,6 +97,7 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 		getServer().getPluginManager().registerEvents(new AFK(), this);
 		getServer().getPluginManager().registerEvents(new LightningRod(), this);
 		getServer().getPluginManager().registerEvents(new ChatMute(), this);
+		getServer().getPluginManager().registerEvents(new SetMotd(), this);
 	// Config Defined Listeners
 		if (config.getBoolean("random.unkillable-slimes") == true) 
 		{
@@ -112,6 +117,10 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 		{
 			getServer().getPluginManager().registerEvents(new SonicScrewdriver(), this);
 		}
+		if(config.getBoolean("chat.use_special") == true)
+		{
+			getServer().getPluginManager().registerEvents(new ChatReplacer(), this);
+		}
 		Bukkit.broadcastMessage("§1[§6Blobcatraz§1]§r This plugin has been §2§lenabled§r!");
 	}
 
@@ -125,6 +134,27 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 	public boolean onCommand(CommandSender sender, Command c, String label, String[] args) 
 	{
 		String ssender = sender.getName();
+		
+		if(c.getName().equalsIgnoreCase("setmotd"))
+		{
+			if(args.length >= 1)
+			{
+				config.set("motd", getFinalArg(args, 0));
+				saveConfig();
+				config.set("motd", getFinalArg(args, 0));
+				saveConfig();
+				config.set("motd", getFinalArg(args, 0));
+				saveConfig();
+				config.set("motd", getFinalArg(args, 0));
+				saveConfig();
+				config.set("motd", getFinalArg(args, 0));
+				saveConfig();
+				reloadConfig();
+				String motd = ChatColor.translateAlternateColorCodes('&', config.getString("motd"));
+				sender.sendMessage("§1[§6Blobcatraz§1]§r Attempted to change MOTD to " + motd);
+				return true;
+			}
+		}
 		
 		if(c.getName().equalsIgnoreCase("chat"))
 		{
