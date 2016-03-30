@@ -49,7 +49,7 @@ public class SonicScrewdriver implements Listener
 			Block b = e.getClickedBlock();
 			Block above_b = b.getRelative(BlockFace.UP, 1);
 			Player p = e.getPlayer();
-			p.playSound(p.getLocation(), "sonic-screwdriver", 1, 1);
+			//p.playSound(p.getLocation(), "sonic-screwdriver", 1, 1);
 // Sonic Devices can open iron doors
 			if (b.getType() == Material.IRON_DOOR_BLOCK) 
 			{

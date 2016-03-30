@@ -13,11 +13,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class LightningRod implements Listener 
 {
+	public static ItemStack lightning_rod = new ItemStack(Material.BLAZE_ROD);
 	@EventHandler
 	public void onPlayerInteractBlock(PlayerInteractEvent e) 
 	{
 		Player p = e.getPlayer();
-		ItemStack lightning_rod = new ItemStack(Material.BLAZE_ROD);
+		
 		ItemMeta lrodmeta = lightning_rod.getItemMeta();
 		lrodmeta.setDisplayName("§6§lLightning §rRod");
 		lrodmeta.setLore(Arrays.asList("Creates lightning where you are looking", "Only works up to 200 blocks away"));

@@ -29,6 +29,13 @@ public class ChatReplacer implements Listener
 		m = m.replace("[degree]", "º");
 		m = m.replace("[r]", "®");
 		m = m.replace("[tm]", "™");
+		m = m.replace("[male]", "♂");
+		m = m.replace("[female]", "♀");
+		m = m.replace("[male+female]", "⚥");
+		m = m.replace("[skull]", "💀");
+		m = m.replace("[skullxbones]", "☠");
+		m = m.replace("[cent]", "¢");
+		m = m.replace("[?!]", "‽");
 		
 		e.setMessage(m);
 	}

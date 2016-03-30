@@ -1,18 +1,18 @@
 main: com.SirBlobman.blobcatraz.Blobcatraz
 name: Blobcatraz
-version: 0.0.0.11
+version: 0.0.0.12
 author: SirBlobman
 description: Plugin used for nearly everything in the Blobcatraz server. 
-softdepend: [HolographicDisplays, LampControl]
+softdepend: [Votifier, HolographicDisplays, LampControl]
 commands:
   blobcatraz:
-    description: Testing Command
-    usage: /blobcatraz
+    description: Testing Command [] = Argument <> = Optional
+    usage: /blobcatraz <give> <item name>
     permission: blobcatraz.blobcatraz
     permission-message: You don't have the permission "blobcatraz.blobcatraz"
   afk:
     description: Away From Keyboard
-    usage: /afk [reason]
+    usage: /afk <reason>
     permission: blobcatraz.afk
     permission-message: You don't have the permission "blobcatraz.afk"
   not-afk:
@@ -47,8 +47,11 @@ commands:
     permission-message: You don't have permission to mess with chat. You need "blobcatraz.chat"
   setmotd:
     description: Changes the MOTD
-    usage: /setmotd <new motd>
+    usage: /setmotd [new motd]
     permission: blobcatraz.set.motd
+  vote:
+    description: Shows you all the vote links specified from the config
+    usage: /vote
 permissions: 
     blobcatraz.*:
       description: Gives access to all commands!

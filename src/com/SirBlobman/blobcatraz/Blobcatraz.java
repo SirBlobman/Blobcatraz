@@ -3,6 +3,8 @@ package com.SirBlobman.blobcatraz;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -19,6 +21,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -29,9 +32,15 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.SirBlobman.blobcatraz.enchants.FireballEnchant;
+import com.SirBlobman.blobcatraz.enchants.GlowEnchant;
+import com.SirBlobman.blobcatraz.enchants.LevitateEnchant;
+import com.SirBlobman.blobcatraz.enchants.WitherEnchant;
+import com.SirBlobman.blobcatraz.enchants.XPStealEnchant;
 import com.SirBlobman.blobcatraz.listeners.AFK;
 import com.SirBlobman.blobcatraz.listeners.CellBarsUnbreakableWithoutPerm;
 import com.SirBlobman.blobcatraz.listeners.ChatMute;
+import com.SirBlobman.blobcatraz.listeners.ChatPing;
 import com.SirBlobman.blobcatraz.listeners.ChatReplacer;
 import com.SirBlobman.blobcatraz.listeners.GiantDropsNotchApple;
 import com.SirBlobman.blobcatraz.listeners.JoinBroadcast;
@@ -40,6 +49,7 @@ import com.SirBlobman.blobcatraz.listeners.LightningRod;
 import com.SirBlobman.blobcatraz.listeners.SetMotd;
 import com.SirBlobman.blobcatraz.listeners.SonicScrewdriver;
 import com.SirBlobman.blobcatraz.listeners.UnkillableSlimes;
+import com.SirBlobman.blobcatraz.listeners.Votes;
 import com.SirBlobman.blobcatraz.parts.Recipes;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
@@ -48,17 +58,29 @@ import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 
 import net.md_5.bungee.api.ChatColor;
 
+//String Author = "SirBlobman";
+
 @SuppressWarnings({ "unchecked", "rawtypes", "unused", "deprecation" })
 public final class Blobcatraz extends JavaPlugin implements Listener 
 {
+	//I see you Mr.Plugin Stealer
+	//I told you not to steal my code, but you probably will anyways
+	//Try to understand it, its not that difficult
+	//xD
 	public static Blobcatraz instance;
 	public FileConfiguration config = getConfig();
+	public FileConfiguration afk = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "afk.yml"));
 	public static Blobcatraz plugin;
 
 	HashMap<UUID, Location> pos1 = new HashMap();
 	HashMap<UUID, Location> pos2 = new HashMap();
 	List<String> portals = new ArrayList();
 	List<UUID> inPortal = new ArrayList();
+	
+	ItemStack sonic = SonicScrewdriver.sonic;
+	ItemMeta sonic_meta = sonic.getItemMeta();
+	ItemStack lrod = LightningRod.lightning_rod;
+	ItemMeta l_meta = lrod.getItemMeta();
 
 	public void savePortals() 
 	{
@@ -69,6 +91,11 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 			this.portals.add(x);
 		}
 	}
+	
+	public void regEvents(Listener e, Blobcatraz t)
+	{
+		getServer().getPluginManager().registerEvents(e, t);
+	}
 
 	@Override
 	public void onEnable() 
@@ -77,51 +104,73 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 		Recipes.onEnable();
 		instance = this;
 		config.addDefault("chat.disabled", false);
+		config.addDefault("chat.ping", true);
 		config.addDefault("protection.prevent-prison-escape", true);
 		config.addDefault("random.unkillable-slimes", true);
 		config.addDefault("random.giant-drops-notch-apple", true);
 		config.addDefault("sonic-screwdriver.enabled", true);
 		config.addDefault("motd", "§1[§6Blobcatraz§1]§r This is the default MOTD");
 		config.addDefault("chat.use_special", true);
+		config.addDefault("random.custom-enchants", true);
 		config.options().copyDefaults(true);
 		saveConfig();
 		savePortalConfig();
-		getServer().getPluginManager().registerEvents(this, this);
+		regEvents(this, this);
 		
 		getPortalConfig().options().copyDefaults(true);
 		savePortals();
 		
+		afk.options().copyDefaults();
+		saveAFKConfig();
+		
 	// Normal Listeners
-		getServer().getPluginManager().registerEvents(new JoinBroadcast(), this);
-		getServer().getPluginManager().registerEvents(new LeaveBroadcast(), this);
-		getServer().getPluginManager().registerEvents(new AFK(), this);
-		getServer().getPluginManager().registerEvents(new LightningRod(), this);
-		getServer().getPluginManager().registerEvents(new ChatMute(), this);
-		getServer().getPluginManager().registerEvents(new SetMotd(), this);
+		regEvents(new JoinBroadcast(), this);
+		regEvents(new LeaveBroadcast(), this);
+		regEvents(new AFK(), this);
+		regEvents(new LightningRod(), this);
+		regEvents(new ChatMute(), this);
+		regEvents(new SetMotd(), this);
 	// Config Defined Listeners
 		if (config.getBoolean("random.unkillable-slimes") == true) 
 		{
-			getServer().getPluginManager().registerEvents(new UnkillableSlimes(), this);
+			regEvents(new UnkillableSlimes(), this);
 		}
 
 		if (config.getBoolean("random.giant-drops-notch-apple") == true) 
 		{
-			getServer().getPluginManager().registerEvents(new GiantDropsNotchApple(), this);
+			regEvents(new GiantDropsNotchApple(), this);
 		}
 
 		if (config.getBoolean("protection.prevent-prison-escape") == true) 
 		{
-			getServer().getPluginManager().registerEvents(new CellBarsUnbreakableWithoutPerm(), this);
+			regEvents(new CellBarsUnbreakableWithoutPerm(), this);
 		}
 		if(config.getBoolean("sonic-screwdriver.enabled") == true)
 		{
-			getServer().getPluginManager().registerEvents(new SonicScrewdriver(), this);
+			regEvents(new SonicScrewdriver(), this);
 		}
 		if(config.getBoolean("chat.use_special") == true)
 		{
-			getServer().getPluginManager().registerEvents(new ChatReplacer(), this);
+			regEvents(new ChatReplacer(), this);
 		}
-		Bukkit.broadcastMessage("§1[§6Blobcatraz§1]§r This plugin has been §2§lenabled§r!");
+		if(config.getBoolean("chat.ping") == true)
+		{
+			regEvents(new ChatPing(), this);
+		}
+		if(config.getBoolean("random.custom-enchants") == true)
+		{
+			regEvents(new FireballEnchant(), this);
+			regEvents(new WitherEnchant(), this);
+			regEvents(new LevitateEnchant(), this);
+			regEvents(new GlowEnchant(), this);
+			regEvents(new XPStealEnchant(), this);
+		}
+	//Depend Based Listeners
+		if(getServer().getPluginManager().isPluginEnabled("Votifier"))
+		{
+			regEvents(new Votes(), this);
+		}
+		Bukkit.broadcastMessage("§1[§6Blobcatraz§1]§r This plugin has been §2§lenabled§r!");	
 	}
 
 	@Override
@@ -133,6 +182,12 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 	@Override
 	public boolean onCommand(CommandSender sender, Command c, String label, String[] args) 
 	{
+
+		sonic_meta.setDisplayName("§fSonic Screwdriver");
+		sonic.setItemMeta(sonic_meta);
+		l_meta.setDisplayName("§6§lLightning §rRod");
+		l_meta.setLore(Arrays.asList("Creates lightning where you are looking", "Only works up to 200 blocks away"));
+		lrod.setItemMeta(l_meta);
 		String ssender = sender.getName();
 		
 		if(c.getName().equalsIgnoreCase("setmotd"))
@@ -226,6 +281,17 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 		
 		Player p = (Player) sender;
 		
+		if(c.getName().equalsIgnoreCase("vote"))
+		{
+			List<String> links = getConfig().getStringList("vote.links");
+			sender.sendMessage("§1[§6Blobcatraz§1]§r Vote Links:");
+			for(String s : links)
+			{
+				sender.sendMessage(s);
+			}
+			return true;
+		}
+		
 		if(c.getName().equalsIgnoreCase("random"))
 		{
 			int random_number;
@@ -275,6 +341,30 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 					reloadPortalConfig();
 					sender.sendMessage("§1[§6Blobcatraz§1]§r Configs reloaded");
 				}
+				if(args[0].equals("give") == true)
+				{
+					if(args.length > 1)
+					{
+						if(args[1].equals("sonic_screwdriver") == true)
+						{
+							p.getInventory().addItem(sonic);
+						}
+						if(args[1].equals("lightning_rod") == true)
+						{
+							p.getInventory().addItem(lrod);
+						}
+						else
+						{
+							p.sendMessage("§1[§6Blobcatraz§1]§r Invalid item! Either this plugin doesn't have that item or you typed it wrong");
+							p.sendMessage("§1[§6Blobcatraz§1]§r Valid Items Include \n- Sonic Screwdriver (sonic_screwdriver)\n- Lightning Rod (lightning_rod)");
+						}
+					}
+					else
+					{
+						p.sendMessage("§1[§6Blobcatraz§1]§r Not enough arguments! You need to specify an item");
+					}
+					
+				}
 			} 
 			else 
 			{
@@ -294,14 +384,14 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 			if (args.length < 1) 
 			{
 				Bukkit.broadcastMessage("§6§l* §7" + sender.getName() + " §6is now AFK");
-				AFK.AFK = true;
+				afk.set(ssender + ".afk", true);
 			} 
 			else 
 			{
 				String reason = getFinalArg(args, 0);
 				Bukkit.broadcastMessage("§6§l* §7" + sender.getName() + " §6is now AFK: ");
 				Bukkit.broadcastMessage("    - " + reason);
-				AFK.AFK = true;
+				afk.set(ssender + ".afk", true);
 			}
 			return true;
 		}
@@ -326,13 +416,13 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 			{
 				if (args[0].equalsIgnoreCase("wand")) 
 				{
-					ItemStack gold_hoe = new ItemStack(Material.GOLD_HOE);
-					ItemMeta gold_hoe_meta = gold_hoe.getItemMeta();
-					gold_hoe_meta.setDisplayName("§3Blobcatraz §cPortal §cWand");
-					gold_hoe_meta
+					ItemStack stick = new ItemStack(Material.STICK);
+					ItemMeta stick_meta = stick.getItemMeta();
+					stick_meta.setDisplayName("§3Blobcatraz §cPortal §cWand");
+					stick_meta
 							.setLore(Arrays.asList("Left Click to set Position 1", "Right Click to set Position 2"));
-					gold_hoe.setItemMeta(gold_hoe_meta);
-					p.getInventory().addItem(gold_hoe);
+					stick.setItemMeta(stick_meta);
+					p.getInventory().addItem(stick);
 					sender.sendMessage("§1[§6Blobcatraz§1]§r Given you the portal wand!");
 					return true;
 				} 
@@ -454,17 +544,17 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) 
 	{
-		ItemStack gold_hoe = new ItemStack(Material.GOLD_HOE);
-		ItemMeta gold_hoe_meta = gold_hoe.getItemMeta();
-		gold_hoe_meta.setDisplayName("§3Blobcatraz §cPortal §cWand");
-		gold_hoe_meta.setLore(Arrays.asList("Left Click to set Position 1", "Right Click to set Position 2"));
-		gold_hoe.setItemMeta(gold_hoe_meta);
+		ItemStack stick = new ItemStack(Material.STICK);
+		ItemMeta stick_meta = stick.getItemMeta();
+		stick_meta.setDisplayName("§3Blobcatraz §cPortal §cWand");
+		stick_meta.setLore(Arrays.asList("Left Click to set Position 1", "Right Click to set Position 2"));
+		stick.setItemMeta(stick_meta);
 
 		if (!e.getPlayer().hasPermission("blobcatraz.wand.use")) 
 		{
 			return;
 		}
-		if (!e.getPlayer().getItemInHand().equals(gold_hoe)) 
+		if (!e.getPlayer().getItemInHand().equals(stick)) 
 		{
 			return;
 		}
@@ -574,7 +664,8 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 		return portalConfig;
 	}
 
-	public void savePortalConfig() {
+	public void savePortalConfig() 
+	{
 		if (portalConfig == null || portalConfigFile == null) 
 		{
 			return;
@@ -585,6 +676,48 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 		} catch (IOException ex) 
 		{
 			getLogger().log(Level.SEVERE, "[Blobcatraz] Could not save portals to " + portalConfigFile, ex);
+		}
+	}
+	
+	private File afkFile = null;
+	public void reloadAFKConfig()
+	{
+		if(afkFile == null)
+		{
+			afkFile = new File(getDataFolder(), "afk.yml");
+		}
+		afk = YamlConfiguration.loadConfiguration(afkFile);
+		
+		Reader defConfigStream = new InputStreamReader(this.getResource("afk.yml"));
+		if(defConfigStream != null)
+		{
+			YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+			afk.setDefaults(defConfig);
+		}
+	}
+	
+	public FileConfiguration getAFKConfig()
+	{
+		if(afk == null)
+		{
+			reloadAFKConfig();
+		}
+		return afk;
+	}
+	
+	public void saveAFKConfig()
+	{
+		if(afk == null || afkFile == null)
+		{
+			return;
+		}
+		try
+		{
+			getAFKConfig().save(afkFile);
+		}
+		catch (IOException e)
+		{
+			getLogger().log(Level.SEVERE, "Could not save AFK.yml", e);
 		}
 	}
 }
