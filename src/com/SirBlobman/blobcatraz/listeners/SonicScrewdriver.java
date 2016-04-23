@@ -28,6 +28,7 @@ public class SonicScrewdriver implements Listener
 {
 	public static ItemStack sonic = new ItemStack(Material.BLAZE_ROD);
 	private Blobcatraz plugin;
+	
 	@EventHandler
 	public void onSonicUse(PlayerInteractEvent e) throws Exception 
 	{
@@ -45,11 +46,12 @@ public class SonicScrewdriver implements Listener
 		}
 		if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) 
 		{
-			Location l = e.getPlayer().getLocation();
 			Block b = e.getClickedBlock();
 			Block above_b = b.getRelative(BlockFace.UP, 1);
 			Player p = e.getPlayer();
-			//p.playSound(p.getLocation(), "sonic-screwdriver", 1, 1);
+			Location l = p.getLocation();
+			
+			p.playSound(l, "sonic-screwdriver", 1, 1);
 // Sonic Devices can open iron doors
 			if (b.getType() == Material.IRON_DOOR_BLOCK) 
 			{

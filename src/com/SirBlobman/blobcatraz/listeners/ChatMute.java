@@ -16,7 +16,7 @@ public class ChatMute implements Listener
 	{
 		Player p = e.getPlayer();
 		
-		if(isGlobalMute == Boolean.valueOf(true))
+		if(isGlobalMute && p.hasPermission("blobcatraz.mute.bypass") == false)
 		{
 			p.sendMessage("§1[§6Blobcatraz§1]§r §cChat is currently §dDisabled");
 			e.setCancelled(true);

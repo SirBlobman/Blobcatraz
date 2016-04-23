@@ -21,7 +21,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -35,6 +34,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.SirBlobman.blobcatraz.enchants.FireballEnchant;
 import com.SirBlobman.blobcatraz.enchants.GlowEnchant;
 import com.SirBlobman.blobcatraz.enchants.LevitateEnchant;
+import com.SirBlobman.blobcatraz.enchants.VillagerFixEnchant;
 import com.SirBlobman.blobcatraz.enchants.WitherEnchant;
 import com.SirBlobman.blobcatraz.enchants.XPStealEnchant;
 import com.SirBlobman.blobcatraz.listeners.AFK;
@@ -164,12 +164,14 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 			regEvents(new LevitateEnchant(), this);
 			regEvents(new GlowEnchant(), this);
 			regEvents(new XPStealEnchant(), this);
+			regEvents(new VillagerFixEnchant(), this);
 		}
 	//Depend Based Listeners
 		if(getServer().getPluginManager().isPluginEnabled("Votifier"))
 		{
 			regEvents(new Votes(), this);
 		}
+		
 		Bukkit.broadcastMessage("§1[§6Blobcatraz§1]§r This plugin has been §2§lenabled§r!");	
 	}
 
@@ -275,7 +277,7 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 		
 		if (!(sender instanceof Player)) 
 		{
-			sender.sendMessage("§1[§6Blobcatraz§1]§r Commands cannot be executed via the console.");
+			sender.sendMessage("§1[§6Blobcatraz§1]§r That command cannot be executed via the console.");
 			return true;
 		}
 		
@@ -335,21 +337,51 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 		{
 			if (args.length > 0) 
 			{
-				if (args[0].equals("reload") == true) 
+				if(args[0].equals("enchant") && args.length == 3)
+				{
+					ItemStack is = p.getItemInHand();
+					ItemMeta im = is.getItemMeta();
+					String lvl = null;
+					
+					if(args[2].equals("1"))
+					{
+						lvl = " I";
+					}
+					if(args[2].equals("2"))
+					{
+						lvl = " II";
+					}
+					if(args[2].equals("3"))
+					{
+						lvl = " III";
+					}
+					
+					if(args[1].equals("Fireball") || args[1].equals("Levitate") || args[1].equals("Wither") || args[1].equals("Glow"))
+					{
+						im.getLore().add("§7" + args[1] + lvl);
+					}
+					if(args[1].equals("XP_Drain"))
+					{
+						im.getLore().add("§66XP Drain I");
+					}
+					p.sendMessage("§1[§6Blobcatraz§1]§r Lore has been set to " + im.getLore());
+				}
+				
+				if (args[0].equals("reload")) 
 				{
 					reloadConfig();
 					reloadPortalConfig();
 					sender.sendMessage("§1[§6Blobcatraz§1]§r Configs reloaded");
 				}
-				if(args[0].equals("give") == true)
+				if(args[0].equals("give"))
 				{
 					if(args.length > 1)
 					{
-						if(args[1].equals("sonic_screwdriver") == true)
+						if(args[1].equals("sonic_screwdriver"))
 						{
 							p.getInventory().addItem(sonic);
 						}
-						if(args[1].equals("lightning_rod") == true)
+						if(args[1].equals("lightning_rod"))
 						{
 							p.getInventory().addItem(lrod);
 						}

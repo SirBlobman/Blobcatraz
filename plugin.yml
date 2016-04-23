@@ -1,6 +1,6 @@
 main: com.SirBlobman.blobcatraz.Blobcatraz
 name: Blobcatraz
-version: 0.0.0.12
+version: 0.0.0.13
 author: SirBlobman
 description: Plugin used for nearly everything in the Blobcatraz server. 
 softdepend: [Votifier, HolographicDisplays, LampControl]
