@@ -15,12 +15,12 @@ public class ChatPing implements Listener
 	{			
 		Player p = e.getPlayer();
 		String m = e.getMessage();
-		for(final Player oP : Blobcatraz.plugin.getServer().getOnlinePlayers())
+		for(final Player oP : Blobcatraz.instance.getServer().getOnlinePlayers())
 		{
 			if ((oP != p) && ((m.toLowerCase().contains(oP.getName().toLowerCase())) || (m.toLowerCase().contains(oP.getDisplayName().toLowerCase()))))
 			{
 				oP.playSound(oP.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 20.0F, 1.0F);
-				Blobcatraz.plugin.getServer().getScheduler().runTaskLater(Blobcatraz.instance, new Runnable()
+				Blobcatraz.instance.getServer().getScheduler().runTaskLater(Blobcatraz.instance, new Runnable()
 				{
 					public void run()
 					{

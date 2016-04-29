@@ -1,13 +1,13 @@
 main: com.SirBlobman.blobcatraz.Blobcatraz
 name: Blobcatraz
-version: 0.0.0.13
+version: 0.0.0.14
 author: SirBlobman
 description: Plugin used for nearly everything in the Blobcatraz server. 
 softdepend: [Votifier, HolographicDisplays, LampControl]
 commands:
   blobcatraz:
-    description: Testing Command [] = Argument <> = Optional
-    usage: /blobcatraz <give> <item name>
+    description: Command [] = Argument <> = Optional
+    usage: /blobcatraz [give|enchant|reload] [item name|enchant name] [enchant level]
     permission: blobcatraz.blobcatraz
     permission-message: You don't have the permission "blobcatraz.blobcatraz"
   afk:
@@ -52,6 +52,22 @@ commands:
   vote:
     description: Shows you all the vote links specified from the config
     usage: /vote
+  addlore:
+    description: Adds lore to an item that already has lore
+    usage: /addlore [Lore]
+    permission: blobcatraz.setlore
+  setlore:
+    description: Sets the item lore (deletes old lore)
+    usage: /setlore [Lore]
+    permission: blobcatraz.setlore
+  resetitem:
+    description: Clears any metadata that the item has. Includes Lore, Name, and Enchants
+    usage: /resetitem
+    permission: blobcatraz.resetitem
+  repair:
+    description: Fixes an item (its like an anvil)
+    usage: /repair
+    permission: blobcatraz.repair
 permissions: 
     blobcatraz.*:
       description: Gives access to all commands!

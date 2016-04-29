@@ -9,7 +9,7 @@ import com.SirBlobman.blobcatraz.Blobcatraz;
 
 public class ChatMute implements Listener 
 {
-	public static boolean isGlobalMute = Blobcatraz.plugin.getConfig().getBoolean("chat.disabled");
+	public static boolean isGlobalMute = Blobcatraz.instance.getConfig().getBoolean("chat.disabled");
 	
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e)

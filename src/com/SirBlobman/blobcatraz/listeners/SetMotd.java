@@ -5,17 +5,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerListPingEvent;
 
 import com.SirBlobman.blobcatraz.Blobcatraz;
-
-import net.md_5.bungee.api.ChatColor;
+import com.SirBlobman.blobcatraz.Util;
 
 public class SetMotd implements Listener
 {
 	@EventHandler
 	public void setMotd(ServerListPingEvent e)
 	{
-		Blobcatraz.plugin.reloadConfig();
-		Blobcatraz.plugin.reloadConfig();
-		String motd = Blobcatraz.plugin.config.getString("motd");
-		e.setMotd(ChatColor.translateAlternateColorCodes('&', motd));
+		Blobcatraz.instance.reloadConfig();
+		Blobcatraz.instance.reloadConfig();
+		String motd = Blobcatraz.instance.config.getString("motd");
+		e.setMotd(Util.color(motd));
 	}
 }

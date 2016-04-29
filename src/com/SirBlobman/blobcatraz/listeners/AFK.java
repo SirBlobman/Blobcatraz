@@ -4,7 +4,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import com.SirBlobman.blobcatraz.Blobcatraz;
+import com.SirBlobman.blobcatraz.command.AFKCommandHandler;
 
 public class AFK implements Listener
 {
@@ -12,12 +12,12 @@ public class AFK implements Listener
 	@EventHandler
 	public void onPlayerMoveEvent(PlayerMoveEvent e)
 	{
-		boolean AFK = Blobcatraz.plugin.afk.getBoolean(e.getPlayer().getName() + ".afk");
+		boolean AFK = AFKCommandHandler.afk.getBoolean(e.getPlayer().getName() + ".afk");
 		
 		if(AFK == true)
 		{
 			e.getPlayer().performCommand("not-afk");
-			Blobcatraz.plugin.afk.set(e.getPlayer().getName() + ".afk", false);
+			AFKCommandHandler.afk.set(e.getPlayer().getName() + ".afk", false);
 		}
 	}
 }

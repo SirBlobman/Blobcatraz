@@ -6,7 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 
-public class CellBarsUnbreakableWithoutPerm implements Listener
+public class PrisonProtection implements Listener
 {
 	@EventHandler 
 	public void onBlockBreakEvent(BlockBreakEvent e)

@@ -1,4 +1,4 @@
-package com.SirBlobman.blobcatraz.listeners;
+package com.SirBlobman.blobcatraz.item;
 
 import java.lang.reflect.Field;
 
@@ -22,20 +22,29 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.SirBlobman.blobcatraz.Blobcatraz;
+import com.SirBlobman.blobcatraz.Util;
 
 @SuppressWarnings({"deprecation", "unused"})
 public class SonicScrewdriver implements Listener 
 {
-	public static ItemStack sonic = new ItemStack(Material.BLAZE_ROD);
 	private Blobcatraz plugin;
+	
+	public static ItemStack sonic()
+	{
+		ItemStack sonic = new ItemStack(Material.BLAZE_ROD);
+		ItemMeta meta = sonic.getItemMeta();
+		
+		meta.setDisplayName("§fSonic Screwdriver");
+		sonic.setItemMeta(meta);
+		
+		return sonic;
+	}
 	
 	@EventHandler
 	public void onSonicUse(PlayerInteractEvent e) throws Exception 
 	{
+		ItemStack sonic = sonic();
 		
-		ItemMeta sonic_meta = sonic.getItemMeta();
-		sonic_meta.setDisplayName("§fSonic Screwdriver");
-		sonic.setItemMeta(sonic_meta);
 		if (!e.getPlayer().hasPermission("blobcatraz.sonic.use")) 
 		{
 			return;
@@ -50,8 +59,6 @@ public class SonicScrewdriver implements Listener
 			Block above_b = b.getRelative(BlockFace.UP, 1);
 			Player p = e.getPlayer();
 			Location l = p.getLocation();
-			
-			p.playSound(l, "sonic-screwdriver", 1, 1);
 // Sonic Devices can open iron doors
 			if (b.getType() == Material.IRON_DOOR_BLOCK) 
 			{
@@ -69,6 +76,7 @@ public class SonicScrewdriver implements Listener
 					b.setData((byte) (b.getData() - 4));
 					b.getWorld().playEffect(b.getLocation(), Effect.DOOR_TOGGLE, 0);
 				}
+				Util.soundSonic(p);
 			}
 // They can also open iron trapdoors
 			if (b.getType() == Material.IRON_TRAPDOOR) 
@@ -83,11 +91,13 @@ public class SonicScrewdriver implements Listener
 					b.setData((byte) (b.getData() - 4));
 					b.getWorld().playEffect(b.getLocation(), Effect.DOOR_TOGGLE, 0);
 				}
+				Util.soundSonic(p);
 			}
 //They can also turn off unpowered (glitched) lamps
 			if(b.getType() == Material.REDSTONE_LAMP_ON)
 			{
 				b.setType(Material.REDSTONE_LAMP_OFF);
+				Util.soundSonic(p);
 			}
 //Changes tnt to primed
 			if(b.getType() == Material.TNT)
@@ -95,11 +105,13 @@ public class SonicScrewdriver implements Listener
 				b.setType(Material.AIR);
 				p.playSound(l, Sound.ENTITY_TNT_PRIMED, 1000, 1);
 				TNTPrimed t = b.getWorld().spawn(new Location(b.getWorld(), b.getX() + 0.5, b.getY() + 0.5,b.getZ() + 0.5), TNTPrimed.class);
+				Util.soundSonic(p);
 			}
 //In one episode, it even broke a ladder
 			if(b.getType() == Material.LADDER)
 			{
 				b.breakNaturally();
+				Util.soundSonic(p);
 			}
 //It can also break glass
 			if(b.getType() == Material.GLASS || b.getType() == Material.THIN_GLASS || b.getType() == Material.STAINED_GLASS || b.getType() == Material.STAINED_GLASS_PANE)
@@ -107,16 +119,19 @@ public class SonicScrewdriver implements Listener
 				ItemStack type = new ItemStack(b.getType());;
 				b.breakNaturally();
 				p.getInventory().addItem(type);
+				Util.soundSonic(p);
 			}
 //It can attempt to light a portal
 			if(b.getType() == Material.OBSIDIAN && above_b.getType() == Material.AIR)
 			{
 				above_b.setType(Material.FIRE);
+				Util.soundSonic(p);
 			}
 //Breaks webs instantly
 			if(b.getType() == Material.WEB)
 			{
 				b.breakNaturally();
+				Util.soundSonic(p);
 			}
 		}
 	}

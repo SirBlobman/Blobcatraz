@@ -1,4 +1,4 @@
-package com.SirBlobman.blobcatraz.enchants;
+package com.SirBlobman.blobcatraz.enchant;
 
 import java.util.List;
 

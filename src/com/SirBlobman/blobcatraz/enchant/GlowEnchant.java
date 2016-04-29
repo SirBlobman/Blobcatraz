@@ -1,4 +1,4 @@
-package com.SirBlobman.blobcatraz.enchants;
+package com.SirBlobman.blobcatraz.enchant;
 
 import java.util.List;
 
@@ -14,10 +14,10 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 @SuppressWarnings("deprecation")
-public class LevitateEnchant implements Listener
+public class GlowEnchant implements Listener
 {
 	@EventHandler
-	public void onHitWithLevitateEnchant(EntityDamageByEntityEvent e)
+	public void attackWithGlowEnchant(EntityDamageByEntityEvent e)
 	{
 		if(!(e.getDamager().getType() == EntityType.PLAYER))
 		{
@@ -35,11 +35,12 @@ public class LevitateEnchant implements Listener
 			return;
 		}
 		
-		PotionEffect levitate1 = new PotionEffect(PotionEffectType.LEVITATION, 200, 1);
-		//Wither 4 for 20 seconds
-		PotionEffect levitate2 = new PotionEffect(PotionEffectType.LEVITATION, 400, 3);
-		//Wither 8 for 40 seconds
-		PotionEffect levitate3 = new PotionEffect(PotionEffectType.LEVITATION, 800, 7);	
+		//Glow 2 for 10 seconds
+		PotionEffect glow1 = new PotionEffect(PotionEffectType.GLOWING, 200, 1);
+		//Glow 4 for 20 seconds
+		PotionEffect glow2 = new PotionEffect(PotionEffectType.GLOWING, 400, 3);
+		//Glow 8 for 40 seconds
+		PotionEffect glow3 = new PotionEffect(PotionEffectType.GLOWING, 800, 7);
 		
 		ItemStack held_item = der.getItemInHand();
 		if(held_item == null)
@@ -57,17 +58,17 @@ public class LevitateEnchant implements Listener
 			return;
 		}
 		
-		if(lore.contains("§7Levitate I"))
+		if(lore.contains("§7Glow I"))
 		{
-			ded.addPotionEffect(levitate1);
+			ded.addPotionEffect(glow1);
 		}		
-		if(lore.contains("§7Levitate II"))
+		if(lore.contains("§7Glow II"))
 		{
-			ded.addPotionEffect(levitate2);
+			ded.addPotionEffect(glow2);
 		}		
-		if(lore.contains("§7Levitate III"))
+		if(lore.contains("§7Glow III"))
 		{
-			ded.addPotionEffect(levitate3);
+			ded.addPotionEffect(glow3);
 		}
 	}
 }
