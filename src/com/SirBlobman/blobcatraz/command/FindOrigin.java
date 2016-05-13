@@ -13,8 +13,8 @@ import com.SirBlobman.blobcatraz.Blobcatraz;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 
-public class FindOrigin implements CommandExecutor {
-
+public class FindOrigin implements CommandExecutor 
+{
 	@Override
 	public boolean onCommand(CommandSender sender, Command c, String label, String[] args)
 	{

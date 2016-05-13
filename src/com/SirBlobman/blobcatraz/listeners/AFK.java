@@ -8,7 +8,6 @@ import com.SirBlobman.blobcatraz.command.AFKCommandHandler;
 
 public class AFK implements Listener
 {
-	
 	@EventHandler
 	public void onPlayerMoveEvent(PlayerMoveEvent e)
 	{

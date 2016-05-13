@@ -2,6 +2,7 @@ package com.SirBlobman.blobcatraz;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -91,6 +92,12 @@ public class Util
 	public static void print(String t)
 	{
 		System.out.println(t);
+	}
+	
+	@Deprecated
+	public static void print()
+	{
+		Blobcatraz.instance.getLogger().log(Level.SEVERE, "An error has occured");
 	}
 	
 	public static void regEvent(Listener l)

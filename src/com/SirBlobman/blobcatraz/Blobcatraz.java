@@ -2,6 +2,7 @@ package com.SirBlobman.blobcatraz;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.SirBlobman.blobcatraz.command.AFKCommandHandler;
@@ -34,6 +35,9 @@ import com.SirBlobman.blobcatraz.listeners.SetMotd;
 import com.SirBlobman.blobcatraz.listeners.UnkillableSlimes;
 import com.SirBlobman.blobcatraz.listeners.Votes;
 
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.permission.Permission;
+
 //String Author = "SirBlobman";
 
 public final class Blobcatraz extends JavaPlugin implements Listener 
@@ -42,6 +46,9 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 	//I told you not to steal my code, but you probably will anyways
 	//Try to understand it, its not that difficult
 	//xD
+	public static Permission perms = null;
+	public static Economy econ = null;
+	
 	public static Blobcatraz instance;
 	public FileConfiguration config = getConfig();
 
@@ -51,7 +58,9 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 	//Instance
 		instance = this;
 		
-	//Config	
+	//Config
+		setupPerms();
+		setupEconomy();
 		config.addDefault("chat.disabled", false);
 		config.addDefault("chat.ping", true);
 		config.addDefault("chat.use_special", true);
@@ -60,7 +69,7 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 		config.addDefault("random.giant-drops-notch-apple", true);
 		config.addDefault("motd", "§1[§6Blobcatraz§1]§r This is the default MOTD");
 		config.addDefault("random.custom-items", true);
-		config.addDefault("random.custom-enchants", true);
+		config.addDefault("random.custom-enchants", true);	
 		config.options().copyDefaults(true);
 		saveConfig();
 		Portal.savePortalConfig();
@@ -119,20 +128,20 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 		}
 		
 	//Commands
+		getCommand("addlore").setExecutor(new ItemEditor());
+		getCommand("afk").setExecutor(new AFKCommandHandler());
 		getCommand("blobcatraz").setExecutor(new CommandBlobcatraz());
-		getCommand("setmotd").setExecutor(new SetMOTD());
 		getCommand("chat").setExecutor(new Chat());
-		getCommand("vote").setExecutor(new Vote());
+		getCommand("findorigin").setExecutor(new FindOrigin());
+		getCommand("not-afk").setExecutor(new AFKCommandHandler());
+		getCommand("portal").setExecutor(new Portal());
 		getCommand("random").setExecutor(new CommandRandom());
 		getCommand("rename").setExecutor(new ItemEditor());
-		getCommand("setlore").setExecutor(new ItemEditor());
-		getCommand("addlore").setExecutor(new ItemEditor());
-		getCommand("repair").setExecutor(new ItemEditor());
 		getCommand("resetitem").setExecutor(new ItemEditor());
-		getCommand("not-afk").setExecutor(new AFKCommandHandler());
-		getCommand("afk").setExecutor(new AFKCommandHandler());
-		getCommand("findorigin").setExecutor(new FindOrigin());
-		getCommand("portal").setExecutor(new Portal());
+		getCommand("repair").setExecutor(new ItemEditor());
+		getCommand("setlore").setExecutor(new ItemEditor());
+		getCommand("setmotd").setExecutor(new SetMOTD());
+		getCommand("vote").setExecutor(new Vote());
 		
 		Util.broadcast("§1[§6Blobcatraz§1]§r This plugin has been §2§lenabled§r!");	
 	}
@@ -141,5 +150,25 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 	public void onDisable() 
 	{
 		Util.broadcast("§1[§6Blobcatraz§1]§r This plugin has been §4§ldisabled§r!");
+	}
+	
+	private boolean setupPerms()
+	{
+		RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
+		if(rsp != null)
+		{
+			perms = (Permission)rsp.getProvider();
+		}
+		return perms != null;
+	}
+	
+	private boolean setupEconomy()
+	{
+		RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+		if(rsp != null)
+		{
+			econ = (Economy)rsp.getProvider();
+		}
+		return econ != null;
 	}
 }
