@@ -11,12 +11,11 @@ public class AFK implements Listener
 	@EventHandler
 	public void onPlayerMoveEvent(PlayerMoveEvent e)
 	{
-		boolean AFK = AFKCommandHandler.afk.getBoolean(e.getPlayer().getName() + ".afk");
+		boolean AFK = AFKCommand.afkConfig.getBoolean(e.getPlayer().getName() + ".afk");
 		
 		if(AFK == true)
 		{
-			e.getPlayer().performCommand("not-afk");
-			AFKCommandHandler.afk.set(e.getPlayer().getName() + ".afk", false);
+			AFKCommand.notAFK(e.getPlayer());
 		}
 	}
 }
