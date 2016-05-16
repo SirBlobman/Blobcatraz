@@ -4,7 +4,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import com.SirBlobman.blobcatraz.command.AFKCommandHandler;
+import com.SirBlobman.blobcatraz.command.AFKCommand;
 
 public class AFK implements Listener
 {

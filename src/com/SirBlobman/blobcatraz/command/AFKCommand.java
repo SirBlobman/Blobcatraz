@@ -1,44 +1,41 @@
 package com.SirBlobman.blobcatraz.command;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.logging.Level;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import com.SirBlobman.blobcatraz.Blobcatraz;
 import com.SirBlobman.blobcatraz.Util;
 
 public class AFKCommand implements CommandExecutor
 {
-    public static file afkFile = new File(Blobcatraz.instance.getDataFolder(), "afk.yml");
+    public static File afkFile = new File(Blobcatraz.instance.getDataFolder(), "afk.yml");
     public static FileConfiguration afkConfig = YamlConfiguration.loadConfiguration(afkFile);
     
     @Override
     public boolean onCommand(CommandSender s, Command c, String label, String[] args)
     {    
-        String name = sender.getName();
+        String name = s.getName();
         
-        if(label.equalsIgnoreCase("afk")
+        if(label.equalsIgnoreCase("afk"))
         {
             if(args.length < 1)
             {
-                Util.broadcast("ยง6ยงl* ยง7" + name + "ยง6is now AFK");
+                Util.broadcast("ง6งl* ง7" + name + "ง6is now AFK");
                 afkConfig.set(name + ".afk", true);
             }
             else
             {
                 String reason = Util.getFinalArg(args, 0);
                 
-                Util.broadcast("ยง6ยงl* ยง7" + name + " ยง6is now AFK:");
+                Util.broadcast("ง6งl* ง7" + name + " ง6is now AFK:");
                 Util.broadcast("     - " + reason);
-                afk.set(nsender + ".afk", true);
+                afkConfig.set(name + ".afk", true);
             }
             return true;
         }
@@ -49,7 +46,7 @@ public class AFKCommand implements CommandExecutor
     {
         String name = p.getName();
         
-        Util.broadcast("ยง6ยงl* ยง7" + name + "ยง6is no longer AFK");
+        Util.broadcast("ง6งl* ง7" + name + "ง6is no longer AFK");
         AFKCommand.afkConfig.set(name + ".afk", false);
     }
 }

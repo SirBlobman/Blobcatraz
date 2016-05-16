@@ -5,7 +5,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.SirBlobman.blobcatraz.command.AFKCommandHandler;
+import com.SirBlobman.blobcatraz.command.AFKCommand;
 import com.SirBlobman.blobcatraz.command.Chat;
 import com.SirBlobman.blobcatraz.command.CommandBlobcatraz;
 import com.SirBlobman.blobcatraz.command.CommandRandom;
@@ -75,8 +75,6 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 		Portal.savePortalConfig();
 		Portal.getPortalConfig().options().copyDefaults(true);
 		Portal.savePortals();
-		AFKCommandHandler.afk.options().copyDefaults();
-		AFKCommandHandler.saveAFKConfig();
 		
 	//Listeners
 		Util.regEvent(new JoinBroadcast());
@@ -129,11 +127,10 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 		
 	//Commands
 		getCommand("addlore").setExecutor(new ItemEditor());
-		getCommand("afk").setExecutor(new AFKCommandHandler());
+		getCommand("afk").setExecutor(new AFKCommand());
 		getCommand("blobcatraz").setExecutor(new CommandBlobcatraz());
 		getCommand("chat").setExecutor(new Chat());
 		getCommand("findorigin").setExecutor(new FindOrigin());
-		getCommand("not-afk").setExecutor(new AFKCommandHandler());
 		getCommand("portal").setExecutor(new Portal());
 		getCommand("random").setExecutor(new CommandRandom());
 		getCommand("rename").setExecutor(new ItemEditor());

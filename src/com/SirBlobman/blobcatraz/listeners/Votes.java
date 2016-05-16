@@ -64,6 +64,7 @@ public class Votes implements Listener
 			mw.setDisplayName("§1§ki§4Vote§1§ki§r §cWood");
 			mw.setLore(Arrays.asList("§1Thanks!", "§fSite: §6" + service, "§fVoter: §1" + voter));
 			wood.setAmount(64);
+			wood.setItemMeta(mw);
 			
 			pvoter.getInventory().addItem(wood);
 			pvoter.sendMessage("§1[§6Blobcatraz§1]§r Thanks for voting! You got some wood");

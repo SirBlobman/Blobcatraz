@@ -39,7 +39,6 @@ public class CommandBlobcatraz implements CommandExecutor
 				{
 					Blobcatraz.instance.reloadConfig();
 					Portal.reloadPortalConfig();
-					AFKCommandHandler.reloadAFKConfig();
 					
 					sender.sendMessage("§1[§6Blobcatraz§1]§r Configs have been reloaded");
 				}

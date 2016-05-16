@@ -1,6 +1,6 @@
 main: com.SirBlobman.blobcatraz.Blobcatraz
 name: Blobcatraz
-version: 0.0.0.15
+version: 0.0.0.16
 author: SirBlobman
 description: Plugin used for nearly everything in the Blobcatraz server. 
 softdepend: [Votifier, HolographicDisplays, LampControl]
@@ -15,11 +15,6 @@ commands:
     usage: /afk <reason>
     permission: blobcatraz.afk
     permission-message: You don't have the permission "blobcatraz.afk"
-  not-afk:
-    description: Removes your AFK Status
-    usage: /not-afk
-    permission: blobcatraz.not-afk
-    permission-message: You don't have the permission "blobcatraz.not-afk"
   findorigin:
     description: Makes a hologram at the origin (requires HolographicDisplays)
     usage: /findorigin
