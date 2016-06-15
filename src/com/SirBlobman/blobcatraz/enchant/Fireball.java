@@ -3,7 +3,6 @@ package com.SirBlobman.blobcatraz.enchant;
 import java.util.List;
 
 import org.bukkit.Location;
-import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.SmallFireball;
 import org.bukkit.event.EventHandler;
@@ -14,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 @SuppressWarnings("deprecation")
-public class FireballEnchant implements Listener
+public class Fireball implements Listener
 {
 	@EventHandler
 	public void onPlayerRightClick(PlayerInteractEvent e)
@@ -47,14 +46,14 @@ public class FireballEnchant implements Listener
 		}
 		if(a.equals(Action.RIGHT_CLICK_AIR) && lore.contains("§7Fireball II"))
 		{
-			p.getWorld().spawn(loc, Fireball.class);
+			p.getWorld().spawn(loc, org.bukkit.entity.Fireball.class);
 		}
 		if(a.equals(Action.RIGHT_CLICK_AIR) && lore.contains("§7Fireball III"))
 		{
-			p.getWorld().spawn(loc, Fireball.class);
-			p.getWorld().spawn(loc, Fireball.class);
-			p.getWorld().spawn(loc, Fireball.class);
-			p.getWorld().spawn(loc, Fireball.class);
+			p.getWorld().spawn(loc, org.bukkit.entity.Fireball.class);
+			p.getWorld().spawn(loc, org.bukkit.entity.Fireball.class);
+			p.getWorld().spawn(loc, org.bukkit.entity.Fireball.class);
+			p.getWorld().spawn(loc, org.bukkit.entity.Fireball.class);
 		}
 	}
 }

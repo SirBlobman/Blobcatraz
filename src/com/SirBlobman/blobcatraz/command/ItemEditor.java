@@ -21,7 +21,7 @@ public class ItemEditor implements CommandExecutor
 	{
 		if (!(sender instanceof Player)) 
 		{
-			sender.sendMessage("§1[§6Blobcatraz§1]§r This command must be used by a player");
+			sender.sendMessage(Util.notAPlayer);
 			return true;
 		}
 		
@@ -32,9 +32,9 @@ public class ItemEditor implements CommandExecutor
 			if(args.length > 0)
 			{
 				ItemMeta meta = p.getInventory().getItemInMainHand().getItemMeta();
-				meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', Util.getFinalArg(args, 0)));
+				meta.setDisplayName(Util.color(Util.getFinalArg(args, 0)));
 				p.getInventory().getItemInMainHand().setItemMeta(meta);
-				sender.sendMessage("§1[§6Blobcatraz§1]§r Currently held item was renamed to " + ChatColor.translateAlternateColorCodes('&', Util.getFinalArg(args, 0)) + "§r!");
+				sender.sendMessage(Util.blobcatraz + "Currently held item was renamed to " + Util.color(Util.getFinalArg(args, 0)) + "§r!");
 				return true;
 			}
 		}
@@ -43,13 +43,13 @@ public class ItemEditor implements CommandExecutor
 		{
 			if(p.getItemInHand().getType() == Material.AIR)
 			{
-				sender.sendMessage("§1[§6Blobcatraz§1]§r §cYou can't add a lore to AIR!");
+				sender.sendMessage(Util.blobcatraz + "§cYou can't add a lore to AIR!");
 			}
 			else
 			{
 				Util.setLore(p, Util.getFinalArg(args, 0));
 				
-				sender.sendMessage("§1[§6Blobcatraz§1]§r Set lore to " + p.getItemInHand().getItemMeta().getLore());
+				sender.sendMessage(Util.blobcatraz + "Set lore to " + p.getItemInHand().getItemMeta().getLore());
 				p.updateInventory();
 				return true;
 			}
@@ -59,13 +59,13 @@ public class ItemEditor implements CommandExecutor
 		{
 			if(p.getItemInHand().getType() == Material.AIR)
 			{
-				sender.sendMessage("§1[§6Blobcatraz§1]§r §cYou can't add a lore to AIR!");
+				sender.sendMessage(Util.blobcatraz + "§cYou can't add a lore to AIR!");
 			}
 			else
 			{
 				Util.addLore(p, Util.getFinalArg(args, 0));
 			
-				sender.sendMessage("§1[§6Blobcatraz§1]§r Set lore to " + p.getItemInHand().getItemMeta().getLore());
+				sender.sendMessage(Util.blobcatraz + "Set lore to " + p.getItemInHand().getItemMeta().getLore());
 				p.updateInventory();
 				return true;
 			}
@@ -75,12 +75,12 @@ public class ItemEditor implements CommandExecutor
 		{
 			if(p.getItemInHand().getType() == Material.AIR)
 			{
-				sender.sendMessage("§1[§6Blobcatraz§1]§r Air can't be be repaired");
+				sender.sendMessage(Util.blobcatraz + "Air can't be be repaired");
 			}
 			else
 			{
 				Util.repairItem(p);
-				sender.sendMessage("§1[§6Blobcatraz§1]§r Your §e" + p.getItemInHand().getItemMeta().getDisplayName() + "§r has been repaired");
+				sender.sendMessage(Util.blobcatraz + "Your §e" + p.getItemInHand().getItemMeta().getDisplayName() + "§r has been repaired");
 			}
 		}
 		
@@ -88,12 +88,12 @@ public class ItemEditor implements CommandExecutor
 		{
 			if(p.getItemInHand().getType() == Material.AIR)
 			{
-				sender.sendMessage("§1[§6Blobcatraz§1]§r Air doesn't need to be cleared");
+				sender.sendMessage(Util.blobcatraz + "Air doesn't need to be cleared");
 			}
 			else
 			{
 				Util.clearItem(p);
-				sender.sendMessage("§1[§6Blobcatraz§1]§r Your §e" + p.getItemInHand().getType().toString() + "§r has been reset!");
+				sender.sendMessage(Util.blobcatraz + "Your §e" + p.getItemInHand().getType().toString() + "§r has been reset!");
 			}
 			return true;
 		}

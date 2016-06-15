@@ -7,6 +7,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.SirBlobman.blobcatraz.Blobcatraz;
+import com.SirBlobman.blobcatraz.Util;
+
 public class Vote implements CommandExecutor
 {
 	@Override
@@ -14,7 +17,7 @@ public class Vote implements CommandExecutor
 	{
 		if (!(sender instanceof Player)) 
 		{
-			sender.sendMessage("§1[§6Blobcatraz§1]§r That command cannot be executed via the console.");
+			sender.sendMessage(Util.notAPlayer);
 			return true;
 		}
 		
@@ -22,8 +25,8 @@ public class Vote implements CommandExecutor
 		
 		if(label.equalsIgnoreCase("vote"))
 		{
-			List<String> links = com.SirBlobman.blobcatraz.Blobcatraz.instance.getConfig().getStringList("vote.links");
-			sender.sendMessage("§1[§6Blobcatraz§1]§r Vote Links:");
+			List<String> links = Blobcatraz.instance.getConfig().getStringList("vote.links");
+			sender.sendMessage(Util.blobcatraz + "Vote Links:");
 			for(String s : links)
 			{
 				p.sendMessage(s);

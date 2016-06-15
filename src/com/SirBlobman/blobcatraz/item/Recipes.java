@@ -10,7 +10,7 @@ public class Recipes
 	public static void loadRecipes()
 	{
 	//Overpowered Sword
-		ItemStack opSword = OverpoweredSword.opsword();
+		ItemStack opSword = Items.opsword();
 		
 		ShapedRecipe op_sword = new ShapedRecipe(opSword);
 		op_sword.shape
@@ -23,7 +23,7 @@ public class Recipes
 		op_sword.setIngredient('B', Material.BLAZE_ROD);
 		
 	//Drop Everything Sword
-		ItemStack lSword = LootingSword.lootSword();
+		ItemStack lSword = Items.lootSword();
 		
 		ShapedRecipe de_sword = new ShapedRecipe(lSword);
 		de_sword.shape

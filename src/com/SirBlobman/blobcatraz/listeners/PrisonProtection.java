@@ -6,6 +6,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 
+import com.SirBlobman.blobcatraz.Util;
+
 public class PrisonProtection implements Listener
 {
 	@EventHandler 
@@ -16,7 +18,7 @@ public class PrisonProtection implements Listener
 			if(e.getPlayer().hasPermission("blobcatraz.break.iron_fence") == false)
 			{
 				e.setCancelled(true);
-				e.getPlayer().sendMessage("§1[§6Blobcatraz§1]§r §cI'm sorry, but you are not allowed to break this block. Someone might escape from prison!");
+				e.getPlayer().sendMessage(Util.blobcatraz + "§cI'm sorry, but you are not allowed to break this block. Someone might escape from prison!");
 			}
 		}
 	}
@@ -29,7 +31,7 @@ public class PrisonProtection implements Listener
 			if(e.getPlayer().hasPermission("blobcatraz.place.iron_fence") == false)
 			{
 				e.setCancelled(true);
-				e.getPlayer().sendMessage("§1[§6Blobcatraz§1]§r §cI'm sorry, but you are not allowed to create prison cells");
+				e.getPlayer().sendMessage(Util.blobcatraz + "§cI'm sorry, but you are not allowed to create prison cells");
 				e.getPlayer().sendMessage("Instead, you can give this block to an admin, and he will give you $100 for each cell bar");
 			}
 		}
@@ -39,7 +41,7 @@ public class PrisonProtection implements Listener
 			if(e.getPlayer().hasPermission("blobcatraz.place.piston") == false)
 			{
 				e.setCancelled(true);
-				e.getPlayer().sendMessage("§1[§6Blobcatraz§1]§r &cPistons help you escape, so we blocked them!");
+				e.getPlayer().sendMessage(Util.blobcatraz + "&cPistons help you escape, so we blocked them!");
 			}
 		}
 	}

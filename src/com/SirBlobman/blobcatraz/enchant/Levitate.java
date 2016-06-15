@@ -14,7 +14,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 @SuppressWarnings("deprecation")
-public class LevitateEnchant implements Listener
+public class Levitate implements Listener
 {
 	@EventHandler
 	public void onHitWithLevitateEnchant(EntityDamageByEntityEvent e)

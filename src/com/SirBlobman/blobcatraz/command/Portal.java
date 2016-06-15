@@ -21,7 +21,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.SirBlobman.blobcatraz.Blobcatraz;
 import com.SirBlobman.blobcatraz.Util;
-import com.SirBlobman.blobcatraz.item.PortalWand;
+import com.SirBlobman.blobcatraz.item.Items;
 
 @SuppressWarnings({"unchecked", "rawtypes", "deprecation"})
 public class Portal implements CommandExecutor 
@@ -36,7 +36,7 @@ public class Portal implements CommandExecutor
 	{
 		if(!(sender instanceof Player))
 		{
-			sender.sendMessage("§1[§6Blobcatraz§1]§r This command must be used by a player");
+			sender.sendMessage(Util.notAPlayer);
 			return true;
 		}
 		
@@ -48,10 +48,9 @@ public class Portal implements CommandExecutor
 			{
 				if (args[0].equalsIgnoreCase("wand")) 
 				{
-					ItemStack wand = PortalWand.portalWand();
-					
+					ItemStack wand = Items.portalWand();
 					Util.giveItem(p, wand);
-					sender.sendMessage("§1[§6Blobcatraz§1]§r Given you the portal wand!");
+					sender.sendMessage(Util.blobcatraz + "Given you the portal wand!");
 					return true;
 				} 
 				else if (args[0].equalsIgnoreCase("create")) 
@@ -68,35 +67,35 @@ public class Portal implements CommandExecutor
 							command.append(x + " ");
 						}
 						getPortalConfig().set(args[1] + ".pos1.world",
-								((Location) Portal.pos1.get(id)).getWorld().getName());
+								Portal.pos1.get(id).getWorld().getName());
 						getPortalConfig().set(args[1] + ".pos1.x",
-								Double.valueOf(((Location) Portal.pos1.get(id)).getX()));
+								Double.valueOf(Portal.pos1.get(id).getX()));
 						getPortalConfig().set(args[1] + ".pos1.y",
-								Double.valueOf(((Location) Portal.pos1.get(id)).getY()));
+								Double.valueOf(Portal.pos1.get(id).getY()));
 						getPortalConfig().set(args[1] + ".pos1.z",
-								Double.valueOf(((Location) Portal.pos1.get(id)).getZ()));
+								Double.valueOf(Portal.pos1.get(id).getZ()));
 						getPortalConfig().set(args[1] + ".pos2.world",
-								((Location) Portal.pos2.get(id)).getWorld().getName());
+								Portal.pos2.get(id).getWorld().getName());
 						getPortalConfig().set(args[1] + ".pos2.x",
-								Double.valueOf(((Location) Portal.pos2.get(id)).getX()));
+								Double.valueOf(Portal.pos2.get(id).getX()));
 						getPortalConfig().set(args[1] + ".pos2.y",
-								Double.valueOf(((Location) Portal.pos2.get(id)).getY()));
+								Double.valueOf(Portal.pos2.get(id).getY()));
 						getPortalConfig().set(args[1] + ".pos2.z",
-								Double.valueOf(((Location) Portal.pos2.get(id)).getZ()));
+								Double.valueOf(Portal.pos2.get(id).getZ()));
 						getPortalConfig().set(args[1] + ".command", "/" + command.toString());
 						savePortals();
 						sender.sendMessage(
-								"§1[§6Blobcatraz§1]§r Created a command portal called §2§l" + args[1] + "§a!");
+								Util.blobcatraz + "Created a command portal called §2§l" + args[1] + "§a!");
 						return true;
 					}
-					getPortalConfig().set(args[1] + ".pos1.world", ((Location) Portal.pos1.get(id)).getWorld().getName());
-					getPortalConfig().set(args[1] + ".pos1.x", Double.valueOf(((Location) Portal.pos1.get(id)).getX()));
-					getPortalConfig().set(args[1] + ".pos1.y", Double.valueOf(((Location) Portal.pos1.get(id)).getY()));
-					getPortalConfig().set(args[1] + ".pos1.z", Double.valueOf(((Location) Portal.pos1.get(id)).getZ()));
-					getPortalConfig().set(args[1] + ".pos2.world", ((Location) Portal.pos2.get(id)).getWorld().getName());
-					getPortalConfig().set(args[1] + ".pos2.x", Double.valueOf(((Location) Portal.pos2.get(id)).getX()));
-					getPortalConfig().set(args[1] + ".pos2.y", Double.valueOf(((Location) Portal.pos2.get(id)).getY()));
-					getPortalConfig().set(args[1] + ".pos2.z", Double.valueOf(((Location) Portal.pos2.get(id)).getZ()));
+					getPortalConfig().set(args[1] + ".pos1.world", Portal.pos1.get(id).getWorld().getName());
+					getPortalConfig().set(args[1] + ".pos1.x", Double.valueOf(Portal.pos1.get(id).getX()));
+					getPortalConfig().set(args[1] + ".pos1.y", Double.valueOf(Portal.pos1.get(id).getY()));
+					getPortalConfig().set(args[1] + ".pos1.z", Double.valueOf(Portal.pos1.get(id).getZ()));
+					getPortalConfig().set(args[1] + ".pos2.world", Portal.pos2.get(id).getWorld().getName());
+					getPortalConfig().set(args[1] + ".pos2.x", Double.valueOf(Portal.pos2.get(id).getX()));
+					getPortalConfig().set(args[1] + ".pos2.y", Double.valueOf(Portal.pos2.get(id).getY()));
+					getPortalConfig().set(args[1] + ".pos2.z", Double.valueOf(Portal.pos2.get(id).getZ()));
 					getPortalConfig().set(args[1] + ".pos3.world", p.getLocation().getWorld().getName());
 					getPortalConfig().set(args[1] + ".pos3.x", Double.valueOf(p.getLocation().getX()));
 					getPortalConfig().set(args[1] + ".pos3.y", Double.valueOf(p.getLocation().getY()));
@@ -105,23 +104,23 @@ public class Portal implements CommandExecutor
 					getPortalConfig().set(args[1] + ".pos3.yaw", Float.valueOf(p.getLocation().getYaw()));
 					savePortals();
 					sender.sendMessage(
-							"§1[§6Blobcatraz§1]§r Created a teleporting portal called §2§l" + args[1] + "§a!");
+							Util.blobcatraz + "Created a teleporting portal called §2§l" + args[1] + "§a!");
 					return true;
 				} else if (args[0].equalsIgnoreCase("list")) 
 				{
 					if (Portal.portals.isEmpty()) 
 					{
 						sender.sendMessage(
-								"§1[§6Blobcatraz§1]§r You have no portals! Do /portal create to make portals.");
+								Util.blobcatraz + "You have no portals! Do /portal create to make portals.");
 						return true;
 					}
 					StringBuilder list = new StringBuilder();
-					list.append("§1[§6Blobcatraz§1]§r List of portals: ");
+					list.append(Util.blobcatraz + "List of portals: ");
 					for (int x = 0; x < Portal.portals.size() - 1; x++) 
 					{
-						list.append("§2§l" + (String) Portal.portals.get(x) + "§a, ");
+						list.append("§2§l" + Portal.portals.get(x) + "§a, ");
 					}
-					list.append("§2§l" + (String) Portal.portals.get(Portal.portals.size() - 1) + "§a.");
+					list.append("§2§l" + Portal.portals.get(Portal.portals.size() - 1) + "§a.");
 					sender.sendMessage(list.toString());
 					return true;
 				}
@@ -130,19 +129,19 @@ public class Portal implements CommandExecutor
 					if (!Portal.portals.contains(args[1])) 
 					{
 						sender.sendMessage(
-								"§1[§6Blobcatraz§1]§r That portal does not exist! Do /portal list to see existing portals.");
+								Util.blobcatraz + "That portal does not exist! Do /portal list to see existing portals.");
 						return true;
 					}
 					getPortalConfig().set(args[1], null);
 					savePortals();
-					sender.sendMessage("§1[§6Blobcatraz§1]§r Removed a portal called §2§l" + args[1] + "§a!");
+					sender.sendMessage(Util.blobcatraz + "Removed a portal called §2§l" + args[1] + "§a!");
 					return true;
 				}
 			}
 		}
 		catch (Exception e) 
 		{
-			sender.sendMessage("§1[§6Blobcatraz§1]§r Something went wrong! Do /help Blobcatraz for more info.");
+			sender.sendMessage(Util.blobcatraz + "Something went wrong! Do /portal help");
 			return true;
 		}
 		
@@ -199,7 +198,8 @@ public class Portal implements CommandExecutor
 			getPortalConfig().save(portalConfigFile);
 		} catch (IOException ex) 
 		{
-			Blobcatraz.instance.getLogger().log(Level.SEVERE, "[Blobcatraz] Could not save portals to " + portalConfigFile, ex);
+			Util.print("Could not save portals to " + portalConfigFile);
+			ex.printStackTrace();
 		}
 	}
 }

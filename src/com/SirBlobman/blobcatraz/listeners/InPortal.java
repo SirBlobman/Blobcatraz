@@ -1,10 +1,7 @@
 package com.SirBlobman.blobcatraz.listeners;
 
-import java.util.Arrays;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,9 +9,10 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
+import com.SirBlobman.blobcatraz.Util;
 import com.SirBlobman.blobcatraz.command.Portal;
+import com.SirBlobman.blobcatraz.item.Items;
 
 @SuppressWarnings("deprecation")
 public class InPortal implements Listener
@@ -22,11 +20,7 @@ public class InPortal implements Listener
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) 
 	{
-		ItemStack stick = new ItemStack(Material.STICK);
-		ItemMeta stick_meta = stick.getItemMeta();
-		stick_meta.setDisplayName("§3Blobcatraz §cPortal §cWand");
-		stick_meta.setLore(Arrays.asList("Left Click to set Position 1", "Right Click to set Position 2"));
-		stick.setItemMeta(stick_meta);
+		ItemStack stick = Items.portalWand();
 
 		if (!e.getPlayer().hasPermission("blobcatraz.wand.use")) 
 		{
@@ -46,7 +40,7 @@ public class InPortal implements Listener
 			int z1 = l.getBlockZ();
 			String coords1 = x1 + " " + y1 + " " + z1;
 
-			e.getPlayer().sendMessage("§1[§6Blobcatraz§1]§r Position 1 set to §5" + coords1 + " §r!");
+			e.getPlayer().sendMessage(Util.blobcatraz + "Position 1 set to §5" + coords1 + " §r!");
 		} else if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) 
 		{
 			Portal.pos2.put(e.getPlayer().getUniqueId(), e.getClickedBlock().getLocation());
@@ -57,7 +51,7 @@ public class InPortal implements Listener
 			int z2 = l.getBlockZ();
 			String coords2 = x2 + " " + y2 + " " + z2;
 
-			e.getPlayer().sendMessage("§1[§6Blobcatraz§1]§r Position 2 set to §5" + coords2 + " §r!");
+			e.getPlayer().sendMessage(Util.blobcatraz + "Position 2 set to §5" + coords2 + " §r!");
 		}
 		e.setCancelled(true);
 	}

@@ -1,7 +1,9 @@
 package com.SirBlobman.blobcatraz.command;
 
 import java.io.File;
+import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,22 +22,31 @@ public class AFKCommand implements CommandExecutor
     @Override
     public boolean onCommand(CommandSender s, Command c, String label, String[] args)
     {    
-        String name = s.getName();
+    	if(!(s instanceof Player))
+    	{
+    		s.sendMessage(Util.notAPlayer);
+    		return true;
+    	}
+    	
+    	Player p = (Player)s;
+    	
+        UUID uuid = p.getUniqueId();
+        String name = p.getName();
         
         if(label.equalsIgnoreCase("afk"))
         {
             if(args.length < 1)
             {
-                Util.broadcast("§6§l* §7" + name + "§6is now AFK");
-                afkConfig.set(name + ".afk", true);
+                Bukkit.broadcastMessage("§6§l* §7" + name + " §6is now AFK");
+                afkConfig.set(uuid.toString() + ".afk", true);
             }
             else
             {
                 String reason = Util.getFinalArg(args, 0);
                 
-                Util.broadcast("§6§l* §7" + name + " §6is now AFK:");
-                Util.broadcast("     - " + reason);
-                afkConfig.set(name + ".afk", true);
+                Bukkit.broadcastMessage("§6§l* §7" + name + " §6is now AFK:");
+                Bukkit.broadcastMessage("     - " + reason);
+                afkConfig.set(uuid.toString() + ".afk", true);
             }
             return true;
         }
@@ -44,9 +55,10 @@ public class AFKCommand implements CommandExecutor
     
     public static void notAFK(Player p)
     {
+        String uuid = p.getUniqueId().toString();
         String name = p.getName();
         
-        Util.broadcast("§6§l* §7" + name + "§6is no longer AFK");
-        AFKCommand.afkConfig.set(name + ".afk", false);
+        Bukkit.broadcastMessage("§6§l* §7" + name + " §6is no longer AFK");
+        AFKCommand.afkConfig.set(uuid + ".afk", false);
     }
 }

@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import com.SirBlobman.blobcatraz.Blobcatraz;
+import com.SirBlobman.blobcatraz.Util;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 
@@ -20,7 +21,7 @@ public class FindOrigin implements CommandExecutor
 	{
 		if(!(sender instanceof Player))
 		{
-			sender.sendMessage("§1[§6Blobcatraz§1]§r This command must be used by a player");
+			sender.sendMessage(Util.notAPlayer);
 			return true;
 		}
 		
@@ -36,7 +37,7 @@ public class FindOrigin implements CommandExecutor
 			Location w = new Location(p.getWorld(), 0.0, 64.0, 0.0);
 			Hologram h = HologramsAPI.createHologram(pl, w);
 			
-			h.appendTextLine("§1[§6Blobcatraz§1]§r This is the Origin");
+			h.appendTextLine(Util.blobcatraz + "This is the Origin");
 			h.insertTextLine(1, "It is located at x = 0, y = 64, and z = 0");
 			h.appendItemLine(new ItemStack(Material.BARRIER));
 			

@@ -9,6 +9,8 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.inventory.ItemStack;
 
+import com.SirBlobman.blobcatraz.Util;
+
 public class GiantDropsNotchApple implements Listener
 {
 	@EventHandler
@@ -17,7 +19,7 @@ public class GiantDropsNotchApple implements Listener
 		if(e.getEntityType() == EntityType.GIANT)
 		{
 			e.getDrops().add(new ItemStack(Material.GOLDEN_APPLE, 1, (short)1));
-			Bukkit.broadcastMessage("§1[§6Blobcatraz§1]§r §4The Giant has been slain!");
+			Bukkit.broadcastMessage(Util.blobcatraz + "§4The Giant has been slain!");
 		}
 	}
 	
@@ -30,8 +32,8 @@ public class GiantDropsNotchApple implements Listener
 			int x = (int) e.getEntity().getLocation().getX();
 			int y = (int) e.getEntity().getLocation().getY();
 			int z = (int) e.getEntity().getLocation().getZ();
-			Bukkit.broadcastMessage("§1[§6Blobcatraz§1]§r A Giant has been spawned in §o§l" + w + " §rat §l" + x + " " + y + " " + z + "§r!");
-			Bukkit.broadcastMessage("             Go kill it for a prize");
+			Bukkit.broadcastMessage(Util.blobcatraz + "A Giant has been spawned in §o§l" + w + " §rat §l" + x + " " + y + " " + z + "§r!");
+			Bukkit.broadcastMessage("Go kill it for a prize");
 		}
 	}
 }

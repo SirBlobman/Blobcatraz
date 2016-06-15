@@ -12,6 +12,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.SirBlobman.blobcatraz.Util;
+import com.SirBlobman.blobcatraz.economy.Database;
 import com.vexsoftware.votifier.model.Vote;
 import com.vexsoftware.votifier.model.VotifierEvent;
 
@@ -34,15 +36,15 @@ public class Votes implements Listener
 		Player pvoter = Bukkit.getServer().getPlayer(voter);
 		if(pvoter == null)
 		{
-			System.out.println("§1[§6Blobcatraz§1]§r §1" + voter + " §rtyped their name wrong or is offline");
+			System.out.println(Util.blobcatraz + "§1" + voter + " §rtyped their name wrong or is offline");
 			return;
 		}
 		
-		Bukkit.broadcastMessage("§1[§6Blobcatraz§1]§r §c§l" + voter + " §rhas voted using §c§l" + service + "§r:§c§l" + address + " §r!");
+		Bukkit.broadcastMessage(Util.blobcatraz + "§c§l" + voter + " §rhas voted using §c§l" + service + "§r:§c§l" + address + " §r!");
 		
 		double chance = Math.random();
 		
-		if(chance >= .5)
+		if(chance <= (1.0/3.0))
 		{
 			ItemStack diamonds = new ItemStack(Material.DIAMOND);
 			ItemMeta md = diamonds.getItemMeta();
@@ -52,14 +54,15 @@ public class Votes implements Listener
 			diamonds.setAmount(10);
 			
 			pvoter.getInventory().addItem(diamonds);
-			pvoter.sendMessage("§1[§6Blobcatraz§1]§r Thanks for voting! You got 10 diamonds");
+			pvoter.sendMessage(Util.blobcatraz + "Thanks for voting! You got §310 diamonds");
 		}
-		else
+		if((1.0/3.0) < chance && chance < (2.0/3.0))
 		{
 			Random rand = new Random();
-			int r = rand.nextInt(5);
+			short r = (short) rand.nextInt(5);
 			
-			ItemStack wood = new ItemStack(Material.WOOD, r);
+			ItemStack wood = new ItemStack(Material.WOOD);
+			wood.setDurability(r);
 			ItemMeta mw = wood.getItemMeta();
 			mw.setDisplayName("§1§ki§4Vote§1§ki§r §cWood");
 			mw.setLore(Arrays.asList("§1Thanks!", "§fSite: §6" + service, "§fVoter: §1" + voter));
@@ -67,7 +70,12 @@ public class Votes implements Listener
 			wood.setItemMeta(mw);
 			
 			pvoter.getInventory().addItem(wood);
-			pvoter.sendMessage("§1[§6Blobcatraz§1]§r Thanks for voting! You got some wood");
+			pvoter.sendMessage(Util.blobcatraz + "Thanks for voting! You got §3some wood");
+		}
+		else
+		{
+			Database.addToPlayerBalance(pvoter.getUniqueId(), 500);
+			pvoter.sendMessage(Util.blobcatraz + "Thanks for voting! You got §3$500");
 		}
 	}
 }

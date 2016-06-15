@@ -14,7 +14,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 @SuppressWarnings("deprecation")
-public class GlowEnchant implements Listener
+public class Glow implements Listener
 {
 	@EventHandler
 	public void attackWithGlowEnchant(EntityDamageByEntityEvent e)

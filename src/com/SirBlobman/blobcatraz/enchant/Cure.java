@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 @SuppressWarnings("deprecation")
-public class VillagerFixEnchant implements Listener 
+public class Cure implements Listener 
 {
 	String fail = "§1[§6Blobcatraz§1]§r §4Failed to cure the Zombie";
 	String success = "§1[§6Blobcatraz§1]§r Cured the Villager!";

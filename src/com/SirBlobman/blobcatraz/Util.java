@@ -1,7 +1,9 @@
 package com.SirBlobman.blobcatraz;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -22,6 +24,15 @@ public class Util
 		plugin = instance;
 	}
 	
+	public static HashMap<UUID, Long> banned = new HashMap<UUID, Long>();
+	public static HashMap<UUID, String> reasons = new HashMap<UUID, String>();
+	
+	public static String blobcatraz = "§1[§6Blobcatraz§1]§r ";
+	public static String notEnoughArguments = blobcatraz + "§4Not Enough Arguments!";
+	public static String tooManyArguments = blobcatraz + "§4Too Many Arguments!";
+	public static String noPerms = blobcatraz + "§4You don't have permission: ";
+	public static String notAPlayer = blobcatraz + "This command must be used by a player";
+	
 	public static String color(String s)
 	{
 		return ChatColor.translateAlternateColorCodes('&', s);
@@ -29,7 +40,7 @@ public class Util
 	
 	public static void broadcast(String m)
 	{
-		Bukkit.broadcastMessage(m);
+		Bukkit.broadcastMessage(blobcatraz + m);
 	}
 	
 	public static void setLore(Player p, String l)
@@ -91,7 +102,7 @@ public class Util
 	
 	public static void print(String t)
 	{
-		System.out.println(t);
+		System.out.println("[Blobcatraz] " + t);
 	}
 	
 	@Deprecated
@@ -109,7 +120,14 @@ public class Util
 	{
 		if(!(item == null))
 		{
-			p.getInventory().addItem(item);
+			if(p.getInventory().firstEmpty() != -1)
+			{
+				p.getInventory().addItem(item);
+			}
+			else
+			{
+				p.sendMessage("§1[§6Blobcatraz§1]§r Your inventory is too full to receive items");
+			}
 		}
 	}
 	
@@ -125,5 +143,48 @@ public class Util
 			bldr.append(args[i]);
 		}
 		return bldr.toString();
+	}
+	
+	public enum BanUnits
+	{
+		SECOND("s", 1/60),
+		MINUTE("m", 1),
+		HOUR("h", 60),
+		DAY("d", 60*24),
+		WEEK("w", 60*24*7),
+		MONTH("mo", 30*60*24),
+		YEAR("y", 30*60*24*12);
+		
+		public String name;
+		public int multi;
+		
+		BanUnits(String n, int m)
+		{
+			name = n;
+			multi = m;
+		}
+		
+		public static long getTicks(String un, int time)
+		{
+			long sec;
+			try
+			{
+				sec = time * 60;
+			}
+			catch (Exception ex)
+			{
+				return 0;
+			}
+			
+			for(BanUnits u: BanUnits.values())
+			{
+				if(un.startsWith(u.name))
+				{
+					return (sec *= u.multi) * 1000;
+				}
+			}
+			
+			return 0;
+		}
 	}
 }

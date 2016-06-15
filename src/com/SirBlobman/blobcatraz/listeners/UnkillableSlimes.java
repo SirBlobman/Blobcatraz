@@ -7,6 +7,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.SlimeSplitEvent;
 
+import com.SirBlobman.blobcatraz.Util;
+
 public class UnkillableSlimes implements Listener
 {
 	@EventHandler
@@ -23,7 +25,7 @@ public class UnkillableSlimes implements Listener
 			}
 			else
 			{
-				e.getDamager().sendMessage("§1[§6Blobcatraz§1]§r Stop hitting the slime! It is invincible! (obviously)");
+				e.getDamager().sendMessage(Util.blobcatraz + "Stop hitting the slime! It is invincible! (obviously)");
 			}
 		}
 		

@@ -3,6 +3,7 @@ package com.SirBlobman.blobcatraz.command;
 import java.util.Arrays;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,9 +13,8 @@ import org.bukkit.inventory.ItemStack;
 
 import com.SirBlobman.blobcatraz.Blobcatraz;
 import com.SirBlobman.blobcatraz.Util;
+import com.SirBlobman.blobcatraz.item.Items;
 import com.SirBlobman.blobcatraz.item.LightningRod;
-import com.SirBlobman.blobcatraz.item.LootingSword;
-import com.SirBlobman.blobcatraz.item.OverpoweredSword;
 import com.SirBlobman.blobcatraz.item.SonicScrewdriver;
 
 @SuppressWarnings("deprecation")
@@ -25,7 +25,7 @@ public class CommandBlobcatraz implements CommandExecutor
 	{
 		if(!(sender instanceof Player))
 		{
-			sender.sendMessage("§1[§6Blobcatraz§1]§r This command must be used by a player");
+			sender.sendMessage(Util.notAPlayer);
 			return true;
 		}
 		
@@ -35,12 +35,18 @@ public class CommandBlobcatraz implements CommandExecutor
 		{
 			if(args.length > 0)
 			{
+				if(args[0].equalsIgnoreCase("restart"))
+				{
+					Bukkit.getServer().getPluginManager().disablePlugin(Blobcatraz.instance);
+					Bukkit.getServer().getPluginManager().enablePlugin(Blobcatraz.instance);
+					return true;
+				}
 				if(args[0].equalsIgnoreCase("reload"))
 				{
 					Blobcatraz.instance.reloadConfig();
 					Portal.reloadPortalConfig();
 					
-					sender.sendMessage("§1[§6Blobcatraz§1]§r Configs have been reloaded");
+					sender.sendMessage(Util.blobcatraz + "Configs have been reloaded");
 				}
 				if(args[0].equalsIgnoreCase("give"))
 				{
@@ -51,7 +57,8 @@ public class CommandBlobcatraz implements CommandExecutor
 							"Sonic Screwdriver (sonic_screwdriver)",
 							"Lightning Rod (lightning_rod)",
 							"Overpowered Sword (op_sword)",
-							"Drop Everything (loot_sword)"
+							"Drop Everything (loot_sword)",
+							"Portal Wand (portal_wand)"
 						);
 						String item_list = String.join("\n", valid);
 						
@@ -67,18 +74,23 @@ public class CommandBlobcatraz implements CommandExecutor
 						}
 						if(args[1].equals("op_sword"))
 						{
-							Util.giveItem(p, OverpoweredSword.opsword());
+							Util.giveItem(p, Items.opsword());
 							return true;
 						}
 						if(args[1].equals("loot_sword"))
 						{
-							Util.giveItem(p, LootingSword.lootSword());
+							Util.giveItem(p, Items.lootSword());
+							return true;
+						}
+						if(args[1].equals("portal_wand"))
+						{
+							Util.giveItem(p, Items.lootSword());
 							return true;
 						}
 						else
 						{
-							p.sendMessage("§1[§6Blobcatraz§1]§r §cThat item doesn't exist");
-							p.sendMessage("§1[§6Blobcatraz§1]§r §cValid Items:");
+							p.sendMessage(Util.blobcatraz + "§cThat item doesn't exist");
+							p.sendMessage(Util.blobcatraz + "§cValid Items:");
 							p.sendMessage(item_list + "\n");
 							return false;
 						}
@@ -86,7 +98,7 @@ public class CommandBlobcatraz implements CommandExecutor
 					
 					else
 					{
-						p.sendMessage("§1[§6Blobcatraz§1]§r Not enough arguments!\n");
+						p.sendMessage(Util.notEnoughArguments + "\n");
 						return false;
 					}
 				}
@@ -95,13 +107,13 @@ public class CommandBlobcatraz implements CommandExecutor
 					ItemStack hitem = p.getItemInHand();
 					if(hitem == null || hitem.getType() == Material.AIR)
 					{
-						p.sendMessage("§1[§6Blobcatraz§1]§r You can't enchant air");
+						p.sendMessage(Util.blobcatraz + "You can't enchant air");
 						return false;
 					}
 					
 					if(args.length != 3)
 					{
-						p.sendMessage("§1[§6Blobcatraz§1]§r Not enough arguments!\n");
+						p.sendMessage(Util.notEnoughArguments + "\n");
 						return false;
 					}
 					
@@ -135,7 +147,7 @@ public class CommandBlobcatraz implements CommandExecutor
 					}
 					else
 					{
-						p.sendMessage("§1[§6Blobcatraz§1]§r Invalid enchantment");
+						p.sendMessage(Util.blobcatraz + "Invalid enchantment");
 						return false;
 					}
 				}
@@ -143,8 +155,8 @@ public class CommandBlobcatraz implements CommandExecutor
 
 			else
 			{
-				p.sendMessage("§1[§6Blobcatraz§1]§r Thanks for testing CommandBlobcatraz");
-				p.sendMessage("§1[§6Blobcatraz§1]§r Proper usage:\n");
+				p.sendMessage(Util.blobcatraz + "Thanks for testing /blobcatraz");
+				p.sendMessage(Util.blobcatraz + "Proper usage:\n");
 				p.sendMessage(c.getDescription() + "\n");
 				p.sendMessage(c.getUsage());
 				return true;

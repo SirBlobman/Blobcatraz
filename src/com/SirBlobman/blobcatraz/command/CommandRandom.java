@@ -6,6 +6,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+import com.SirBlobman.blobcatraz.Util;
+
 public class CommandRandom implements CommandExecutor {
 
 	@Override
@@ -35,7 +37,7 @@ public class CommandRandom implements CommandExecutor {
 			{
 				random_number = r.nextInt(32767);
 			}
-			sender.sendMessage("§1[§6Blobcatraz§1]§r Your random number is: " + random_number);
+			sender.sendMessage(Util.blobcatraz + "Your random number is: " + random_number);
 			return true;
 		}
 		

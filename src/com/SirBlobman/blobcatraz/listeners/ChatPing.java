@@ -22,6 +22,7 @@ public class ChatPing implements Listener
 				oP.playSound(oP.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 20.0F, 1.0F);
 				Blobcatraz.instance.getServer().getScheduler().runTaskLater(Blobcatraz.instance, new Runnable()
 				{
+					@Override
 					public void run()
 					{
 						oP.playSound(oP.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 20.0F, 1.0F);

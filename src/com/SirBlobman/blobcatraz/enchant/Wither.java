@@ -14,7 +14,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 @SuppressWarnings("deprecation")
-public class WitherEnchant implements Listener
+public class Wither implements Listener
 {
 	@EventHandler
 	public void attackWithWitherEnchant(EntityDamageByEntityEvent e)

@@ -1,13 +1,13 @@
 main: com.SirBlobman.blobcatraz.Blobcatraz
 name: Blobcatraz
-version: 0.0.0.16
+version: 0.0.0.17
 author: SirBlobman
 description: Plugin used for nearly everything in the Blobcatraz server. 
 softdepend: [Votifier, HolographicDisplays, LampControl]
 commands:
   blobcatraz:
     description: Command [] = Argument <> = Optional
-    usage: /blobcatraz [give|enchant|reload] [item name|enchant name] [enchant level]
+    usage: /blobcatraz [give|enchant|reload|restart] [item name|enchant name] [enchant level]
     permission: blobcatraz.blobcatraz
     permission-message: You don't have the permission "blobcatraz.blobcatraz"
   afk:
@@ -63,3 +63,34 @@ commands:
     description: Fixes an item (its like an anvil)
     usage: /repair
     permission: blobcatraz.repair
+    aliases: [fix]
+  balance:
+    description: Gets the balance of yourself or another player
+    usage: /balance <Player>
+    permission: blobcatraz.economy.balance
+    aliases: [bal, money]
+  item:
+    description: Gives you items without NBT data
+    usage: /item [item] [amount] [damage]
+    permission: blobcatraz.items.give
+    aliases: [i, selfgive]
+  unban:
+    description: Removes the ban status of a player
+    usage: /unban [player]
+    permission: blobcatraz.unban
+    aliases: [pardon]
+  ban:
+    description: Permanently ban a player
+    usage: /ban [player] [reason]
+    permission: blobcatraz.ban
+    aliases: [banish, exile]
+  economy:
+    description: Manage the server economy
+    usage: /economy [set|give|take|reset|clearall] <player> <amount>
+    permission: blobcatraz.economy.manage
+    aliases: [eco]
+  fly:
+    description: Check or toggle your flight
+    usage: /fly <on|off>
+    permission: blobcatraz.fly
+    aliases: [soar]

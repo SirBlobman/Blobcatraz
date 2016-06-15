@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import com.SirBlobman.blobcatraz.Blobcatraz;
+import com.SirBlobman.blobcatraz.Util;
 
 public class ChatMute implements Listener 
 {
@@ -18,7 +19,7 @@ public class ChatMute implements Listener
 		
 		if(isGlobalMute && p.hasPermission("blobcatraz.mute.bypass") == false)
 		{
-			p.sendMessage("§1[§6Blobcatraz§1]§r §cChat is currently §dDisabled");
+			p.sendMessage(Util.blobcatraz + "§cChat is currently §dDisabled");
 			e.setCancelled(true);
 		}
 	}
