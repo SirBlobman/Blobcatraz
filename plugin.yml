@@ -1,6 +1,6 @@
 main: com.SirBlobman.blobcatraz.Blobcatraz
 name: Blobcatraz
-version: 0.0.0.17
+version: 0.0.0.18
 author: SirBlobman
 description: Plugin used for nearly everything in the Blobcatraz server. 
 softdepend: [Votifier, HolographicDisplays, LampControl]
@@ -71,7 +71,7 @@ commands:
     aliases: [bal, money]
   item:
     description: Gives you items without NBT data
-    usage: /item [item] [amount] [damage]
+    usage: /item [item] [amount] [damage] OR /item list
     permission: blobcatraz.items.give
     aliases: [i, selfgive]
   unban:
@@ -94,3 +94,22 @@ commands:
     usage: /fly <on|off>
     permission: blobcatraz.fly
     aliases: [soar]
+  worth:
+    description: Check the value of an item
+    usage: /worth <item> <amount>
+    permission: blobcatraz.worth
+  setworth:
+    description: Set the sell value of an item
+    usage: /setworth <item> [amount]
+  randomtp:
+    description: Teleport to a random location
+    usage: /randomtp <tp | gui>
+    permission: blobcatraz.randomtp
+    aliases: [rtp]
+  heal:
+    description: Heal yourself or another player
+    usage: /heal <player>
+    permission: blobcatraz.heal
+  tempban:
+    description: Temporarily ban a player
+    usage: /tempban [player] [time[s|m|h|d|w|y|c]] [reason]

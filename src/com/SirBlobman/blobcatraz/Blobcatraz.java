@@ -1,7 +1,9 @@
 package com.SirBlobman.blobcatraz;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.SirBlobman.blobcatraz.command.AFKCommand;
@@ -12,11 +14,17 @@ import com.SirBlobman.blobcatraz.command.CommandBlobcatraz;
 import com.SirBlobman.blobcatraz.command.CommandRandom;
 import com.SirBlobman.blobcatraz.command.FindOrigin;
 import com.SirBlobman.blobcatraz.command.Fly;
+import com.SirBlobman.blobcatraz.command.Heal;
 import com.SirBlobman.blobcatraz.command.I;
 import com.SirBlobman.blobcatraz.command.ItemEditor;
 import com.SirBlobman.blobcatraz.command.Portal;
+import com.SirBlobman.blobcatraz.command.RandomTP;
 import com.SirBlobman.blobcatraz.command.SetMOTD;
 import com.SirBlobman.blobcatraz.command.Vote;
+import com.SirBlobman.blobcatraz.command.Worth;
+import com.SirBlobman.blobcatraz.config.Database;
+import com.SirBlobman.blobcatraz.config.Portals;
+import com.SirBlobman.blobcatraz.config.Shop;
 import com.SirBlobman.blobcatraz.enchant.Cure;
 import com.SirBlobman.blobcatraz.enchant.Ender;
 import com.SirBlobman.blobcatraz.enchant.Fireball;
@@ -24,10 +32,12 @@ import com.SirBlobman.blobcatraz.enchant.Glow;
 import com.SirBlobman.blobcatraz.enchant.Levitate;
 import com.SirBlobman.blobcatraz.enchant.Wither;
 import com.SirBlobman.blobcatraz.enchant.XPDrain;
+import com.SirBlobman.blobcatraz.gui.RandomTPGui;
 import com.SirBlobman.blobcatraz.item.LightningRod;
 import com.SirBlobman.blobcatraz.item.Recipes;
 import com.SirBlobman.blobcatraz.item.SonicScrewdriver;
 import com.SirBlobman.blobcatraz.listeners.AFK;
+import com.SirBlobman.blobcatraz.listeners.BanListener;
 import com.SirBlobman.blobcatraz.listeners.ChatMute;
 import com.SirBlobman.blobcatraz.listeners.ChatPing;
 import com.SirBlobman.blobcatraz.listeners.ChatReplacer;
@@ -42,12 +52,14 @@ import com.SirBlobman.blobcatraz.listeners.Votes;
 
 //String Author = "SirBlobman";
 
-public final class Blobcatraz extends JavaPlugin implements Listener 
+public final class Blobcatraz extends JavaPlugin 
 {
-	//I see you Mr.Plugin Stealer
-	//I told you not to steal my code, but you probably will anyways
-	//Try to understand it, its not that difficult
-	//xD	
+	/*I see you Mr.Plugin Stealer
+	 * I told you not to steal my code, but you probably will anyways
+	 *Try to understand it, its not that difficult
+	 * xD
+	 * 
+	 */
 	public static Blobcatraz instance;
 	public FileConfiguration config = getConfig();
 
@@ -58,28 +70,38 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 		instance = this;
 		
 	//Config
+		config.addDefault("protection.prevent-prison-escape", false);
 		config.addDefault("chat.disabled", false);
-		config.addDefault("chat.ping", true);
-		config.addDefault("chat.use_special", true);
-		config.addDefault("protection.prevent-prison-escape", true);
-		config.addDefault("random.unkillable-slimes", true);
-		config.addDefault("random.giant-drops-notch-apple", true);
-		config.addDefault("motd", "§1[§6Blobcatraz§1]§r This is the default MOTD");
-		config.addDefault("random.custom-items", true);
-		config.addDefault("random.custom-enchants", true);
-		config.addDefault("random.portals", true);
+		config.addDefault("chat.ping", false);
+		config.addDefault("chat.use_special", false);
+		config.addDefault("random.unkillable-slimes", false);
+		config.addDefault("random.giant-drops-notch-apple", false);
+		config.addDefault("random.custom-items", false);
+		config.addDefault("random.custom-enchants", false);
+		config.addDefault("random.portals", false);
+		config.addDefault("randomtp.maxFarDistance", 6000);
+		config.addDefault("randomtp.maxNormalDistance", 3000);
+		config.addDefault("randomtp.maxTinyDistance", 1000);
+		List<String> default_enabled_worlds = Arrays.asList("world", "world_nether", "world_the_end");
+		config.addDefault("randomtp.enabledWorlds", default_enabled_worlds);
+		List<String> default_vote_links = Arrays.asList("Link 1", "Link 2", "Link 3");
+		config.addDefault("vote.links", default_vote_links);
+		config.addDefault("motd", Util.blobcatraz +  "This is the default MOTD");
 		config.options().copyDefaults(true);
 		saveConfig();
-		Portal.savePortalConfig();
-		Portal.getPortalConfig().options().copyDefaults(true);
-		Portal.savePortals();
+		Portals.portalConfig.options().copyDefaults(true);
+		Portals.loadPortals();
+		Shop.loadPrices();
+		Database.loadDatabase();
 		
 	//Listeners
+		Util.regEvent(new BanListener());
 		Util.regEvent(new JoinBroadcast());
 		Util.regEvent(new LeaveBroadcast());
 		Util.regEvent(new AFK());
 		Util.regEvent(new ChatMute());
 		Util.regEvent(new SetMotd());
+		Util.regEvent(new RandomTPGui());
 		
 	//Config Defined Listeners
 		if (config.getBoolean("random.unkillable-slimes") == true) 
@@ -138,16 +160,22 @@ public final class Blobcatraz extends JavaPlugin implements Listener
 		getCommand("economy").setExecutor(new com.SirBlobman.blobcatraz.command.Economy());
 		getCommand("findorigin").setExecutor(new FindOrigin());
 		getCommand("fly").setExecutor(new Fly());
-		getCommand("i").setExecutor(new I());
+		getCommand("heal").setExecutor(new Heal());
+		getCommand("item").setExecutor(new I());
+		getCommand("item").setTabCompleter(new I());
 		getCommand("portal").setExecutor(new Portal());
 		getCommand("random").setExecutor(new CommandRandom());
+		getCommand("randomtp").setExecutor(new RandomTP());
 		getCommand("rename").setExecutor(new ItemEditor());
 		getCommand("resetitem").setExecutor(new ItemEditor());
 		getCommand("repair").setExecutor(new ItemEditor());
 		getCommand("setlore").setExecutor(new ItemEditor());
 		getCommand("setmotd").setExecutor(new SetMOTD());
+		getCommand("setworth").setExecutor(new Worth());
+		getCommand("tempban").setExecutor(new Ban());
 		getCommand("unban").setExecutor(new Ban());
 		getCommand("vote").setExecutor(new Vote());
+		getCommand("worth").setExecutor(new Worth());
 		
 		Util.broadcast("This plugin has been §2§lenabled§r!");	
 	}

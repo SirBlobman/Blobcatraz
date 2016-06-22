@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.SirBlobman.blobcatraz.Util;
-import com.SirBlobman.blobcatraz.economy.Database;
+import com.SirBlobman.blobcatraz.config.Database;
 
 @SuppressWarnings({"deprecation"})
 public class Balance implements CommandExecutor
@@ -24,7 +24,7 @@ public class Balance implements CommandExecutor
 		
 		Player p = (Player) sender;
 		
-		if(label.equalsIgnoreCase("balance"))
+		if(label.equalsIgnoreCase("balance") || label.equalsIgnoreCase("bal") || label.equalsIgnoreCase("money"));
 		{
 			if(args.length == 1 && p.hasPermission("blobcatraz.economy.balance.others"))
 			{
@@ -47,7 +47,5 @@ public class Balance implements CommandExecutor
 				return true;
 			}
 		}
-		
-		return false;
 	}
 }

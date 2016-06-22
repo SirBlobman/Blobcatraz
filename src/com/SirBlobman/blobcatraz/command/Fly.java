@@ -19,7 +19,7 @@ public class Fly implements CommandExecutor
 		}
 		Player p = (Player)cs;
 
-		if(label.equalsIgnoreCase("fly"))
+		if(label.equalsIgnoreCase("fly") || label.equalsIgnoreCase("soar"))
 		{
 			if(args.length == 1)
 			{

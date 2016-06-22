@@ -30,8 +30,11 @@ public class Util
 	public static String blobcatraz = "§1[§6Blobcatraz§1]§r ";
 	public static String notEnoughArguments = blobcatraz + "§4Not Enough Arguments!";
 	public static String tooManyArguments = blobcatraz + "§4Too Many Arguments!";
+	public static String invalidArguments = blobcatraz + "§4Invalid Arguments!";
 	public static String noPerms = blobcatraz + "§4You don't have permission: ";
 	public static String notAPlayer = blobcatraz + "This command must be used by a player";
+	public static String notAnInventoryEntity = blobcatraz + "This command must be run by an entity with an inventory!";
+	public static String randomTPNotEnabledInWorld = blobcatraz + "Random Teleportation is not enabled in this world!";
 	
 	public static String color(String s)
 	{

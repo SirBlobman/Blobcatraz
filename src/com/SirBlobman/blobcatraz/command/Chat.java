@@ -1,5 +1,6 @@
 package com.SirBlobman.blobcatraz.command;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -68,10 +69,10 @@ public class Chat implements CommandExecutor
 					int line = 1;
 					while(line <= 500)
 					{
-						Util.broadcast("§l");
+						Bukkit.broadcastMessage("§l");
 						line++;
 					}
-					Util.broadcast("§5" + nsender + " §ehas §9cleared§e the chat!");
+					Util.broadcast("§5" + nsender + " §ehas §9cleared§e the chat!"); 
 					return true;
 				}
 			}

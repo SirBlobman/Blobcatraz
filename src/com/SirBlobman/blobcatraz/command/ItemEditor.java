@@ -9,8 +9,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.SirBlobman.blobcatraz.Util;
 
-import net.md_5.bungee.api.ChatColor;
-
 @SuppressWarnings("deprecation")
 public class ItemEditor implements CommandExecutor 
 {
@@ -71,7 +69,7 @@ public class ItemEditor implements CommandExecutor
 			}
 		}
 		
-		if(label.equalsIgnoreCase("repair"))
+		if(label.equalsIgnoreCase("repair") || label.equalsIgnoreCase("fix"))
 		{
 			if(p.getItemInHand().getType() == Material.AIR)
 			{

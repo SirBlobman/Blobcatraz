@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.SirBlobman.blobcatraz.Util;
-import com.SirBlobman.blobcatraz.economy.Database;
+import com.SirBlobman.blobcatraz.config.Database;
 
 public class Economy implements CommandExecutor
 {
@@ -22,7 +22,7 @@ public class Economy implements CommandExecutor
 		
 		Player p = (Player) cs;
 		
-		if(label.equalsIgnoreCase("economy"))
+		if(label.equalsIgnoreCase("economy") || label.equalsIgnoreCase("eco"))
 		{
 			if(args.length == 1)
 			{

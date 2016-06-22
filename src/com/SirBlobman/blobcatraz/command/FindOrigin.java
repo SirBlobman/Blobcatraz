@@ -27,9 +27,24 @@ public class FindOrigin implements CommandExecutor
 		
 		Player p = (Player) sender;
 		
-		if (c.getName().equalsIgnoreCase("findorigin")) 
+		if (label.equalsIgnoreCase("findorigin")) 
 		{
 			Plugin pl = Blobcatraz.instance;
+			
+			if(args.length == 1)
+			{
+				if(args[0].equalsIgnoreCase("delete"))
+				{
+					for (Hologram h : HologramsAPI.getHolograms(pl)) 
+					{
+						deleteOld(h);
+					}
+					p.sendMessage(Util.blobcatraz + "Deleted any unused holograms");
+					return true;
+				}
+			}
+			
+			
 			for (Hologram h : HologramsAPI.getHolograms(pl)) 
 			{
 				deleteOld(h);

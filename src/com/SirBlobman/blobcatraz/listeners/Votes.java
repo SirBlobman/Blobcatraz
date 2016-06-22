@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.SirBlobman.blobcatraz.Util;
-import com.SirBlobman.blobcatraz.economy.Database;
+import com.SirBlobman.blobcatraz.config.Database;
 import com.vexsoftware.votifier.model.Vote;
 import com.vexsoftware.votifier.model.VotifierEvent;
 
@@ -40,7 +40,7 @@ public class Votes implements Listener
 			return;
 		}
 		
-		Bukkit.broadcastMessage(Util.blobcatraz + "§c§l" + voter + " §rhas voted using §c§l" + service + "§r:§c§l" + address + " §r!");
+		Bukkit.broadcastMessage(Util.blobcatraz + "§c§l" + voter + " §rhas voted using §c§l" + service + "§r!");
 		
 		double chance = Math.random();
 		

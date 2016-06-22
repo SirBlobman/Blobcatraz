@@ -13,6 +13,9 @@ import org.bukkit.inventory.ItemStack;
 
 import com.SirBlobman.blobcatraz.Blobcatraz;
 import com.SirBlobman.blobcatraz.Util;
+import com.SirBlobman.blobcatraz.config.Database;
+import com.SirBlobman.blobcatraz.config.Portals;
+import com.SirBlobman.blobcatraz.config.Shop;
 import com.SirBlobman.blobcatraz.item.Items;
 import com.SirBlobman.blobcatraz.item.LightningRod;
 import com.SirBlobman.blobcatraz.item.SonicScrewdriver;
@@ -28,9 +31,9 @@ public class CommandBlobcatraz implements CommandExecutor
 			sender.sendMessage(Util.notAPlayer);
 			return true;
 		}
-		
+
 		Player p = (Player) sender;
-		
+
 		if(label.equalsIgnoreCase("blobcatraz"))
 		{
 			if(args.length > 0)
@@ -44,8 +47,10 @@ public class CommandBlobcatraz implements CommandExecutor
 				if(args[0].equalsIgnoreCase("reload"))
 				{
 					Blobcatraz.instance.reloadConfig();
-					Portal.reloadPortalConfig();
-					
+					Portals.loadPortals();
+					Database.loadDatabase();
+					Shop.loadPrices();
+
 					sender.sendMessage(Util.blobcatraz + "Configs have been reloaded");
 				}
 				if(args[0].equalsIgnoreCase("give"))
@@ -61,7 +66,7 @@ public class CommandBlobcatraz implements CommandExecutor
 							"Portal Wand (portal_wand)"
 						);
 						String item_list = String.join("\n", valid);
-						
+
 						if(args[1].equals("sonic_screwdriver"))
 						{
 							Util.giveItem(p, SonicScrewdriver.sonic());
@@ -84,7 +89,7 @@ public class CommandBlobcatraz implements CommandExecutor
 						}
 						if(args[1].equals("portal_wand"))
 						{
-							Util.giveItem(p, Items.lootSword());
+							Util.giveItem(p, Items.portalWand());
 							return true;
 						}
 						else
@@ -95,7 +100,7 @@ public class CommandBlobcatraz implements CommandExecutor
 							return false;
 						}
 					}
-					
+
 					else
 					{
 						p.sendMessage(Util.notEnoughArguments + "\n");
@@ -110,13 +115,13 @@ public class CommandBlobcatraz implements CommandExecutor
 						p.sendMessage(Util.blobcatraz + "You can't enchant air");
 						return false;
 					}
-					
+
 					if(args.length != 3)
 					{
 						p.sendMessage(Util.notEnoughArguments + "\n");
 						return false;
 					}
-					
+
 					String enchant = args[1];
 					String level = args[2];
 					String lore_level = null;
@@ -135,33 +140,34 @@ public class CommandBlobcatraz implements CommandExecutor
 						{
 							lore_level = " III";
 						}
-						
-						Util.addLore(p, "§7" + enchant + lore_level);
-						return true;
 					}
 					if(enchant.equals("XP_Steal"))
 					{
 						enchant = "XP Drain";
 						lore_level = " I";
-						return true;
 					}
-					else
-					{
-						p.sendMessage(Util.blobcatraz + "Invalid enchantment");
-						return false;
-					}
+
+					Util.addLore(p, "§7" + enchant + lore_level);
+					p.sendMessage(Util.blobcatraz + "Your item has been enchanted with §7" + enchant + lore_level);
+					return true;
+				}
+				else
+				{
+					p.sendMessage(Util.blobcatraz + "Invalid enchantment");
+					return false;
 				}
 			}
-
-			else
-			{
-				p.sendMessage(Util.blobcatraz + "Thanks for testing /blobcatraz");
-				p.sendMessage(Util.blobcatraz + "Proper usage:\n");
-				p.sendMessage(c.getDescription() + "\n");
-				p.sendMessage(c.getUsage());
-				return true;
-			}
 		}
+
+		else
+		{
+			p.sendMessage(Util.blobcatraz + "Thanks for testing /blobcatraz");
+			p.sendMessage(Util.blobcatraz + "Proper usage:\n");
+			p.sendMessage(c.getDescription() + "\n");
+			p.sendMessage(c.getUsage());
+			return true;
+		}
+
 		return false;
 	}
 }
