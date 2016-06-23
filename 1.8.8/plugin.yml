@@ -1,0 +1,87 @@
+main: com.SirBlobman.blobcatraz.Blobcatraz
+name: Blobcatraz
+version: 0.0.0.9
+author: SirBlobman
+description: Plugin used for nearly everything in the Blobcatraz server. 
+softdepend: [HolographicDisplays, LampControl]
+commands:
+  blobcatraz:
+    description: Testing Command
+    usage: /blobcatraz
+    permission: blobcatraz.blobcatraz
+    permission-message: You don't have the permission "blobcatraz.blobcatraz"
+  afk:
+    description: Away From Keyboard
+    usage: /afk [reason]
+    permission: blobcatraz.afk
+    permission-message: You don't have the permission "blobcatraz.afk"
+  not-afk:
+    description: Removes your AFK Status
+    usage: /not-afk
+    permission: blobcatraz.not-afk
+    permission-message: You don't have the permission "blobcatraz.not-afk"
+  findorigin:
+    description: Makes a hologram at the origin (requires HolographicDisplays)
+    usage: /findorigin
+    permission: blobcatraz.find.origin
+    permission-message: You don't have the permission "blobcatraz.find.origin"
+  portal:
+    description: Creates a portal/Gets portal wand/Creates command portal
+    permission: blobcatraz.portal
+    usage: /portal wand OR /portal create <name> OR /portal create <name> <command without /> OR /portal list OR /portal remove <name>
+    permission-message: You don't have the permission "blobcatraz.portal" 
+  rename:
+    description: Renamed the currently held item
+    usage: /rename [new name]
+    permission: blobcatraz.rename
+    permission-message: You don't have the permission "blobcatraz.rename"
+  random:
+    description: Generates a random number ranging from 0 to 32767
+    usage: /random <min> <max>
+    permission: blobcatraz.random
+    permission-message: You can't generate random numbers! You don't have the permission "blobcatraz.random"
+  chat:
+    description: Allows you to mess with chat. You can turn it on, off, and clear it
+    usage: /chat [on/off/clear/status]
+    permission: blobcatraz.chat
+    permission-message: You don't have permission to mess with chat. You need "blobcatraz.chat"
+permissions: 
+    blobcatraz.*:
+      description: Gives access to all commands!
+      children:
+        blobcatraz.blobcatraz: true
+        blobcatraz.afk: true
+        blobcatraz.not-afk: true
+        blobcatraz.find.origin: true
+        blobcatraz.portal: true
+        blobcatraz.wand.use: true
+    blobcatraz.blobcatraz:
+      description: Allows you to do /blobcatraz
+      default: true
+    blobcatraz.afk: 
+      description: Allows you to do /afk
+      default: false
+    blobcatraz.not-afk:
+      description: Allows you to do /not-afk
+      default: true
+    blobcatraz.find.origin:
+      description: Allows you to do /findorigin
+      default: op
+    blobcatraz.break.iron_fence:
+      description: Allows you to break iron bars
+      default: false
+    blobcatraz.place.iron_fence:
+      description: Allows you to place iron bars
+      default: false
+    blobcatraz.portal: 
+      description: Allows you to do /portal
+      default: op
+    blobcatraz.wand.use:
+      description: Allows you to do /portal wand AND place the Pos1 and Pos2
+      default: op
+    blobcatraz.rename:
+      description: Allows you to rename an item or block
+      default: true
+    blobcatraz.random:
+      description: Generates a random number from 0 to 32767
+      default: true
