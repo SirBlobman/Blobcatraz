@@ -80,6 +80,7 @@ public class ItemEditor implements CommandExecutor
 				Util.repairItem(p);
 				sender.sendMessage(Util.blobcatraz + "Your §e" + p.getItemInHand().getItemMeta().getDisplayName() + "§r has been repaired");
 			}
+			return true;
 		}
 		
 		if(label.equalsIgnoreCase("resetitem"))

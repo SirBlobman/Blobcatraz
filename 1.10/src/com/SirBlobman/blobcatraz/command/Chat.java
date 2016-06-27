@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 
 import com.SirBlobman.blobcatraz.Blobcatraz;
 import com.SirBlobman.blobcatraz.Util;
+import com.SirBlobman.blobcatraz.config.BlobcatrazConfig;
 import com.SirBlobman.blobcatraz.listeners.ChatMute;
 
 public class Chat implements CommandExecutor
@@ -15,6 +16,7 @@ public class Chat implements CommandExecutor
 	public boolean onCommand(CommandSender sender, Command c, String label, String[] args)
 	{
 		String nsender = sender.getName();
+		BlobcatrazConfig.loadConfig();
 		
 		if(label.equalsIgnoreCase("chat"))
 		{
@@ -22,7 +24,7 @@ public class Chat implements CommandExecutor
 			{
 				if(args[0].equalsIgnoreCase("status"))
 				{
-					boolean status = com.SirBlobman.blobcatraz.Blobcatraz.instance.config.getBoolean("chat.disabled");
+					boolean status = BlobcatrazConfig.config.getBoolean("chat.disabled");
 					if(status == true)
 					{
 						sender.sendMessage(Util.blobcatraz + "§eThe chat is: §4Off");
@@ -34,12 +36,12 @@ public class Chat implements CommandExecutor
 				}
 				if(args[0].equalsIgnoreCase("on"))
 				{
-					Blobcatraz.instance.config.set("chat.disabled", false);
-					Blobcatraz.instance.config.set("chat.disabled", false);
-					Blobcatraz.instance.config.set("chat.disabled", false);
-					Blobcatraz.instance.config.set("chat.disabled", false);
-					Blobcatraz.instance.config.set("chat.disabled", false);
-					Blobcatraz.instance.config.set("chat.disabled", false);
+					BlobcatrazConfig.config.set("chat.disabled", false);
+					BlobcatrazConfig.config.set("chat.disabled", false);
+					BlobcatrazConfig.config.set("chat.disabled", false);
+					BlobcatrazConfig.config.set("chat.disabled", false);
+					BlobcatrazConfig.config.set("chat.disabled", false);
+					BlobcatrazConfig.config.set("chat.disabled", false);
 					ChatMute.isGlobalMute = false;
 					Blobcatraz.instance.saveConfig();
 					Blobcatraz.instance.saveConfig();
@@ -50,12 +52,12 @@ public class Chat implements CommandExecutor
 				}
 				if(args[0].equalsIgnoreCase("off"))
 				{
-					Blobcatraz.instance.config.set("chat.disabled", true);
-					Blobcatraz.instance.config.set("chat.disabled", true);
-					Blobcatraz.instance.config.set("chat.disabled", true);
-					Blobcatraz.instance.config.set("chat.disabled", true);
-					Blobcatraz.instance.config.set("chat.disabled", true);
-					Blobcatraz.instance.config.set("chat.disabled", true);
+					BlobcatrazConfig.config.set("chat.disabled", true);
+					BlobcatrazConfig.config.set("chat.disabled", true);
+					BlobcatrazConfig.config.set("chat.disabled", true);
+					BlobcatrazConfig.config.set("chat.disabled", true);
+					BlobcatrazConfig.config.set("chat.disabled", true);
+					BlobcatrazConfig.config.set("chat.disabled", true);
 					ChatMute.isGlobalMute = true;
 					Blobcatraz.instance.saveConfig();
 					Blobcatraz.instance.saveConfig();

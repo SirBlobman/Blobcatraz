@@ -1,9 +1,5 @@
 package com.SirBlobman.blobcatraz;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.SirBlobman.blobcatraz.command.AFKCommand;
@@ -14,6 +10,7 @@ import com.SirBlobman.blobcatraz.command.CommandBlobcatraz;
 import com.SirBlobman.blobcatraz.command.CommandRandom;
 import com.SirBlobman.blobcatraz.command.FindOrigin;
 import com.SirBlobman.blobcatraz.command.Fly;
+import com.SirBlobman.blobcatraz.command.Heads;
 import com.SirBlobman.blobcatraz.command.Heal;
 import com.SirBlobman.blobcatraz.command.I;
 import com.SirBlobman.blobcatraz.command.ItemEditor;
@@ -22,6 +19,7 @@ import com.SirBlobman.blobcatraz.command.RandomTP;
 import com.SirBlobman.blobcatraz.command.SetMOTD;
 import com.SirBlobman.blobcatraz.command.Vote;
 import com.SirBlobman.blobcatraz.command.Worth;
+import com.SirBlobman.blobcatraz.config.BlobcatrazConfig;
 import com.SirBlobman.blobcatraz.config.Database;
 import com.SirBlobman.blobcatraz.config.Portals;
 import com.SirBlobman.blobcatraz.config.Shop;
@@ -61,7 +59,6 @@ public final class Blobcatraz extends JavaPlugin
 	 * 
 	 */
 	public static Blobcatraz instance;
-	public FileConfiguration config = getConfig();
 
 	@Override
 	public void onEnable() 
@@ -70,34 +67,15 @@ public final class Blobcatraz extends JavaPlugin
 		instance = this;
 		
 	//Config
-		config.addDefault("protection.prevent-prison-escape", false);
-		config.addDefault("chat.disabled", false);
-		config.addDefault("chat.ping", false);
-		config.addDefault("chat.use_special", false);
-		config.addDefault("random.unkillable-slimes", false);
-		config.addDefault("random.giant-drops-notch-apple", false);
-		config.addDefault("random.custom-items", false);
-		config.addDefault("random.custom-enchants", false);
-		config.addDefault("random.portals", false);
-		config.addDefault("randomtp.maxFarDistance", 6000);
-		config.addDefault("randomtp.maxNormalDistance", 3000);
-		config.addDefault("randomtp.maxTinyDistance", 1000);
-		List<String> default_enabled_worlds = Arrays.asList("world", "world_nether", "world_the_end");
-		config.addDefault("randomtp.enabledWorlds", default_enabled_worlds);
-		List<String> default_vote_links = Arrays.asList("Link 1", "Link 2", "Link 3");
-		config.addDefault("vote.links", default_vote_links);
-		config.addDefault("motd", Util.blobcatraz +  "This is the default MOTD");
-		config.options().copyDefaults(true);
-		saveConfig();
-		Portals.portalConfig.options().copyDefaults(true);
+		BlobcatrazConfig.saveConfig();
+		BlobcatrazConfig.loadConfig();
 		Portals.loadPortals();
 		Portals.savePortals();
 		Shop.loadPrices();
-		Database.databaseConfig.options().copyDefaults(true);
 		Database.saveDatabase();
 		Database.loadDatabase();
 		
-	//Listeners
+	//Forced Listeners
 		Util.regEvent(new BanListener());
 		Util.regEvent(new JoinBroadcast());
 		Util.regEvent(new LeaveBroadcast());
@@ -107,51 +85,32 @@ public final class Blobcatraz extends JavaPlugin
 		Util.regEvent(new RandomTPGui());
 		
 	//Config Defined Listeners
-		if (config.getBoolean("random.unkillable-slimes") == true) 
+		if (BlobcatrazConfig.config.getBoolean("random.invincibleSlimes") == true) Util.regEvent(new UnkillableSlimes());
+			
+		if (BlobcatrazConfig.config.getBoolean("random.giantDropsPrize") == true) Util.regEvent(new GiantDropsNotchApple());
+		if (BlobcatrazConfig.config.getBoolean("protection.preventPrisonEscape") == true) Util.regEvent(new PrisonProtection());
+		if(BlobcatrazConfig.config.getBoolean("chat.emojis") == true) Util.regEvent(new ChatReplacer());
+		if(BlobcatrazConfig.config.getBoolean("chat.ping") == true) Util.regEvent(new ChatPing());
+		if(BlobcatrazConfig.config.getBoolean("random.customEnchants") == true)
 		{
-			Util.regEvent(new UnkillableSlimes());
-		}
-		if (config.getBoolean("random.giant-drops-notch-apple") == true) 
-		{
-			Util.regEvent(new GiantDropsNotchApple());
-		}
-		if (config.getBoolean("protection.prevent-prison-escape") == true) 
-		{
-			Util.regEvent(new PrisonProtection());
-		}
-		if(config.getBoolean("chat.use_special") == true)
-		{
-			Util.regEvent(new ChatReplacer());
-		}
-		if(config.getBoolean("chat.ping") == true)
-		{
-			Util.regEvent(new ChatPing());
-		}
-		if(config.getBoolean("random.custom-enchants") == true)
-		{
-			Util.regEvent(new Fireball());
-			Util.regEvent(new Wither());
-			Util.regEvent(new Levitate());
-			Util.regEvent(new Glow());
-			Util.regEvent(new XPDrain());
 			Util.regEvent(new Cure());
 			Util.regEvent(new Ender());
+			Util.regEvent(new Fireball());
+			Util.regEvent(new Glow());
+			Util.regEvent(new Levitate());
+			Util.regEvent(new Wither());
+			Util.regEvent(new XPDrain());
 		}
-		if(config.getBoolean("random.custom-items") == true)
+		if(BlobcatrazConfig.config.getBoolean("random.customItems") == true)
 		{
 			Util.regEvent(new LightningRod());
 			Util.regEvent(new SonicScrewdriver());
 			Recipes.loadRecipes();
 		}
-		if(config.getBoolean("random.portals") == true)
-		{
-			Util.regEvent(new InPortal());
-		}
+		if(BlobcatrazConfig.config.getBoolean("random.portals") == true) Util.regEvent(new InPortal());
+		
 	//Depend Based Listeners
-		if(getServer().getPluginManager().isPluginEnabled("Votifier"))
-		{
-			Util.regEvent(new Votes());
-		}
+		if(getServer().getPluginManager().isPluginEnabled("Votifier")) Util.regEvent(new Votes());
 		
 	//Commands
 		getCommand("addlore").setExecutor(new ItemEditor());
@@ -163,6 +122,7 @@ public final class Blobcatraz extends JavaPlugin
 		getCommand("economy").setExecutor(new com.SirBlobman.blobcatraz.command.Economy());
 		getCommand("findorigin").setExecutor(new FindOrigin());
 		getCommand("fly").setExecutor(new Fly());
+		getCommand("head").setExecutor(new Heads());
 		getCommand("heal").setExecutor(new Heal());
 		getCommand("item").setExecutor(new I());
 		getCommand("item").setTabCompleter(new I());
@@ -184,8 +144,5 @@ public final class Blobcatraz extends JavaPlugin
 	}
 
 	@Override
-	public void onDisable() 
-	{
-		Util.broadcast("This plugin has been §4§ldisabled§r!");
-	}
+	public void onDisable() {Util.broadcast("This plugin has been §4§ldisabled§r!");}
 }

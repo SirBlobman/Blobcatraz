@@ -1,5 +1,6 @@
 package com.SirBlobman.blobcatraz.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,7 +16,7 @@ public class ChatPing implements Listener
 	{			
 		Player p = e.getPlayer();
 		String m = e.getMessage();
-		for(final Player oP : Blobcatraz.instance.getServer().getOnlinePlayers())
+		for(final Player oP : Bukkit.getServer().getOnlinePlayers())
 		{
 			if ((oP != p) && ((m.toLowerCase().contains(oP.getName().toLowerCase())) || (m.toLowerCase().contains(oP.getDisplayName().toLowerCase()))))
 			{

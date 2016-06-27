@@ -5,7 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import net.md_5.bungee.api.ChatColor;
+import com.SirBlobman.blobcatraz.Util;
 
 public class ChatReplacer implements Listener
 {
@@ -43,8 +43,10 @@ public class ChatReplacer implements Listener
 		String m = e.getMessage();
 		if(p.hasPermission("blobcatraz.chat.color"))
 		{
-			m = ChatColor.translateAlternateColorCodes('&', m);
+			m = Util.color(m);
 		}
+		
+		e.setMessage(m);
 	}
 	
 	public static class Emojis

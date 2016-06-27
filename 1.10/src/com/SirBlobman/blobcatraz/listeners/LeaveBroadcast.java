@@ -9,6 +9,6 @@ public class LeaveBroadcast implements Listener
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent e)
 	{
-		e.setQuitMessage("Unfortunately, §1" + e.getPlayer().getDisplayName() + " §rleft!");
+		e.setQuitMessage("§1" + e.getPlayer().getDisplayName() + " §rleft!");
 	}
 }

@@ -10,7 +10,7 @@ public class Recipes
 	public static void loadRecipes()
 	{
 	//Overpowered Sword
-		ItemStack opSword = Items.opsword();
+		ItemStack opSword = Items.opSword();
 		
 		ShapedRecipe op_sword = new ShapedRecipe(opSword);
 		op_sword.shape
@@ -21,6 +21,17 @@ public class Recipes
 		);
 		op_sword.setIngredient('D', Material.DIAMOND_BLOCK);
 		op_sword.setIngredient('B', Material.BLAZE_ROD);
+	
+	//Overpowered Bow
+		ItemStack opBow = Items.opBow();
+		
+		ShapedRecipe op_bow = new ShapedRecipe(opBow);
+		op_bow.shape
+		(
+			" BS",
+			"B S",
+			" BS"
+		);
 		
 	//Drop Everything Sword
 		ItemStack lSword = Items.lootSword();
@@ -35,7 +46,7 @@ public class Recipes
 		de_sword.setIngredient('W', Material.WOOD);
 		de_sword.setIngredient('D', Material.DIAMOND_SWORD);
 	//Lightning Rod
-		ItemStack lRod = LightningRod.lrod();
+		ItemStack lRod = LightningRod.lightningRod();
 		
 		ShapedRecipe l_rod = new ShapedRecipe(lRod);
 		l_rod.shape
@@ -48,6 +59,7 @@ public class Recipes
 		
 	//Bukkit: Add Recipes
 		Bukkit.addRecipe(op_sword);
+		Bukkit.addRecipe(op_bow);
 		Bukkit.addRecipe(de_sword);
 		Bukkit.addRecipe(l_rod);
 	}

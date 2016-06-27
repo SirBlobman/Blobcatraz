@@ -18,11 +18,7 @@ import net.md_5.bungee.api.ChatColor;
 @SuppressWarnings({"deprecation", "unchecked", "rawtypes"})
 public class Util 
 {
-	public static Blobcatraz plugin;
-	public Util(Blobcatraz instance)
-	{
-		plugin = instance;
-	}
+	public static Blobcatraz plugin = Blobcatraz.instance;
 	
 	public static HashMap<UUID, Long> banned = new HashMap<UUID, Long>();
 	public static HashMap<UUID, String> reasons = new HashMap<UUID, String>();
@@ -116,7 +112,7 @@ public class Util
 	
 	public static void regEvent(Listener l)
 	{
-		Bukkit.getServer().getPluginManager().registerEvents(l, Blobcatraz.instance);
+		Bukkit.getServer().getPluginManager().registerEvents(l, plugin);
 	}
 	
 	public static void giveItem(Player p, ItemStack item)

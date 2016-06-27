@@ -63,6 +63,7 @@ public class CommandBlobcatraz implements CommandExecutor
 							"Sonic Screwdriver (sonic_screwdriver)",
 							"Lightning Rod (lightning_rod)",
 							"Overpowered Sword (op_sword)",
+							"Overpowered Bow (op_bow)",
 							"Drop Everything (loot_sword)",
 							"Portal Wand (portal_wand)"
 						);
@@ -70,17 +71,22 @@ public class CommandBlobcatraz implements CommandExecutor
 
 						if(args[1].equals("sonic_screwdriver"))
 						{
-							Util.giveItem(p, SonicScrewdriver.sonic());
+							Util.giveItem(p, SonicScrewdriver.sonicScrewdriver());
 							return true;
 						}
 						if(args[1].equals("lightning_rod"))
 						{
-							Util.giveItem(p, LightningRod.lrod());
+							Util.giveItem(p, LightningRod.lightningRod());
 							return true;
 						}
 						if(args[1].equals("op_sword"))
 						{
-							Util.giveItem(p, Items.opsword());
+							Util.giveItem(p, Items.opSword());
+							return true;
+						}
+						if(args[1].equals("op_bow"))
+						{
+							Util.giveItem(p, Items.opBow());
 							return true;
 						}
 						if(args[1].equals("loot_sword"))

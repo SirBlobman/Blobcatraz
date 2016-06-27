@@ -1,6 +1,6 @@
 main: com.SirBlobman.blobcatraz.Blobcatraz
 name: Blobcatraz
-version: 0.0.0.19
+version: 0.0.0.20
 author: SirBlobman
 description: Plugin used for nearly everything in the Blobcatraz server. 
 softdepend: [Votifier, HolographicDisplays, LampControl]
@@ -113,3 +113,7 @@ commands:
   tempban:
     description: Temporarily ban a player
     usage: /tempban [player] [time[s|m|h|d|w|y|c]] [reason]
+  head:
+    description: Get a head 
+    usage: /head [style] [letter/type] <player>
+    aliases: [heads]

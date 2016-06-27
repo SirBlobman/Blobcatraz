@@ -23,13 +23,14 @@ public class SonicScrewdriver implements Listener
 {
 	private Blobcatraz plugin;
 	
-	public static ItemStack sonic()
+	public static ItemStack sonicScrewdriver()
 	{
 		ItemStack sonic = new ItemStack(Material.BLAZE_ROD);
 		ItemMeta meta = sonic.getItemMeta();
 		
 		meta.setDisplayName("§fSonic Screwdriver");
 		sonic.setItemMeta(meta);
+		sonic.setAmount(1);
 		
 		return sonic;
 	}
@@ -37,7 +38,7 @@ public class SonicScrewdriver implements Listener
 	@EventHandler
 	public void onSonicUse(PlayerInteractEvent e) throws Exception 
 	{
-		ItemStack sonic = sonic();
+		ItemStack sonic = sonicScrewdriver();
 		
 		if (!e.getPlayer().hasPermission("blobcatraz.sonic.use")) 
 		{

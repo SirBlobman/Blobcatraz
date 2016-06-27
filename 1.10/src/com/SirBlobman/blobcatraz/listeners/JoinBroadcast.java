@@ -19,7 +19,7 @@ public class JoinBroadcast implements Listener
 			Database.writeDefaults(p.getUniqueId());
 		}
 		
-		e.setJoinMessage("Yay! §1" + e.getPlayer().getName() + "§r joined the server!");
+		e.setJoinMessage("§1" + e.getPlayer().getName() + "§r joined the server!");
 		p.sendMessage(Util.blobcatraz + "You are in §2" + e.getPlayer().getGameMode());
 	}
 }

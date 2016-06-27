@@ -7,8 +7,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.SirBlobman.blobcatraz.Blobcatraz;
 import com.SirBlobman.blobcatraz.Util;
+import com.SirBlobman.blobcatraz.config.BlobcatrazConfig;
 
 public class Vote implements CommandExecutor
 {
@@ -25,7 +25,7 @@ public class Vote implements CommandExecutor
 		
 		if(label.equalsIgnoreCase("vote"))
 		{
-			List<String> links = Blobcatraz.instance.getConfig().getStringList("vote.links");
+			List<String> links = BlobcatrazConfig.config.getStringList("vote.links");
 			sender.sendMessage(Util.blobcatraz + "Vote Links:");
 			for(String s : links)
 			{

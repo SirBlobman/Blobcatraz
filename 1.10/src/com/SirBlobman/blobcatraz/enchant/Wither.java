@@ -19,21 +19,13 @@ public class Wither implements Listener
 	@EventHandler
 	public void attackWithWitherEnchant(EntityDamageByEntityEvent e)
 	{
-		if(!(e.getDamager().getType() == EntityType.PLAYER))
-		{
-			return;
-		}
+		if(!(e.getDamager().getType() == EntityType.PLAYER)) return;
 		Player der = (Player) e.getDamager();
-		if(der == null)
-		{
-			return;
-		}
+		if(der == null) return;
 		
+		if(!(e.getEntity() instanceof LivingEntity)) return;
 		LivingEntity ded = (LivingEntity) e.getEntity();
-		if(ded == null)
-		{
-			return;
-		}
+		if(ded == null) return;
 		
 		//Wither 2 for 10 seconds
 		PotionEffect wither1 = new PotionEffect(PotionEffectType.WITHER, 200, 1);

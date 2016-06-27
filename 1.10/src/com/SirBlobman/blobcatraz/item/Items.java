@@ -30,26 +30,56 @@ public class Items
 		return sword;
 	}
 	
-	public static ItemStack opsword()
+	public static ItemStack opSword()
 	{
 		ItemStack op_sword = new ItemStack(Material.DIAMOND_SWORD);
 		ItemMeta meta = op_sword.getItemMeta();
 		
-		meta.setDisplayName("§4§ki§9Overpowered Sword§4§ki§r");
+		meta.setDisplayName("§4§ki§9Overpowered §9Sword§4§ki§r");
 		meta.setLore(Arrays.asList
 		(
-				"This sword will kill almost anything",
-				"It is Awesome"
+				"This sword will kill almost anything"
 		));
 		meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+		meta.spigot().setUnbreakable(true);
 		op_sword.setItemMeta(meta);
 		
 		op_sword.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 32767);
 		op_sword.addUnsafeEnchantment(Enchantment.DAMAGE_ARTHROPODS, 32767);
 		op_sword.addUnsafeEnchantment(Enchantment.DAMAGE_UNDEAD, 32767);
 		op_sword.addUnsafeEnchantment(Enchantment.DURABILITY, 32767);
+		op_sword.addUnsafeEnchantment(Enchantment.THORNS, 32767);
 		
 		return op_sword;
+	}
+	
+	public static ItemStack opBow()
+	{
+		ItemStack opBow = new ItemStack(Material.BOW);
+		ItemMeta meta = opBow.getItemMeta();
+		
+		meta.setDisplayName("§4§ki§9Overpowered §9Bow§4§ki§r");
+		meta.setLore(Arrays.asList
+		(
+			"This bow will kill almost anything"
+		));
+		meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+		meta.spigot().setUnbreakable(true);
+		opBow.setItemMeta(meta);
+		
+		opBow.addUnsafeEnchantment(Enchantment.ARROW_DAMAGE, 32767);
+		opBow.addUnsafeEnchantment(Enchantment.ARROW_KNOCKBACK, 32767);
+		opBow.addUnsafeEnchantment(Enchantment.ARROW_KNOCKBACK, 32767);
+		opBow.addUnsafeEnchantment(Enchantment.ARROW_INFINITE, 32767);
+		opBow.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 32767);
+		opBow.addUnsafeEnchantment(Enchantment.DAMAGE_ARTHROPODS, 32767);
+		opBow.addUnsafeEnchantment(Enchantment.DAMAGE_UNDEAD, 32767);
+		opBow.addUnsafeEnchantment(Enchantment.DURABILITY, 32767);
+		opBow.addUnsafeEnchantment(Enchantment.THORNS, 32767);
+		
+		return opBow;
 	}
 	
 	public static ItemStack portalWand()
@@ -65,6 +95,7 @@ public class Items
 				));
 		
 		wand.setItemMeta(meta);
+		wand.setAmount(1);
 		
 		return wand;
 	}
