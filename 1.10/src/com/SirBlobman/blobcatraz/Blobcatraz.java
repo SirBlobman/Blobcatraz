@@ -1,148 +1,157 @@
 package com.SirBlobman.blobcatraz;
 
+import org.bukkit.Bukkit;
+import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.SirBlobman.blobcatraz.command.AFKCommand;
-import com.SirBlobman.blobcatraz.command.Balance;
-import com.SirBlobman.blobcatraz.command.Ban;
-import com.SirBlobman.blobcatraz.command.Chat;
+import com.SirBlobman.blobcatraz.command.CommandAFK;
+import com.SirBlobman.blobcatraz.command.CommandBalance;
+import com.SirBlobman.blobcatraz.command.CommandBan;
 import com.SirBlobman.blobcatraz.command.CommandBlobcatraz;
+import com.SirBlobman.blobcatraz.command.CommandChat;
+import com.SirBlobman.blobcatraz.command.CommandEconomy;
+import com.SirBlobman.blobcatraz.command.CommandFindOrigin;
+import com.SirBlobman.blobcatraz.command.CommandFly;
+import com.SirBlobman.blobcatraz.command.CommandHeal;
+import com.SirBlobman.blobcatraz.command.CommandItem;
+import com.SirBlobman.blobcatraz.command.CommandItemEditor;
+import com.SirBlobman.blobcatraz.command.CommandMOTD;
+import com.SirBlobman.blobcatraz.command.CommandPortal;
 import com.SirBlobman.blobcatraz.command.CommandRandom;
-import com.SirBlobman.blobcatraz.command.FindOrigin;
-import com.SirBlobman.blobcatraz.command.Fly;
-import com.SirBlobman.blobcatraz.command.Heads;
-import com.SirBlobman.blobcatraz.command.Heal;
-import com.SirBlobman.blobcatraz.command.I;
-import com.SirBlobman.blobcatraz.command.ItemEditor;
-import com.SirBlobman.blobcatraz.command.Portal;
-import com.SirBlobman.blobcatraz.command.RandomTP;
-import com.SirBlobman.blobcatraz.command.SetMOTD;
-import com.SirBlobman.blobcatraz.command.Vote;
-import com.SirBlobman.blobcatraz.command.Worth;
-import com.SirBlobman.blobcatraz.config.BlobcatrazConfig;
-import com.SirBlobman.blobcatraz.config.Database;
-import com.SirBlobman.blobcatraz.config.Portals;
-import com.SirBlobman.blobcatraz.config.Shop;
+import com.SirBlobman.blobcatraz.command.CommandRandomTP;
+import com.SirBlobman.blobcatraz.command.CommandSpawn;
+import com.SirBlobman.blobcatraz.command.CommandVote;
+import com.SirBlobman.blobcatraz.command.CommandWorth;
+import com.SirBlobman.blobcatraz.config.ConfigBlobcatraz;
+import com.SirBlobman.blobcatraz.config.ConfigDatabase;
+import com.SirBlobman.blobcatraz.config.ConfigPortals;
+import com.SirBlobman.blobcatraz.config.ConfigShop;
+import com.SirBlobman.blobcatraz.config.ConfigSpawn;
 import com.SirBlobman.blobcatraz.enchant.Cure;
 import com.SirBlobman.blobcatraz.enchant.Ender;
 import com.SirBlobman.blobcatraz.enchant.Fireball;
 import com.SirBlobman.blobcatraz.enchant.Glow;
+import com.SirBlobman.blobcatraz.enchant.InstaKill;
 import com.SirBlobman.blobcatraz.enchant.Levitate;
 import com.SirBlobman.blobcatraz.enchant.Wither;
 import com.SirBlobman.blobcatraz.enchant.XPDrain;
-import com.SirBlobman.blobcatraz.gui.RandomTPGui;
+import com.SirBlobman.blobcatraz.gui.GuiRandomTP;
 import com.SirBlobman.blobcatraz.item.LightningRod;
+import com.SirBlobman.blobcatraz.item.PortalWand;
 import com.SirBlobman.blobcatraz.item.Recipes;
 import com.SirBlobman.blobcatraz.item.SonicScrewdriver;
 import com.SirBlobman.blobcatraz.listeners.AFK;
-import com.SirBlobman.blobcatraz.listeners.BanListener;
-import com.SirBlobman.blobcatraz.listeners.ChatMute;
-import com.SirBlobman.blobcatraz.listeners.ChatPing;
-import com.SirBlobman.blobcatraz.listeners.ChatReplacer;
-import com.SirBlobman.blobcatraz.listeners.GiantDropsNotchApple;
-import com.SirBlobman.blobcatraz.listeners.InPortal;
-import com.SirBlobman.blobcatraz.listeners.JoinBroadcast;
-import com.SirBlobman.blobcatraz.listeners.LeaveBroadcast;
-import com.SirBlobman.blobcatraz.listeners.PrisonProtection;
-import com.SirBlobman.blobcatraz.listeners.SetMotd;
-import com.SirBlobman.blobcatraz.listeners.UnkillableSlimes;
-import com.SirBlobman.blobcatraz.listeners.Votes;
+import com.SirBlobman.blobcatraz.listeners.Chat;
+import com.SirBlobman.blobcatraz.listeners.GiantDropsPrize;
+import com.SirBlobman.blobcatraz.listeners.InvincibleSlimes;
+import com.SirBlobman.blobcatraz.listeners.JoinLeave;
+import com.SirBlobman.blobcatraz.listeners.MOTD;
+import com.SirBlobman.blobcatraz.listeners.Portal;
+import com.SirBlobman.blobcatraz.listeners.PreLogin;
+import com.SirBlobman.blobcatraz.listeners.Protection;
+import com.SirBlobman.blobcatraz.listeners.Vote;
+import com.SirBlobman.blobcatraz.world.generator.FlatChunkGenerator;
 
-//String Author = "SirBlobman";
-
-public final class Blobcatraz extends JavaPlugin 
+public class Blobcatraz extends JavaPlugin 
 {
-	/*I see you Mr.Plugin Stealer
-	 * I told you not to steal my code, but you probably will anyways
-	 *Try to understand it, its not that difficult
-	 * xD
-	 * 
-	 */
+/*
+ * Author = SirBlobman
+ * I see you Mr. Plugin Stealer
+ * I know that you see my code
+ * I wish you the best in understanding it
+ * Just credit me if you do use it, I like to help people out
+ */
 	public static Blobcatraz instance;
-
+	
 	@Override
-	public void onEnable() 
+	public void onEnable()
 	{
 	//Instance
 		instance = this;
-		
-	//Config
-		BlobcatrazConfig.saveConfig();
-		BlobcatrazConfig.loadConfig();
-		Portals.loadPortals();
-		Portals.savePortals();
-		Shop.loadPrices();
-		Database.saveDatabase();
-		Database.loadDatabase();
-		
-	//Forced Listeners
-		Util.regEvent(new BanListener());
-		Util.regEvent(new JoinBroadcast());
-		Util.regEvent(new LeaveBroadcast());
+	//Configuration
+		if(!getDataFolder().exists()) try{getDataFolder().createNewFile();} catch (Exception ex) {Util.print("Could not create the data folder! Disabling Blobcatraz"); Bukkit.getServer().getPluginManager().disablePlugin(this); return;}
+		ConfigBlobcatraz.loadConfig();
+		ConfigDatabase.loadDatabase();
+		ConfigPortals.loadPortals();
+		ConfigShop.loadPrices();
+		ConfigSpawn.loadSpawn();
+	//Listeners
+		Util.regEvent(new PreLogin());
+		Util.regEvent(new JoinLeave());
 		Util.regEvent(new AFK());
-		Util.regEvent(new ChatMute());
-		Util.regEvent(new SetMotd());
-		Util.regEvent(new RandomTPGui());
-		
-	//Config Defined Listeners
-		if (BlobcatrazConfig.config.getBoolean("random.invincibleSlimes") == true) Util.regEvent(new UnkillableSlimes());
-			
-		if (BlobcatrazConfig.config.getBoolean("random.giantDropsPrize") == true) Util.regEvent(new GiantDropsNotchApple());
-		if (BlobcatrazConfig.config.getBoolean("protection.preventPrisonEscape") == true) Util.regEvent(new PrisonProtection());
-		if(BlobcatrazConfig.config.getBoolean("chat.emojis") == true) Util.regEvent(new ChatReplacer());
-		if(BlobcatrazConfig.config.getBoolean("chat.ping") == true) Util.regEvent(new ChatPing());
-		if(BlobcatrazConfig.config.getBoolean("random.customEnchants") == true)
+		Util.regEvent(new Chat());
+		Util.regEvent(new MOTD());
+		Util.regEvent(new GuiRandomTP());
+	//Config Listeners
+		if(ConfigBlobcatraz.config.getBoolean("protection.preventPrisonEscape")) Util.regEvent(new Protection());
+		if(ConfigBlobcatraz.config.getBoolean("random.invincibleSlimes")) Util.regEvent(new InvincibleSlimes());
+		if(ConfigBlobcatraz.config.getBoolean("random.giantDropsPrize.enabled")) Util.regEvent(new GiantDropsPrize());
+		if(ConfigBlobcatraz.config.getBoolean("random.portals"))
+		{
+			Util.regEvent(new PortalWand());
+			Util.regEvent(new Portal());
+		}
+		if(ConfigBlobcatraz.config.getBoolean("random.customEnchants"))
 		{
 			Util.regEvent(new Cure());
 			Util.regEvent(new Ender());
 			Util.regEvent(new Fireball());
 			Util.regEvent(new Glow());
+			Util.regEvent(new InstaKill());
 			Util.regEvent(new Levitate());
 			Util.regEvent(new Wither());
 			Util.regEvent(new XPDrain());
 		}
-		if(BlobcatrazConfig.config.getBoolean("random.customItems") == true)
+		if(ConfigBlobcatraz.config.getBoolean("random.customItems"))
 		{
 			Util.regEvent(new LightningRod());
 			Util.regEvent(new SonicScrewdriver());
 			Recipes.loadRecipes();
 		}
-		if(BlobcatrazConfig.config.getBoolean("random.portals") == true) Util.regEvent(new InPortal());
-		
-	//Depend Based Listeners
-		if(getServer().getPluginManager().isPluginEnabled("Votifier")) Util.regEvent(new Votes());
-		
+	//Depend-Based Listeners
+		if(getServer().getPluginManager().isPluginEnabled("Votifier")) Util.regEvent(new Vote());
 	//Commands
-		getCommand("addlore").setExecutor(new ItemEditor());
-		getCommand("afk").setExecutor(new AFKCommand());
+		getCommand("addlore").setExecutor(new CommandItemEditor());
+		getCommand("afk").setExecutor(new CommandAFK());
 		getCommand("blobcatraz").setExecutor(new CommandBlobcatraz());
-		getCommand("balance").setExecutor(new Balance());
-		getCommand("ban").setExecutor(new Ban());
-		getCommand("chat").setExecutor(new Chat());
-		getCommand("economy").setExecutor(new com.SirBlobman.blobcatraz.command.Economy());
-		getCommand("findorigin").setExecutor(new FindOrigin());
-		getCommand("fly").setExecutor(new Fly());
-		getCommand("head").setExecutor(new Heads());
-		getCommand("heal").setExecutor(new Heal());
-		getCommand("item").setExecutor(new I());
-		getCommand("item").setTabCompleter(new I());
-		getCommand("portal").setExecutor(new Portal());
+		getCommand("balance").setExecutor(new CommandBalance());
+		getCommand("ban").setExecutor(new CommandBan());
+		getCommand("chat").setExecutor(new CommandChat());
+		getCommand("economy").setExecutor(new CommandEconomy());
+		getCommand("findorigin").setExecutor(new CommandFindOrigin());
+		getCommand("fly").setExecutor(new CommandFly());
+		getCommand("heal").setExecutor(new CommandHeal());
+		getCommand("item").setExecutor(new CommandItem());
+		getCommand("item").setTabCompleter(new CommandItem());
+		getCommand("portal").setExecutor(new CommandPortal());
 		getCommand("random").setExecutor(new CommandRandom());
-		getCommand("randomtp").setExecutor(new RandomTP());
-		getCommand("rename").setExecutor(new ItemEditor());
-		getCommand("resetitem").setExecutor(new ItemEditor());
-		getCommand("repair").setExecutor(new ItemEditor());
-		getCommand("setlore").setExecutor(new ItemEditor());
-		getCommand("setmotd").setExecutor(new SetMOTD());
-		getCommand("setworth").setExecutor(new Worth());
-		getCommand("tempban").setExecutor(new Ban());
-		getCommand("unban").setExecutor(new Ban());
-		getCommand("vote").setExecutor(new Vote());
-		getCommand("worth").setExecutor(new Worth());
-		
-		Util.broadcast("This plugin has been §2§lenabled§r!");	
+		getCommand("randomtp").setExecutor(new CommandRandomTP());
+		getCommand("removelore").setExecutor(new CommandItemEditor());
+		getCommand("rename").setExecutor(new CommandItemEditor());
+		getCommand("resetitem").setExecutor(new CommandItemEditor());
+		getCommand("repair").setExecutor(new CommandItemEditor());
+		getCommand("setlore").setExecutor(new CommandItemEditor());
+		getCommand("setmotd").setExecutor(new CommandMOTD());
+		getCommand("setspawn").setExecutor(new CommandSpawn());
+		getCommand("setworth").setExecutor(new CommandWorth());
+		getCommand("spawn").setExecutor(new CommandSpawn());
+		getCommand("tempban").setExecutor(new CommandBan());
+		getCommand("unban").setExecutor(new CommandBan());
+		getCommand("vote").setExecutor(new CommandVote());
+		getCommand("worth").setExecutor(new CommandWorth());
+	//Other
+		Util.broadcast(Util.pluginEnabled);
 	}
-
+	
 	@Override
-	public void onDisable() {Util.broadcast("This plugin has been §4§ldisabled§r!");}
+	public void onDisable() 
+	{
+		Recipes.unloadRecipes();
+		Util.broadcast(Util.pluginDisabled);
+	}
+	
+	public ChunkGenerator getDefaultWorldGenerator(String world, String id)
+	{
+		return new FlatChunkGenerator(id);
+	}
 }

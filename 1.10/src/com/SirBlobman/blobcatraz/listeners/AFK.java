@@ -1,34 +1,43 @@
 package com.SirBlobman.blobcatraz.listeners;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import com.SirBlobman.blobcatraz.command.AFKCommand;
-import com.SirBlobman.blobcatraz.config.Database;
+import com.SirBlobman.blobcatraz.config.ConfigDatabase;
 
 public class AFK implements Listener
 {
 	@EventHandler
-	public void onPlayerMoveEvent(PlayerMoveEvent e)
+	public void onPlayerMove(PlayerMoveEvent e)
 	{
-		boolean AFK = Database.getAFKStatus(e.getPlayer());
+		Player p = e.getPlayer();
 		
-		if(AFK)
-		{
-			AFKCommand.notAFK(e.getPlayer());
-		}
+		boolean AFK = ConfigDatabase.getAFKStatus(p);
+		
+		if(AFK) notAFK(p);
 	}
 	
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e)
 	{
-		boolean AFK = Database.getAFKStatus(e.getPlayer());
+		Player p = e.getPlayer();
 		
-		if(AFK)
-		{
-			AFKCommand.notAFK(e.getPlayer());
-		}
+		boolean AFK = ConfigDatabase.getAFKStatus(p);
+		
+		if(AFK) notAFK(p);
+	}
+	
+	public void notAFK(Player p)
+	{
+		if(p == null) return;
+		
+		String name = p.getName();
+		
+		Bukkit.broadcastMessage("§6§l* §7" + name + " §6is no longer AFK");
+		ConfigDatabase.setNotAFK(p);
 	}
 }

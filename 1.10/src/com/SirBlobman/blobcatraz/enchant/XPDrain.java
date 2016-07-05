@@ -10,48 +10,26 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-@SuppressWarnings("deprecation")
 public class XPDrain implements Listener
 {
-	
 	@EventHandler
-	public void onPlayerHitWithXPStealEnchant(EntityDamageByEntityEvent e)
+	public void attackWithXPStealEnchant(EntityDamageByEntityEvent e)
 	{
-		if(!(e.getDamager().getType() == EntityType.PLAYER))
-		{
-			return;
-		}
-		if(!(e.getEntity().getType() == EntityType.PLAYER))
-		{
-			return;
-		}
-		
-		Player der = (Player) e.getDamager();
-		Player ded = (Player) e.getEntity();
-		
-		ItemStack held_item = der.getItemInHand();
-		if(held_item == null)
-		{
-			return;
-		}
-		ItemMeta meta = held_item.getItemMeta();
-		if(meta == null)
-		{
-			return;
-		}
+		if(e.getEntity().getType() != EntityType.PLAYER || e.getDamager().getType() != EntityType.PLAYER) return;
+		Player damaged = (Player) e.getDamager();
+		Player damager = (Player) e.getEntity();
+		ItemStack held = damager.getInventory().getItemInMainHand();
+		if(held == null) held = damager.getInventory().getItemInOffHand();
+		if(held == null) return;
+		ItemMeta meta = held.getItemMeta();
+		if(meta == null) return;
 		List<String> lore = meta.getLore();
-		if(lore == null)
-		{
-			return;
-		}
+		if(lore == null) return;
 		
-		if(lore.contains("§66XP Drain I"))
+		if(lore.contains("§7XP Drain I") && damaged.getLevel() >= 5)
 		{
-			if(ded.getLevel() >= 5)
-			{
-				ded.setLevel(ded.getLevel() - 5);
-				der.setLevel(der.getLevel() + 5);
-			}
+			damaged.setLevel(damaged.getLevel() - 5);
+			damager.setLevel(damager.getLevel() + 5);
 		}
 	}
 }

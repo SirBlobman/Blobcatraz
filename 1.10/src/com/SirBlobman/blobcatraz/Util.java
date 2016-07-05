@@ -3,187 +3,399 @@ package com.SirBlobman.blobcatraz;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
-import java.util.logging.Level;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
 
-import net.md_5.bungee.api.ChatColor;
+import com.SirBlobman.blobcatraz.config.ConfigBlobcatraz;
 
-@SuppressWarnings({"deprecation", "unchecked", "rawtypes"})
 public class Util 
 {
-	public static Blobcatraz plugin = Blobcatraz.instance;
+//Plugin
+	static Blobcatraz plugin = Blobcatraz.instance;
 	
-	public static HashMap<UUID, Long> banned = new HashMap<UUID, Long>();
-	public static HashMap<UUID, String> reasons = new HashMap<UUID, String>();
+//Message
+	public static final String blobcatraz = "§1[§6Blobcatraz§1]§r ";
+	public static final String blobcatrazUnformatted = "[Blobcatraz] ";
+	public static final String pluginEnabled = "This plugin has been §2§lEnabled§r!";
+	public static final String pluginDisabled = "This plugin has been §4§lDisabled§r!";
+	public static final String notEnoughArguments = blobcatraz + "§4Not Enough Arguments!";
+	public static final String tooManyArguments = blobcatraz + "§4Too Many Arguments!";
+	public static final String invalidArguments = blobcatraz + "§4Invalid Arguments!";
+	public static final String noPermission = blobcatraz + "§4You don't have permission: ";
+	public static final String commandExecutorNonPlayer = blobcatraz + "This command must be used by a Player";
+	public static final String commandExecutorNonLiving = blobcatraz + "This command must be used by a Living Entity";
+	public static final String notEnabledInWorld = blobcatraz + "You can't do that in this world!";
+	public static final String banned = blobcatraz + "§4You have been banned :\n§r";
 	
-	public static String blobcatraz = "§1[§6Blobcatraz§1]§r ";
-	public static String notEnoughArguments = blobcatraz + "§4Not Enough Arguments!";
-	public static String tooManyArguments = blobcatraz + "§4Too Many Arguments!";
-	public static String invalidArguments = blobcatraz + "§4Invalid Arguments!";
-	public static String noPerms = blobcatraz + "§4You don't have permission: ";
-	public static String notAPlayer = blobcatraz + "This command must be used by a player";
-	public static String notAnInventoryEntity = blobcatraz + "This command must be run by an entity with an inventory!";
-	public static String randomTPNotEnabledInWorld = blobcatraz + "Random Teleportation is not enabled in this world!";
-	
-	public static String color(String s)
+//NMS
+//Color a message
+	public static String color(String msg)
 	{
-		return ChatColor.translateAlternateColorCodes('&', s);
+		if(msg == null) return "";
+		
+		return ChatColor.translateAlternateColorCodes('&', msg);
 	}
 	
-	public static void broadcast(String m)
+//Broadcast a message
+	public static void broadcast(String msg)
 	{
-		Bukkit.broadcastMessage(blobcatraz + m);
+		if(msg == null) return;
+		
+		Bukkit.broadcastMessage(blobcatraz + msg);
 	}
 	
-	public static void setLore(Player p, String l)
+//Item Editing
+	//Rename
+	public static void rename(Player p, String name)
 	{
-		String[] sLore = l.split("/n");
-		ItemStack hI = p.getItemInHand();
-		List<String> lore = new ArrayList();
-		for(String s : sLore)
+		if(p == null || name == null) return;
+		
+		PlayerInventory pi = p.getInventory();
+		ItemStack is = pi.getItemInMainHand();
+		if(is == null || is.getType() == Material.AIR)
 		{
-			lore.add(color(s));
+			p.sendMessage(blobcatraz + "You can't rename Air");
+			return;
 		}
-		ItemMeta meta = hI.getItemMeta();
-		meta.setLore(lore);
-		hI.setItemMeta(meta);
+		
+		ItemMeta meta = is.getItemMeta();
+		
+		meta.setDisplayName(color(name));
+		is.setItemMeta(meta);
+		
+		p.sendMessage(blobcatraz + "Renamed your §6" + is.getType().toString() + " §rto " + color(name));
+		p.updateInventory();
 	}
 	
-	public static void addLore(Player p, String l)
+	//Set lore
+	public static void setLore(Player p, String lore)
 	{
-		String[] sLore = l.split("/n");
-		ItemStack hI = p.getItemInHand();
-		List<String> lore = hI.getItemMeta().getLore();
-		if(lore == null)
+		if(p == null || lore == null) return;
+		
+		PlayerInventory pi = p.getInventory();
+		ItemStack is = pi.getItemInMainHand();
+		if(is == null || is.getType() == Material.AIR)
 		{
-			setLore(p, l);
+			p.sendMessage(blobcatraz + "You can't set the lore of Air");
+			return;
 		}
+		ItemMeta meta = is.getItemMeta();
+		String[] splittedLore = lore.split("/n");
+		List<String> newLore = new ArrayList<String>();
+		for(String split : splittedLore) newLore.add(color(split));
+		
+		meta.setLore(newLore);
+		is.setItemMeta(meta);
+		
+		p.sendMessage(blobcatraz + "Set the lore of your §6" + is.getType().toString() + " §rto: \n" + newLore.toString());
+		p.updateInventory();
+	}
+	
+	//Add lore
+	public static void addLore(Player p, String lore)
+	{
+		if (p == null || lore == null) return;
+		
+		PlayerInventory pi = p.getInventory();
+		ItemStack is = pi.getItemInMainHand();
+		if(is == null || is.getType() == Material.AIR)
+		{
+			p.sendMessage(blobcatraz + "You can't set the lore of Air");
+			return;
+		}
+		
+		ItemMeta meta = is.getItemMeta();
+		
+		String[] splittedLore = lore.split("/n");
+		List<String> newLore = meta.getLore();
+		if(newLore == null) {setLore(p, lore); return;}
 		else
 		{
-			for(String s : sLore)
-			{
-				lore.add(color(s));
-			}
-			ItemMeta meta = hI.getItemMeta();
-			meta.setLore(lore);
-			hI.setItemMeta(meta);
+			for(String split : splittedLore) newLore.add(color(split));
+			
+			meta.setLore(newLore);
+			is.setItemMeta(meta);
 		}
+		
+		p.sendMessage(blobcatraz + "Set the lore of your §6" + is.getType().toString() + " §rto " + newLore);
+		p.updateInventory();
 	}
 	
-	public static void clearItem(Player p)
+	//Remove Lore
+	public static void removeLore(Player p)
 	{
-		ItemStack i = p.getItemInHand();
-		int slot = p.getInventory().getHeldItemSlot();
-		i.setItemMeta(null);
-		p.getInventory().removeItem(new ItemStack[] {i});
-		p.getInventory().setItem(slot, i);
+		if(p == null) return;
+		PlayerInventory pi = p.getInventory();
+		ItemStack held = pi.getItemInMainHand();
+		if(held == null) held = pi.getItemInOffHand();
+		if(held == null) return;
+		ItemMeta meta = held.getItemMeta();
+		if(meta == null) return;
+		
+		meta.setLore(null);
+		held.setItemMeta(meta);
+		
+		p.sendMessage(blobcatraz + "Removed the lore of your §6" + held.getType().toString());
+		p.updateInventory();
 	}
 	
+	//Remove Lore Line
+	public static void removeLore(Player p, int line)
+	{
+		if(p == null) return;
+		PlayerInventory pi = p.getInventory();
+		ItemStack held = pi.getItemInMainHand();
+		if(held == null) held = pi.getItemInOffHand();
+		if(held == null) return;
+		ItemMeta meta = held.getItemMeta();
+		if(meta == null) return;
+		List<String> lore = meta.getLore();
+		if(lore == null) return;
+		
+		String oMsg = lore.get(line);
+		lore.remove(line);
+		meta.setLore(lore);
+		held.setItemMeta(meta);
+		
+		p.sendMessage(blobcatraz + "Removed " + oMsg + " §rfrom the lore of your §6" + held.getType().toString());
+		p.updateInventory();
+	}
+	
+	//Reset
+	public static void resetItem(Player p)
+	{
+		if(p == null) return;
+		
+		PlayerInventory pi = p.getInventory();
+		ItemStack is = pi.getItemInMainHand();
+		if(is == null || is.getType() == Material.AIR)
+		{
+			p.sendMessage(blobcatraz + "You can't reset Air");
+			return;
+		}
+		int slot = pi.getHeldItemSlot();
+		
+		is.setItemMeta(null);
+		pi.removeItem(new ItemStack[] {is});
+		pi.setItem(slot, is);
+		
+		p.updateInventory();
+		p.sendMessage(blobcatraz + "You have reset your §6" + is.getType().toString());
+	}
+	
+	//Repair
 	public static void repairItem(Player p)
 	{
-		ItemStack i = p.getItemInHand();
-		i.setDurability((short) 0);
+		if(p == null) return;
+		
+		PlayerInventory pi = p.getInventory();
+		ItemStack is = pi.getItemInMainHand();
+		if(is == null || is.getType() == Material.AIR)
+		{
+			p.sendMessage(blobcatraz + "You can't repair Air");
+			return;
+		}
+		is.setDurability((short) 0);
+		
+		p.updateInventory();
+		p.sendMessage(blobcatraz + "Successfully repaired your §6" + is.getType().toString());
+	}
+	//Give
+	public static void giveItem(Player p, ItemStack is)
+	{
+		if(p == null || is == null) return;
+		
+		PlayerInventory pi = p.getInventory();
+		
+		if(pi.firstEmpty() != -1) 
+		{
+			pi.addItem(is);
+			p.sendMessage(blobcatraz + "You have been given §5" + is.getAmount() + " of §6" + is.getType().toString() + ":" + is.getDurability());
+		}
+		else p.sendMessage(blobcatraz + "Your inventory is too full to recieve items!");
+	}
+	//Blobcatraz Enchant
+	public static void blobcatrazEnchant(Player p, String enchant, int level)
+	{
+		if (p == null || enchant == null || level == 0) return;
+		
+		PlayerInventory pi = p.getInventory();
+		ItemStack is = pi.getItemInMainHand();
+		if(is == null || is.getType() == Material.AIR)
+		{
+			p.sendMessage(blobcatraz + "You can't enchant Air");
+			return;
+		}
+		
+		ItemMeta meta = is.getItemMeta();
+		
+		String lvl = "";
+		if(level == 1) lvl = "I";
+		if(level == 2) lvl = "II";
+		if(level == 3) lvl = "III";
+		if(level == 4) lvl = "IV";
+		if(level == 5) lvl = "V";
+		if(level == 6) lvl = "VI";
+		if(level == 7) lvl = "VII";
+		if(level == 8) lvl = "VIII";
+		if(level == 9) lvl = "IV";
+		if(level == 10) lvl = "X";
+		
+		List<String> newLore = meta.getLore();
+		if(newLore == null) setLore(p, "§7" + enchant + " " + lvl);
+		else
+		{
+			newLore.add("§7" + enchant + " " + lvl);
+			
+			meta.setLore(newLore);
+			is.setItemMeta(meta);
+		}
+		p.updateInventory();
+		
+		p.sendMessage(blobcatraz + "Attempted to enchant your §e" + is.getType() + " §rwith §b" + enchant + " " + lvl);
+	}
+	//Get list of enchantments
+	public static HashMap<Enchantment, Integer> getAllOPEnchants()
+	{
+		HashMap<Enchantment, Integer> enchantList = new HashMap<Enchantment, Integer>();
+		
+		for(Enchantment e : Enchantment.values()) enchantList.put(e, 32767);
+		
+		return enchantList;
 	}
 	
-	public static void soundSonic(Player p)
+//Play the sonic screwdriver sound
+	public static void playSonicSound(Player p)
 	{
+		if(p == null) return;
+		
 		Location l = p.getLocation();
 		
 		p.playSound(l, "sonic-screwdriver", 1, 1);
 	}
 	
-	public static void print(String t)
+//Print a message to console
+	public static void print(String msg)
 	{
-		System.out.println("[Blobcatraz] " + t);
+		System.out.println(blobcatrazUnformatted + msg);
 	}
 	
-	@Deprecated
-	public static void print()
-	{
-		Blobcatraz.instance.getLogger().log(Level.SEVERE, "An error has occured");
-	}
-	
+//Register an EventHandler
 	public static void regEvent(Listener l)
 	{
+		if(l == null) return;
+		
 		Bukkit.getServer().getPluginManager().registerEvents(l, plugin);
 	}
 	
-	public static void giveItem(Player p, ItemStack item)
+//Combine arguments
+	public static String getFinalArg(String[] args, int start)
 	{
-		if(!(item == null))
+		StringBuilder builder = new StringBuilder();
+		for(int i = start; i < args.length; i++)
 		{
-			if(p.getInventory().firstEmpty() != -1)
-			{
-				p.getInventory().addItem(item);
-			}
-			else
-			{
-				p.sendMessage("§1[§6Blobcatraz§1]§r Your inventory is too full to receive items");
-			}
+			if(i != start) builder.append(" ");
+			builder.append(args[i]);
 		}
+		
+		return builder.toString();
 	}
 	
-	public static String getFinalArg(String[] args, int start) 
+//Random Teleportation
+	//Tiny
+	@SuppressWarnings("deprecation")
+	public static void tinyRandomTP(Player p)
 	{
-		StringBuilder bldr = new StringBuilder();
-		for (int i = start; i < args.length; i++) 
-		{
-			if (i != start) 
-			{
-				bldr.append(" ");
-			}
-			bldr.append(args[i]);
-		}
-		return bldr.toString();
+		ConfigBlobcatraz.loadConfig();
+
+		if(p == null) return;
+
+		p.setFallDistance(-100.0F);
+		Random r = new Random();
+
+		int x = r.nextInt(ConfigBlobcatraz.config.getInt("randomtp.maxTinyDistance"));
+		int y = 110;
+		int z = r.nextInt(ConfigBlobcatraz.config.getInt("randomtp.maxTinyDistance"));
+
+		Location tpLocation = new Location(p.getWorld(), (double)x, (double)y, (double)z);
+		tpLocation.getWorld().refreshChunk(tpLocation.getChunk().getX(), tpLocation.getChunk().getZ());
+
+		p.teleport(tpLocation);
+		p.setFallDistance(0.0F);
+		p.sendMessage(blobcatraz + "You were teleported to §5" + x + "§r,§5" + y + "§r,§5" + z + "§r!");
+	}
+	//Normal
+	@SuppressWarnings("deprecation")
+	public static void normalRandomTP(Player p)
+	{
+		ConfigBlobcatraz.loadConfig();
+
+		if(p == null) return;
+
+		p.setFallDistance(-100.0F);
+		Random r = new Random();
+
+		int x = r.nextInt(ConfigBlobcatraz.config.getInt("randomtp.maxNormalDistance"));
+		int y = 110;
+		int z = r.nextInt(ConfigBlobcatraz.config.getInt("randomtp.maxNormalDistance"));
+
+		Location tpLocation = new Location(p.getWorld(), (double)x, (double)y, (double)z);
+		tpLocation.getWorld().refreshChunk(tpLocation.getChunk().getX(), tpLocation.getChunk().getZ());
+
+		p.teleport(tpLocation);
+		p.setFallDistance(0.0F);
+		p.sendMessage(blobcatraz + "You were teleported to §5" + x + "§r,§5" + y + "§r,§5" + z + "§r!");
+	}
+	//Far
+	@SuppressWarnings("deprecation")
+	public static void farRandomTP(Player p)
+	{
+		ConfigBlobcatraz.loadConfig();
+
+		if(p == null) return;
+
+		p.setFallDistance(-100.0F);
+		Random r = new Random();
+
+		int x = r.nextInt(ConfigBlobcatraz.config.getInt("randomtp.maxFarDistance"));
+		int y = 110;
+		int z = r.nextInt(ConfigBlobcatraz.config.getInt("randomtp.maxFarDistance"));
+
+		Location tpLocation = new Location(p.getWorld(), (double)x, (double)y, (double)z);
+		tpLocation.getWorld().refreshChunk(tpLocation.getChunk().getX(), tpLocation.getChunk().getZ());
+
+		p.teleport(tpLocation);
+		p.setFallDistance(0.0F);
+		p.sendMessage(blobcatraz + "You were teleported to §5" + x + "§r,§5" + y + "§r,§5" + z + "§r!");
 	}
 	
-	public enum BanUnits
+	public static void heal(Player p)
 	{
-		SECOND("s", 1/60),
-		MINUTE("m", 1),
-		HOUR("h", 60),
-		DAY("d", 60*24),
-		WEEK("w", 60*24*7),
-		MONTH("mo", 30*60*24),
-		YEAR("y", 30*60*24*12);
+		if(p == null) return;
 		
-		public String name;
-		public int multi;
-		
-		BanUnits(String n, int m)
-		{
-			name = n;
-			multi = m;
-		}
-		
-		public static long getTicks(String un, int time)
-		{
-			long sec;
-			try
-			{
-				sec = time * 60;
-			}
-			catch (Exception ex)
-			{
-				return 0;
-			}
-			
-			for(BanUnits u: BanUnits.values())
-			{
-				if(un.startsWith(u.name))
-				{
-					return (sec *= u.multi) * 1000;
-				}
-			}
-			
-			return 0;
-		}
+		p.setHealth(p.getMaxHealth());
+		for(PotionEffect potion : p.getActivePotionEffects()) p.removePotionEffect(potion.getType());
+		p.setFoodLevel(20);
+		p.setSaturation(20.0F);
+		p.setFireTicks(0);
+		p.sendMessage(blobcatraz + "You have been healed!");
+	}
+	
+	public static void setMOTD(String motd)
+	{
+		ConfigBlobcatraz.config.set("motd", motd);
+		ConfigBlobcatraz.saveConfig();
+		ConfigBlobcatraz.loadConfig();
 	}
 }

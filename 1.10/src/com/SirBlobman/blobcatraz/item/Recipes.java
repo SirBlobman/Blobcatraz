@@ -1,66 +1,61 @@
 package com.SirBlobman.blobcatraz.item;
 
+import java.util.Iterator;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.material.MaterialData;
 
 public class Recipes 
 {
+	static ItemStack opSword = Items.opSword();
+	static ItemStack opBow = Items.opBow();
+	static ItemStack lootSword = Items.lootSword();
+	static ItemStack lightningRod = Items.lightningRod();
+	static MaterialData opSwordData = opSword.getData();
+	
 	public static void loadRecipes()
 	{
-	//Overpowered Sword
-		ItemStack opSword = Items.opSword();
-		
 		ShapedRecipe op_sword = new ShapedRecipe(opSword);
-		op_sword.shape
-		(
-			"D  ", 
-			" D ", 
-			"  B"
-		);
+		op_sword.shape("D  ", " D ", "  B");
 		op_sword.setIngredient('D', Material.DIAMOND_BLOCK);
 		op_sword.setIngredient('B', Material.BLAZE_ROD);
-	
-	//Overpowered Bow
-		ItemStack opBow = Items.opBow();
 		
 		ShapedRecipe op_bow = new ShapedRecipe(opBow);
-		op_bow.shape
-		(
-			" BS",
-			"B S",
-			" BS"
-		);
+		op_bow.shape(" BW", "B W", " BW");
+		op_bow.setIngredient('B', Material.BLAZE_ROD);
+		op_bow.setIngredient('W', Material.WOOL);
 		
-	//Drop Everything Sword
-		ItemStack lSword = Items.lootSword();
+		ShapedRecipe loot_sword = new ShapedRecipe(lootSword);
+		loot_sword.shape("WW ", "WWW", " WD");
+		loot_sword.setIngredient('D', opSwordData);
+		loot_sword.setIngredient('W', Material.WOOD);
 		
-		ShapedRecipe de_sword = new ShapedRecipe(lSword);
-		de_sword.shape
-		(
-			"WW ", 
-			"WWW", 
-			" WD"
-		);
-		de_sword.setIngredient('W', Material.WOOD);
-		de_sword.setIngredient('D', Material.DIAMOND_SWORD);
-	//Lightning Rod
-		ItemStack lRod = LightningRod.lightningRod();
+		ShapedRecipe lightning_rod = new ShapedRecipe(lightningRod);
+		lightning_rod.shape("B  ", "BBB", "B B");
+		lightning_rod.setIngredient('B', Material.BLAZE_ROD);
 		
-		ShapedRecipe l_rod = new ShapedRecipe(lRod);
-		l_rod.shape
-		(
-			"B  ",
-			"BBB",
-			"B B"
-		);
-		l_rod.setIngredient('B', Material.BLAZE_ROD);
 		
-	//Bukkit: Add Recipes
 		Bukkit.addRecipe(op_sword);
 		Bukkit.addRecipe(op_bow);
-		Bukkit.addRecipe(de_sword);
-		Bukkit.addRecipe(l_rod);
+		Bukkit.addRecipe(loot_sword);
+		Bukkit.addRecipe(lightning_rod);
+	}
+	
+	public static void unloadRecipes()
+	{
+		Iterator<Recipe> ir = Bukkit.recipeIterator();
+		while(ir.hasNext())
+		{
+			Recipe r = ir.next();
+			
+			if(r.getResult() == opSword) ir.remove();
+			if(r.getResult() == opBow) ir.remove();
+			if(r.getResult() == lootSword) ir.remove();
+			if(r.getResult() == lightningRod) ir.remove();
+		}
 	}
 }
