@@ -221,7 +221,7 @@ public class Util
 		if(pi.firstEmpty() != -1) 
 		{
 			pi.addItem(is);
-			p.sendMessage(blobcatraz + "You have been given §5" + is.getAmount() + " of §6" + is.getType().toString() + ":" + is.getDurability());
+			p.sendMessage(blobcatraz + "You have been given §5" + is.getAmount() + " §rof §6" + is.getType() + ":" + is.getDurability());
 		}
 		else p.sendMessage(blobcatraz + "Your inventory is too full to recieve items!");
 	}

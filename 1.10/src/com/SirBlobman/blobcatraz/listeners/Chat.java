@@ -22,7 +22,7 @@ public class Chat implements Listener
 	{
 		Player p = e.getPlayer();
 		
-		if(globalMute && !p.hasPermission("blobcatraz.mute.bypass"))
+		if(globalMute && !p.hasPermission("blobcatraz.mutEmojis.bypass"))
 		{
 			p.sendMessage(Util.blobcatraz + "§cChat is currently §dDisabled");
 			e.setCancelled(true);
@@ -57,27 +57,26 @@ public class Chat implements Listener
 	{
 		if(emojis)
 		{
-			Emojis E = new Emojis();
 			String m = e.getMessage();
 
-			m = m.replace(":)", E.getString(E.smiley));
-			m = m.replace("<3", E.getString(E.heart));
-			m = m.replace(":(", E.getString(E.sad));
-			m = m.replace("[telephone]", E.getString(E.telephone));
-			m = m.replace("[c]", E.getString(E.copyright));
-			m = m.replace("[r]", E.getString(E.registered));
-			m = m.replace("[tm]", E.getString(E.trademark));
-			m = m.replace("[n~]", E.spanish_n);
-			m = m.replace("[~n]", E.spanish_n);
-			m = m.replace("[~N]", E.spanish_N);
-			m = m.replace("[N~]", E.spanish_N);
-			m = m.replace("[degree]", E.getString(E.degree));
-			m = m.replace("[male]", E.getString(E.male));
-			m = m.replace("[female]", E.getString(E.female));
-			m = m.replace("[transgender]", E.getString(E.transgender));
-			m = m.replace("[skullxbones]", E.getString(E.skullXbones));
-			m = m.replace("[cent]", E.getString(E.cent));
-			m = m.replace("[?!]", E.getString(E.questionExclamation));
+			m = m.replace(":)", Emojis.getString(Emojis.smiley));
+			m = m.replace("<3", Emojis.getString(Emojis.heart));
+			m = m.replace(":(", Emojis.getString(Emojis.sad));
+			m = m.replace("[telephone]", Emojis.getString(Emojis.telephone));
+			m = m.replace("[c]", Emojis.getString(Emojis.copyright));
+			m = m.replace("[r]", Emojis.getString(Emojis.registered));
+			m = m.replace("[tm]", Emojis.getString(Emojis.trademark));
+			m = m.replace("[n~]", Emojis.spanish_n);
+			m = m.replace("[~n]", Emojis.spanish_n);
+			m = m.replace("[~N]", Emojis.spanish_N);
+			m = m.replace("[N~]", Emojis.spanish_N);
+			m = m.replace("[degree]", Emojis.getString(Emojis.degree));
+			m = m.replace("[male]", Emojis.getString(Emojis.male));
+			m = m.replace("[female]", Emojis.getString(Emojis.female));
+			m = m.replace("[transgender]", Emojis.getString(Emojis.transgender));
+			m = m.replace("[skullxbones]", Emojis.getString(Emojis.skullXbones));
+			m = m.replace("[cent]", Emojis.getString(Emojis.cent));
+			m = m.replace("[?!]", Emojis.getString(Emojis.questionExclamation));
 
 			e.setMessage(m);
 		}

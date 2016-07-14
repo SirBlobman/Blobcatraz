@@ -1,9 +1,10 @@
 main: com.SirBlobman.blobcatraz.Blobcatraz
 name: Blobcatraz
-version: 0.0.1.0
+version: 0.0.1.1
 author: SirBlobman
 description: Plugin used for nearly everything in the Blobcatraz server. 
-softdepend: [HolographicDisplays, Votifier]
+softdepend: [HolographicDisplays, Votifier, ClearLag]
+load: POSTWORLD
 commands:
   blobcatraz:
     description: Command [] = Argument <> = Optional
@@ -124,3 +125,9 @@ commands:
   setspawn:
     description: Set the spawn of the server
     usage: /setspawn
+  freeze:
+    description: Freeze a player that is misbehaving
+    usage: /freeze [player]
+  unfreeze:
+    description: Unfreeze a player that has been good
+    usage: /unfreeze [player]

@@ -28,14 +28,14 @@ public class CommandWorth implements CommandExecutor
 				int amount = held.getAmount();
 				Material mat = held.getType();
 				
-				p.sendMessage(Util.blobcatraz + "§5" + amount + " §rof §5" + mat.toString() + " §rcan be sold for §5$" + ConfigShop.getSellPrice(mat) * amount);
+				p.sendMessage(Util.blobcatraz + "§5" + amount + " §rof §5" + mat.toString() + " §rcan be sold for §5$" + ConfigShop.getSellPrice(mat, amount));
 			}
 			if(args.length == 1)
 			{
 				Material mat = Material.getMaterial(args[0].toUpperCase());
 				if(mat == null) {cs.sendMessage(Util.blobcatraz + "§5" + args[0] + "§r is not a valid item"); return true;}
 				
-				cs.sendMessage(Util.blobcatraz + "§51§r of §5" + args[0] + " §rcan be sold for §5$" + ConfigShop.getSellPrice(mat));
+				cs.sendMessage(Util.blobcatraz + "§51§r of §5" + args[0] + " §rcan be sold for §5$" + ConfigShop.getSellPrice(mat, 1));
 				return true;
 			}
 			if(args.length == 2)
@@ -46,7 +46,7 @@ public class CommandWorth implements CommandExecutor
 				try{amount = Integer.parseInt(args[1]);}
 				catch (Exception ex) {cs.sendMessage(Util.invalidArguments); return true;}
 				
-				cs.sendMessage(Util.blobcatraz + "§5" + amount + " §rof §5" + args[0] + " §rcan be sold for §5$" + ConfigShop.getSellPrice(mat) * amount);
+				cs.sendMessage(Util.blobcatraz + "§5" + amount + " §rof §5" + args[0] + " §rcan be sold for §5$" + ConfigShop.getSellPrice(mat, amount));
 				return true;
 			}
 		}
@@ -66,6 +66,7 @@ public class CommandWorth implements CommandExecutor
 				
 				ConfigShop.setSellPrice(mat, price);
 				p.sendMessage(Util.blobcatraz + "The sell price of §5" + mat.toString() + " §ris now §5$" + price);
+				
 				return true;
 			}
 			if(args.length == 2)
@@ -78,6 +79,7 @@ public class CommandWorth implements CommandExecutor
 				
 				ConfigShop.setSellPrice(mat, price);
 				cs.sendMessage(Util.blobcatraz + "The sell price of §5" + mat.toString() + " §ris now §5$" + price);
+				return true;
 			}
 		}
         return false;

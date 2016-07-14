@@ -19,6 +19,7 @@ public class ConfigDatabase
 	public static HashMap<UUID, String> name = new HashMap<UUID, String>();
 	public static HashMap<UUID, Double> balance = new HashMap<UUID, Double>();
 	public static HashMap<UUID, Boolean> afk = new HashMap<UUID, Boolean>();
+	public static HashMap<UUID, Boolean> frozen = new HashMap<UUID, Boolean>();
 	public static HashMap<UUID, Boolean> banned = new HashMap<UUID, Boolean>();
 	public static HashMap<UUID, Long> bannedLength = new HashMap<UUID, Long>();
 	public static HashMap<UUID, String> bannedReason = new HashMap<UUID, String>();
@@ -42,6 +43,7 @@ public class ConfigDatabase
 		for(Entry<UUID, String> e : name.entrySet()) databaseConfig.set("players." + e.getKey() + ".name", e.getValue());
 		for(Entry<UUID, Double> e : balance.entrySet()) databaseConfig.set("players." + e.getKey() + ".balance", e.getValue());
 		for(Entry<UUID, Boolean> e : afk.entrySet()) databaseConfig.set("players." + e.getKey() + ".afk", e.getValue());
+		for(Entry<UUID, Boolean> e : frozen.entrySet()) databaseConfig.set("players." + e.getKey() + ".frozen", e.getValue());
 		for(Entry<UUID, Boolean> e : banned.entrySet()) databaseConfig.set("players." + e.getKey() + ".banned.status", e.getValue());
 		for(Entry<UUID, Long> e : bannedLength.entrySet()) databaseConfig.set("players." + e.getKey() + ".banned.length", e.getValue());
 		for(Entry<UUID, String> e : bannedReason.entrySet()) databaseConfig.set("players." + e.getKey() + ".banned.reason", e.getValue());
@@ -74,6 +76,7 @@ public class ConfigDatabase
 				name.put(uuid, databaseConfig.getString("players." + key + ".name"));
 				balance.put(uuid, databaseConfig.getDouble("players." + key + ".balance"));
 				afk.put(uuid, databaseConfig.getBoolean("players." + key + ".afk"));
+				frozen.put(uuid, databaseConfig.getBoolean("players." + key + ".frozen"));
 				banned.put(uuid, databaseConfig.getBoolean("players." + key + ".banned.status"));
 				bannedLength.put(uuid, databaseConfig.getLong("players." + key + ".banned.length"));
 				bannedReason.put(uuid, databaseConfig.getString("players." + key + ".banned.reason"));
@@ -89,6 +92,7 @@ public class ConfigDatabase
 			name.put(uuid, "SirBlobman");
 			balance.put(uuid, 0.0);
 			afk.put(uuid, false);
+			frozen.put(uuid, false);
 			banned.put(uuid, false);
 			bannedLength.put(uuid, null);
 			bannedReason.put(uuid, null);
@@ -366,5 +370,40 @@ public class ConfigDatabase
 		loadDatabase();
 		afk.put(uuid, false);
 		saveDatabase();
+	}
+	
+	public static void freeze(Player p)
+	{
+		if(p == null) return;
+		UUID uuid = p.getUniqueId();
+		if(uuid == null) return;
+		
+		loadDatabase();
+		frozen.put(uuid, true);
+		p.sendMessage(Util.blobcatraz + "You have been frozen!");
+		saveDatabase();
+	}
+	
+	public static void unFreeze(Player p)
+	{
+		if(p == null) return;
+		UUID uuid = p.getUniqueId();
+		if(uuid == null) return;
+		
+		loadDatabase();
+		frozen.put(uuid, false);
+		p.sendMessage(Util.blobcatraz + "You have been UNfrozen!");
+		saveDatabase();
+	}
+	
+	public static boolean isFrozen(Player p)
+	{
+		if(p == null) return false;
+		UUID uuid = p.getUniqueId();
+		loadDatabase();
+		
+		if(!frozen.containsKey(uuid)) return false;
+		
+		return frozen.get(uuid);
 	}
 }

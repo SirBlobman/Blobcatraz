@@ -10,6 +10,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.SirBlobman.blobcatraz.Blobcatraz;
+import com.SirBlobman.blobcatraz.Util;
 
 public class ConfigWarps 
 {
@@ -20,7 +21,30 @@ public class ConfigWarps
 	
 	public static void saveWarp(String name, Location l)
 	{
-		c
+		if(name == null || l == null) return;
+		
+		for(String w : warps.keySet())
+		{
+			File warpName = new File(warpsFolder + File.separator + w + ".yml");
+			warp = YamlConfiguration.loadConfiguration(warpName);
+			
+			World world = l.getWorld();
+			double x = l.getX();
+			double y = l.getY();
+			double z = l.getZ();
+			float pitch = l.getPitch();
+			float yaw = l.getYaw();
+			
+			warp.set("name", name);
+			warp.set("world", world);
+			warp.set("x", x);
+			warp.set("y", y);
+			warp.set("z", z);
+			warp.set("pitch", pitch);
+			warp.set("yaw", yaw);
+			
+			try{warp.save(warpName);} catch (Exception ex) {Util.print("Failed to save " + warpName + "!"); return;}
+		}
 	}
 	
 	public static void loadWarps()

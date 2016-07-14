@@ -12,6 +12,7 @@ import com.SirBlobman.blobcatraz.command.CommandChat;
 import com.SirBlobman.blobcatraz.command.CommandEconomy;
 import com.SirBlobman.blobcatraz.command.CommandFindOrigin;
 import com.SirBlobman.blobcatraz.command.CommandFly;
+import com.SirBlobman.blobcatraz.command.CommandFreeze;
 import com.SirBlobman.blobcatraz.command.CommandHeal;
 import com.SirBlobman.blobcatraz.command.CommandItem;
 import com.SirBlobman.blobcatraz.command.CommandItemEditor;
@@ -42,6 +43,7 @@ import com.SirBlobman.blobcatraz.item.Recipes;
 import com.SirBlobman.blobcatraz.item.SonicScrewdriver;
 import com.SirBlobman.blobcatraz.listeners.AFK;
 import com.SirBlobman.blobcatraz.listeners.Chat;
+import com.SirBlobman.blobcatraz.listeners.Freeze;
 import com.SirBlobman.blobcatraz.listeners.GiantDropsPrize;
 import com.SirBlobman.blobcatraz.listeners.InvincibleSlimes;
 import com.SirBlobman.blobcatraz.listeners.JoinLeave;
@@ -49,6 +51,7 @@ import com.SirBlobman.blobcatraz.listeners.MOTD;
 import com.SirBlobman.blobcatraz.listeners.Portal;
 import com.SirBlobman.blobcatraz.listeners.PreLogin;
 import com.SirBlobman.blobcatraz.listeners.Protection;
+import com.SirBlobman.blobcatraz.listeners.ShopSigns;
 import com.SirBlobman.blobcatraz.listeners.Vote;
 import com.SirBlobman.blobcatraz.world.generator.FlatChunkGenerator;
 
@@ -68,20 +71,26 @@ public class Blobcatraz extends JavaPlugin
 	{
 	//Instance
 		instance = this;
+		
 	//Configuration
-		if(!getDataFolder().exists()) try{getDataFolder().createNewFile();} catch (Exception ex) {Util.print("Could not create the data folder! Disabling Blobcatraz"); Bukkit.getServer().getPluginManager().disablePlugin(this); return;}
+		if(!getDataFolder().exists()) try{getDataFolder().mkdir();} catch (Exception ex) {Util.print("Could not create the data folder! Disabling Blobcatraz"); Bukkit.getServer().getPluginManager().disablePlugin(this); return;}
 		ConfigBlobcatraz.loadConfig();
 		ConfigDatabase.loadDatabase();
 		ConfigPortals.loadPortals();
 		ConfigShop.loadPrices();
 		ConfigSpawn.loadSpawn();
+		
 	//Listeners
 		Util.regEvent(new PreLogin());
 		Util.regEvent(new JoinLeave());
+		
 		Util.regEvent(new AFK());
 		Util.regEvent(new Chat());
-		Util.regEvent(new MOTD());
+		Util.regEvent(new Freeze());
 		Util.regEvent(new GuiRandomTP());
+		Util.regEvent(new MOTD());
+		Util.regEvent(new ShopSigns());
+		
 	//Config Listeners
 		if(ConfigBlobcatraz.config.getBoolean("protection.preventPrisonEscape")) Util.regEvent(new Protection());
 		if(ConfigBlobcatraz.config.getBoolean("random.invincibleSlimes")) Util.regEvent(new InvincibleSlimes());
@@ -119,6 +128,7 @@ public class Blobcatraz extends JavaPlugin
 		getCommand("chat").setExecutor(new CommandChat());
 		getCommand("economy").setExecutor(new CommandEconomy());
 		getCommand("findorigin").setExecutor(new CommandFindOrigin());
+		getCommand("freeze").setExecutor(new CommandFreeze());
 		getCommand("fly").setExecutor(new CommandFly());
 		getCommand("heal").setExecutor(new CommandHeal());
 		getCommand("item").setExecutor(new CommandItem());
@@ -137,6 +147,7 @@ public class Blobcatraz extends JavaPlugin
 		getCommand("spawn").setExecutor(new CommandSpawn());
 		getCommand("tempban").setExecutor(new CommandBan());
 		getCommand("unban").setExecutor(new CommandBan());
+		getCommand("unfreeze").setExecutor(new CommandFreeze());
 		getCommand("vote").setExecutor(new CommandVote());
 		getCommand("worth").setExecutor(new CommandWorth());
 	//Other

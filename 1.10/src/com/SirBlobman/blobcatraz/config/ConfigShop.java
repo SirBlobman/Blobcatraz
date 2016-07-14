@@ -101,42 +101,71 @@ public class ConfigShop
 		savePrices();
 	}
 	
-	public static double getSellPrice(Material m)
+	public static double getSellPrice(Material m, int amount)
 	{
 		if(m == null) return 0.0;
+		if(amount == 0) return 0.0;
 		loadPrices();
 		if(!sellPrices.containsKey(m.toString())) return 0.0;
 		
-		return sellPrices.get(m.toString());
+		return amount * sellPrices.get(m.toString());
 	}
 	
-	public static double getBuyPrice(Material m)
+	public static double getBuyPrice(Material m, int amount)
 	{
 		if(m == null) return 0.0;
+		if(amount == 0) return 0.0;
 		loadPrices();
-		double buyPrice = getSellPrice(m) * 2;
+		double buyPrice = getSellPrice(m, amount) * 2;
 		
 		return buyPrice;
 	}
 	
-	public static void sellItemToServer(Player p, ItemStack is, int amount)
+	public static void sellItemToServer(Player p, ItemStack is)
 	{
 		if(p == null || is == null) return;
 		Material m = is.getType();
-		is.setAmount(amount);
+		ItemStack toSell = new ItemStack(m, is.getAmount(), is.getDurability());
 		
-		if(p.getInventory().contains(is))
+		if(p.getInventory().contains(toSell))
 		{
 			loadPrices();
-			double sellPrice = getSellPrice(m);
+			double sellPrice = getSellPrice(m, is.getAmount());
 			p.getInventory().removeItem(is);
 			p.updateInventory();
 			ConfigDatabase.addToBalance(p, sellPrice);
-			p.sendMessage(Util.blobcatraz + "You have recieved §5$" + sellPrice + " §rfor selling §e" + amount + " §rof §e" + m.toString());
+			p.sendMessage(Util.blobcatraz + "You have recieved §5$" + sellPrice + " §rfor selling §e" + is.getAmount() + " §rof §e" + m.toString());
+		}
+		if(!p.getInventory().contains(toSell))
+		{
+			p.sendMessage(Util.blobcatraz + "You can't sell what you don't have!");
+		}
+	}
+	
+	public static void buyItemFromServer(Player p, ItemStack is)
+	{
+		if(p == null || is == null) return;
+		loadPrices();
+		Material m = is.getType();
+		
+		int amount = is.getAmount();
+		double buyPrice = getBuyPrice(m, amount);
+		if(p.getInventory().firstEmpty() != -1)
+		{
+			if(ConfigDatabase.getBalance(p) >= buyPrice)
+			{
+				ConfigDatabase.subtractFromBalance(p, buyPrice);
+				p.getInventory().addItem(is);
+				p.sendMessage(Util.blobcatraz + "You bought §5" + amount + " §rof §5" + m.toString() + ":" + is.getDurability() + " §rfor §5$" + buyPrice);
+			}
+			else
+			{
+				p.sendMessage(Util.blobcatraz + "You don't have enough money");
+			}
 		}
 		else
 		{
-			p.sendMessage(Util.blobcatraz + "You can't sell what you don't have!");
+			p.sendMessage(Util.blobcatraz + "Your inventory is full!");
 		}
 	}
 	
