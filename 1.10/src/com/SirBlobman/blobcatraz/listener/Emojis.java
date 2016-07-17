@@ -1,4 +1,4 @@
-package com.SirBlobman.blobcatraz.listeners;
+package com.SirBlobman.blobcatraz.listener;
 
 public class Emojis
 {

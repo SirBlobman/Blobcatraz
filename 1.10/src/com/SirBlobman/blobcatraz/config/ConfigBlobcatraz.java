@@ -77,6 +77,8 @@ public class ConfigBlobcatraz
 		config.set("random.customItems", true);
 		config.set("random.customEnchants", true);
 		config.set("random.portals", true);
+		config.set("random.combatLog.enabled", true);
+		config.set("random.combatLog.seconds", 30);
 		
 		List<String> randomTPWorlds = Arrays.asList("world", "world_nether");
 		config.set("randomtp.enabledWorlds", randomTPWorlds);

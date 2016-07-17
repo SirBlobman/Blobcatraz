@@ -1,6 +1,7 @@
 package com.SirBlobman.blobcatraz;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -397,5 +398,44 @@ public class Util
 		ConfigBlobcatraz.config.set("motd", motd);
 		ConfigBlobcatraz.saveConfig();
 		ConfigBlobcatraz.loadConfig();
+	}
+	
+//Time
+	
+	public static int getYear() {Calendar c = Calendar.getInstance(); return c.get(Calendar.YEAR);}
+	public static int getMonth() {Calendar c = Calendar.getInstance(); return c.get(Calendar.MONTH) + 1;}
+	public static int getDay() {Calendar c = Calendar.getInstance(); return c.get(Calendar.DAY_OF_MONTH);}
+	public static int getHour24() {Calendar c = Calendar.getInstance(); return c.get(Calendar.HOUR_OF_DAY);}
+	public static int getHour12() 
+	{
+		Calendar c = Calendar.getInstance();
+		if(c.get(Calendar.HOUR) == 0) return 12;
+		
+		return c.get(Calendar.HOUR);
+	}
+	public static int getMinute() {Calendar c = Calendar.getInstance(); return c.get(Calendar.MINUTE);}
+	public static int getSecond() {Calendar c = Calendar.getInstance(); return c.get(Calendar.SECOND);}
+	public static int getMillisecond() {Calendar c = Calendar.getInstance(); return c.get(Calendar.MILLISECOND);}
+	public static String getMeridiem()
+	{
+		Calendar c = Calendar.getInstance();
+		String meridiem = c.get(Calendar.AM_PM) == 0 ? "AM" : "PM";
+		return meridiem;
+	}
+	
+	public static String getDate()
+	{
+		String date = String.format("%02d/%02d/%04d", getMonth(), getDay(), getYear());
+		return date;
+	}
+	
+	public static String getTime24()
+	{
+		return String.format("%02d:%02d:%02d", getHour24(), getMinute(), getSecond());
+	}
+	
+	public static String getTime12()
+	{
+		return String.format("%02d:%02d:%02d %s", getHour12(), getMinute(), getSecond(), getMeridiem());
 	}
 }

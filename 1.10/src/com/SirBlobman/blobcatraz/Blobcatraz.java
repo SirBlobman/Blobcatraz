@@ -21,6 +21,7 @@ import com.SirBlobman.blobcatraz.command.CommandPortal;
 import com.SirBlobman.blobcatraz.command.CommandRandom;
 import com.SirBlobman.blobcatraz.command.CommandRandomTP;
 import com.SirBlobman.blobcatraz.command.CommandSpawn;
+import com.SirBlobman.blobcatraz.command.CommandTime;
 import com.SirBlobman.blobcatraz.command.CommandVote;
 import com.SirBlobman.blobcatraz.command.CommandWorth;
 import com.SirBlobman.blobcatraz.config.ConfigBlobcatraz;
@@ -41,18 +42,20 @@ import com.SirBlobman.blobcatraz.item.LightningRod;
 import com.SirBlobman.blobcatraz.item.PortalWand;
 import com.SirBlobman.blobcatraz.item.Recipes;
 import com.SirBlobman.blobcatraz.item.SonicScrewdriver;
-import com.SirBlobman.blobcatraz.listeners.AFK;
-import com.SirBlobman.blobcatraz.listeners.Chat;
-import com.SirBlobman.blobcatraz.listeners.Freeze;
-import com.SirBlobman.blobcatraz.listeners.GiantDropsPrize;
-import com.SirBlobman.blobcatraz.listeners.InvincibleSlimes;
-import com.SirBlobman.blobcatraz.listeners.JoinLeave;
-import com.SirBlobman.blobcatraz.listeners.MOTD;
-import com.SirBlobman.blobcatraz.listeners.Portal;
-import com.SirBlobman.blobcatraz.listeners.PreLogin;
-import com.SirBlobman.blobcatraz.listeners.Protection;
-import com.SirBlobman.blobcatraz.listeners.ShopSigns;
-import com.SirBlobman.blobcatraz.listeners.Vote;
+import com.SirBlobman.blobcatraz.listener.AFK;
+import com.SirBlobman.blobcatraz.listener.Chat;
+import com.SirBlobman.blobcatraz.listener.CombatLog;
+import com.SirBlobman.blobcatraz.listener.Freeze;
+import com.SirBlobman.blobcatraz.listener.GiantDropsPrize;
+import com.SirBlobman.blobcatraz.listener.InvincibleSlimes;
+import com.SirBlobman.blobcatraz.listener.JoinLeave;
+import com.SirBlobman.blobcatraz.listener.MOTD;
+import com.SirBlobman.blobcatraz.listener.Portal;
+import com.SirBlobman.blobcatraz.listener.PreLogin;
+import com.SirBlobman.blobcatraz.listener.Protection;
+import com.SirBlobman.blobcatraz.listener.ShopSigns;
+import com.SirBlobman.blobcatraz.listener.Vote;
+import com.SirBlobman.blobcatraz.task.CombatTag;
 import com.SirBlobman.blobcatraz.world.generator.FlatChunkGenerator;
 
 public class Blobcatraz extends JavaPlugin 
@@ -65,6 +68,7 @@ public class Blobcatraz extends JavaPlugin
  * Just credit me if you do use it, I like to help people out
  */
 	public static Blobcatraz instance;
+	public static long millis = 0L;
 	
 	@Override
 	public void onEnable()
@@ -79,6 +83,9 @@ public class Blobcatraz extends JavaPlugin
 		ConfigPortals.loadPortals();
 		ConfigShop.loadPrices();
 		ConfigSpawn.loadSpawn();
+		
+	//Values
+		millis = ConfigBlobcatraz.config.getLong("random.combatLog.seconds") * 1000;
 		
 	//Listeners
 		Util.regEvent(new PreLogin());
@@ -117,6 +124,11 @@ public class Blobcatraz extends JavaPlugin
 			Util.regEvent(new SonicScrewdriver());
 			Recipes.loadRecipes();
 		}
+		if(ConfigBlobcatraz.config.getBoolean("random.combatLog.enabled"))
+		{
+			Util.regEvent(new CombatLog());
+			Bukkit.getScheduler().runTaskTimerAsynchronously(this, new CombatTag(), 20L, 20L);
+		}
 	//Depend-Based Listeners
 		if(getServer().getPluginManager().isPluginEnabled("Votifier")) Util.regEvent(new Vote());
 	//Commands
@@ -125,7 +137,9 @@ public class Blobcatraz extends JavaPlugin
 		getCommand("blobcatraz").setExecutor(new CommandBlobcatraz());
 		getCommand("balance").setExecutor(new CommandBalance());
 		getCommand("ban").setExecutor(new CommandBan());
+		getCommand("btime").setExecutor(new CommandTime());
 		getCommand("chat").setExecutor(new CommandChat());
+		getCommand("date").setExecutor(new CommandTime());
 		getCommand("economy").setExecutor(new CommandEconomy());
 		getCommand("findorigin").setExecutor(new CommandFindOrigin());
 		getCommand("freeze").setExecutor(new CommandFreeze());
@@ -134,6 +148,7 @@ public class Blobcatraz extends JavaPlugin
 		getCommand("item").setExecutor(new CommandItem());
 		getCommand("item").setTabCompleter(new CommandItem());
 		getCommand("portal").setExecutor(new CommandPortal());
+		getCommand("pluginmanager").setExecutor(new CommandPluginManager());
 		getCommand("random").setExecutor(new CommandRandom());
 		getCommand("randomtp").setExecutor(new CommandRandomTP());
 		getCommand("removelore").setExecutor(new CommandItemEditor());

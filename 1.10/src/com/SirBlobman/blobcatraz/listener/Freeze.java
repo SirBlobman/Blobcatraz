@@ -1,4 +1,4 @@
-package com.SirBlobman.blobcatraz.listeners;
+package com.SirBlobman.blobcatraz.listener;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

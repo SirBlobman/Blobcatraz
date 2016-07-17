@@ -131,3 +131,13 @@ commands:
   unfreeze:
     description: Unfreeze a player that has been good
     usage: /unfreeze [player]
+  btime:
+    description: Get the server time
+    usage: /time [12 | 24]
+  date:
+    description: Get the server date
+    usage: /date
+  pluginmanager:
+    description: Manage server plugins
+    usage: /pluginmanager [load|unload|reload|sreload|enable|disable|show|list] [plugin name (without.jar)]
+    aliases: [pm, plm, plugman]

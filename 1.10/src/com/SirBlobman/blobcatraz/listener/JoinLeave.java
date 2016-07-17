@@ -1,4 +1,4 @@
-package com.SirBlobman.blobcatraz.listeners;
+package com.SirBlobman.blobcatraz.listener;
 
 import java.util.UUID;
 
@@ -36,7 +36,15 @@ public class JoinLeave implements Listener
 	public void onPlayerLeave(PlayerQuitEvent e)
 	{
 		Player p = e.getPlayer();
-		
-		e.setQuitMessage("§1" + p.getDisplayName() + " §rleft!");
+		if(CombatLog.tagged.containsKey(p))
+		{
+			e.setQuitMessage(Util.blobcatraz + "§5" + p.getDisplayName() + " left during combat!");
+			p.setHealth(0.0);
+			CombatLog.tagged.remove(p);
+		}
+		else
+		{
+			e.setQuitMessage("§5" + p.getDisplayName() + " §rleft!");
+		}
 	}
 }
