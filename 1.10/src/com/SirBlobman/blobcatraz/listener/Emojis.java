@@ -1,7 +1,7 @@
 package com.SirBlobman.blobcatraz.listener;
 
 public class Emojis
-{
+{	
 	public static char smiley = '\u263a';
 	public static char heart = '\u2665';
 	public static char sad = '\u2639';
@@ -18,6 +18,7 @@ public class Emojis
 	public static char skullXbones = '\u2620';
 	public static char cent = '\u00a2';
 	public static char questionExclamation = '\u2048';
+	public static char darkShade = '\u2593';
 	
 	public static String getString(Character c)
 	{

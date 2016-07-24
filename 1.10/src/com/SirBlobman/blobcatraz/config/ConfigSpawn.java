@@ -29,7 +29,7 @@ public class ConfigSpawn
 	
 	public static void loadSpawn()
 	{
-		if(!spawnFile.exists()) setSpawn(Bukkit.getWorlds().get(0).getName(), 0, 64, 0, 0, 0);
+		if(!spawnFile.exists()) setSpawn(Bukkit.getWorlds().get(0).getSpawnLocation());
 		
 		try{spawnConfig.load(spawnFile);} catch (Exception ex) {Util.print("Failed to load " + spawnFile); ex.printStackTrace(); return;}
 		
@@ -94,10 +94,11 @@ public class ConfigSpawn
 		try
 		{
 			if(e == null) return;
-		
-		Location spawn = getSpawn();
-		e.teleport(spawn);
-		e.sendMessage(Util.blobcatraz + "You have been teleported to spawn!");
+
+			Location spawn = getSpawn();
+			e.setFallDistance(0.0F);
+			e.teleport(spawn);
+			e.sendMessage(Util.blobcatraz + "You have been teleported to spawn!");
 		}
 		catch(Exception ex)
 		{

@@ -42,6 +42,15 @@ public class CommandBalance implements CommandExecutor
     			return true;
     		}
     	}
+    	if(label.equalsIgnoreCase("baltop") || label.equalsIgnoreCase("balancetop"))
+    	{
+    		cs.sendMessage(Util.blobcatraz + "Top Ten Players: ");
+    		for(String t : ConfigDatabase.getBalanceTopTen())
+    		{
+    			cs.sendMessage(t);
+    		}
+    		return true;
+    	}
         return false;
     }
 }

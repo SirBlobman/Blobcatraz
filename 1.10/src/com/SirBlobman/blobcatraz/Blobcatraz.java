@@ -2,6 +2,7 @@ package com.SirBlobman.blobcatraz;
 
 import org.bukkit.Bukkit;
 import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.SirBlobman.blobcatraz.command.CommandAFK;
@@ -10,13 +11,17 @@ import com.SirBlobman.blobcatraz.command.CommandBan;
 import com.SirBlobman.blobcatraz.command.CommandBlobcatraz;
 import com.SirBlobman.blobcatraz.command.CommandChat;
 import com.SirBlobman.blobcatraz.command.CommandEconomy;
+import com.SirBlobman.blobcatraz.command.CommandEnchant;
 import com.SirBlobman.blobcatraz.command.CommandFindOrigin;
 import com.SirBlobman.blobcatraz.command.CommandFly;
 import com.SirBlobman.blobcatraz.command.CommandFreeze;
+import com.SirBlobman.blobcatraz.command.CommandGamemode;
 import com.SirBlobman.blobcatraz.command.CommandHeal;
+import com.SirBlobman.blobcatraz.command.CommandInventory;
 import com.SirBlobman.blobcatraz.command.CommandItem;
 import com.SirBlobman.blobcatraz.command.CommandItemEditor;
 import com.SirBlobman.blobcatraz.command.CommandMOTD;
+import com.SirBlobman.blobcatraz.command.CommandPluginManager;
 import com.SirBlobman.blobcatraz.command.CommandPortal;
 import com.SirBlobman.blobcatraz.command.CommandRandom;
 import com.SirBlobman.blobcatraz.command.CommandRandomTP;
@@ -29,6 +34,7 @@ import com.SirBlobman.blobcatraz.config.ConfigDatabase;
 import com.SirBlobman.blobcatraz.config.ConfigPortals;
 import com.SirBlobman.blobcatraz.config.ConfigShop;
 import com.SirBlobman.blobcatraz.config.ConfigSpawn;
+import com.SirBlobman.blobcatraz.economy.BlobcatrazEconomy;
 import com.SirBlobman.blobcatraz.enchant.Cure;
 import com.SirBlobman.blobcatraz.enchant.Ender;
 import com.SirBlobman.blobcatraz.enchant.Fireball;
@@ -57,6 +63,9 @@ import com.SirBlobman.blobcatraz.listener.ShopSigns;
 import com.SirBlobman.blobcatraz.listener.Vote;
 import com.SirBlobman.blobcatraz.task.CombatTag;
 import com.SirBlobman.blobcatraz.world.generator.FlatChunkGenerator;
+
+import net.milkbowl.vault.Vault;
+import net.milkbowl.vault.economy.Economy;
 
 public class Blobcatraz extends JavaPlugin 
 {
@@ -131,24 +140,34 @@ public class Blobcatraz extends JavaPlugin
 		}
 	//Depend-Based Listeners
 		if(getServer().getPluginManager().isPluginEnabled("Votifier")) Util.regEvent(new Vote());
+		if(getServer().getPluginManager().isPluginEnabled("Vault"))
+		{
+			Bukkit.getServicesManager().register(Economy.class, new BlobcatrazEconomy(), Vault.getPlugin(Vault.class), ServicePriority.Highest);
+			Util.print("Vault hook added");
+		}
 	//Commands
 		getCommand("addlore").setExecutor(new CommandItemEditor());
 		getCommand("afk").setExecutor(new CommandAFK());
 		getCommand("blobcatraz").setExecutor(new CommandBlobcatraz());
 		getCommand("balance").setExecutor(new CommandBalance());
+		getCommand("baltop").setExecutor(new CommandBalance());
 		getCommand("ban").setExecutor(new CommandBan());
 		getCommand("btime").setExecutor(new CommandTime());
 		getCommand("chat").setExecutor(new CommandChat());
+		getCommand("clearinventory").setExecutor(new CommandInventory());
 		getCommand("date").setExecutor(new CommandTime());
 		getCommand("economy").setExecutor(new CommandEconomy());
+		getCommand("enchant").setExecutor(new CommandEnchant());
+		getCommand("enchant").setTabCompleter(new CommandEnchant());
 		getCommand("findorigin").setExecutor(new CommandFindOrigin());
 		getCommand("freeze").setExecutor(new CommandFreeze());
 		getCommand("fly").setExecutor(new CommandFly());
+		getCommand("gamemode").setExecutor(new CommandGamemode());
 		getCommand("heal").setExecutor(new CommandHeal());
 		getCommand("item").setExecutor(new CommandItem());
 		getCommand("item").setTabCompleter(new CommandItem());
 		getCommand("portal").setExecutor(new CommandPortal());
-		getCommand("pluginmanager").setExecutor(new CommandPluginManager());
+		getCommand("pluginmanager").setExecutor(new CommandPluginManager(this));
 		getCommand("random").setExecutor(new CommandRandom());
 		getCommand("randomtp").setExecutor(new CommandRandomTP());
 		getCommand("removelore").setExecutor(new CommandItemEditor());
@@ -162,6 +181,7 @@ public class Blobcatraz extends JavaPlugin
 		getCommand("spawn").setExecutor(new CommandSpawn());
 		getCommand("tempban").setExecutor(new CommandBan());
 		getCommand("unban").setExecutor(new CommandBan());
+		getCommand("unbreakable").setExecutor(new CommandEnchant());
 		getCommand("unfreeze").setExecutor(new CommandFreeze());
 		getCommand("vote").setExecutor(new CommandVote());
 		getCommand("worth").setExecutor(new CommandWorth());

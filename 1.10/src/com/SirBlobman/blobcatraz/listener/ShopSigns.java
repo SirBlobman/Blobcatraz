@@ -1,8 +1,6 @@
 package com.SirBlobman.blobcatraz.listener;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -24,108 +22,146 @@ public class ShopSigns implements Listener
 	{
 		Player p = e.getPlayer();
 		Action a = e.getAction();
-
 		if(a.equals(Action.RIGHT_CLICK_BLOCK))
 		{
-			Block b = e.getClickedBlock();
-			BlockState bs = b.getState();
-			if(bs instanceof Sign)
+			BlockState bs = e.getClickedBlock().getState();
+			if(!(bs instanceof Sign)) return;
+			Sign s = (Sign) bs;
+			String[] line = s.getLines();
+			if(line[0].equals("§1[Buy]"))
 			{
-				Sign s = (Sign) bs;
-				String line1 = s.getLine(0);
-				String line2 = s.getLine(1);
-				String line3 = s.getLine(2);
-				String line4 = s.getLine(3);
-				if(line1 == null || line2 == null || line3 == null) return;
-				Material mat = null;
-				int amount = 0;
+				Material mat = Material.AIR;
 				short data = 0;
-
-				if(line1.equals("§1[Buy]"))
+				int amount = 0;
+				try
 				{
-					try
+					String[] item = line[1].split(":");
+					if(item.length == 1)
 					{
-						String[] item = line2.split(":");
-						mat = Material.matchMaterial(item[0]);
-						data = Short.parseShort(item[1]);
-						amount = Integer.parseInt(line3);
-					}catch(Exception ex) {return;}
-
-					if(mat == null || amount == 0) return;
-					if(amount > 64) {amount = 64;}
-
-					ItemStack is = new ItemStack(mat, amount, data);
-					if(Double.parseDouble(line4) != ConfigShop.getBuyPrice(mat, amount)) 
-					{
-						Bukkit.getServer().getPluginManager().callEvent(new SignChangeEvent(b, p, new String[] {line1, line2, line3, Double.toString(ConfigShop.getBuyPrice(mat, amount))}));
-						return;
+						data = 0;
 					}
-					
-					ConfigShop.buyItemFromServer(p, is);
-				}
-				if(line1.equals("§1[Sell]"))
+					else
+					{
+						data = Short.parseShort(item[1]);
+					}
+					mat = Material.matchMaterial(item[0].toUpperCase());
+					amount = Integer.parseInt(line[2]);
+				} 
+				catch(Exception ex) {p.sendMessage(Util.blobcatraz + "Invalid shop sign! contact an admin"); return;}
+				ItemStack is = new ItemStack(mat, amount, data);
+				ConfigShop.buyItemFromServer(p, is);
+			}
+			if(line[0].equals("§1[Sell]"))
+			{
+				Material mat = Material.AIR;
+				short data = 0;
+				int amount = 0;
+				try
 				{
-					try
+					String[] item = line[1].split(":");
+					if(item.length == 1)
 					{
-						String[] item = line2.split(":");
-						mat = Material.matchMaterial(item[0]);
-						data = Short.parseShort(item[1]);
-						amount = Integer.parseInt(line3);
-					}catch(Exception ex) {return;}
-
-					if(mat == null || amount == 0) return;
-					if(amount > 64) {amount = 64;}
-
-					ItemStack is = new ItemStack(mat, amount, data);
-					if(Double.parseDouble(line4) != ConfigShop.getSellPrice(mat, amount)) 
-					{
-						Bukkit.getServer().getPluginManager().callEvent(new SignChangeEvent(b, p, new String[] {line1, line2, line3, Double.toString(ConfigShop.getSellPrice(mat, amount))}));
-						return;
+						data = 0;
 					}
-					ConfigShop.sellItemToServer(p, is);
-				}
+					else
+					{
+						data = Short.parseShort(item[1]);
+					}
+					mat = Material.matchMaterial(item[0]);
+					amount = Integer.parseInt(line[2]);
+				} 
+				catch(Exception ex) {p.sendMessage(Util.blobcatraz + "Invalid shop sign! contact an admin"); return;}
+				ItemStack is = new ItemStack(mat, amount, data);
+				ConfigShop.sellItemToServer(p, is);
 			}
 		}
 	}
-
+	
 	@EventHandler(priority=EventPriority.HIGHEST)
-	public void onPlaceSign(SignChangeEvent e)
+	public void onSignPlace(SignChangeEvent e)
 	{
-		Block b = e.getBlock();
-		BlockState bs = b.getState();
 		Player p = e.getPlayer();
-		if(bs instanceof Sign)
+		String[] lines = e.getLines();
+		if(lines[0].equalsIgnoreCase("[buy]"))
 		{
-			if(e.getLine(0).contains("[sell]") && p.hasPermission("blobcatraz.sign.create.sell"))
+			String[] item = lines[1].split(":");
+			Material mat = Material.AIR;
+			short data = (short) 0;
+			if(item.length == 1)
 			{
-				String[] item = e.getLine(1).split(":");
-				Material mat = Material.matchMaterial(item[0]);
-				if(mat == null) {p.sendMessage(Util.blobcatraz + item[0] + " §eis not an item!"); return;}
-				int amount = 0;
-				try{amount = Integer.parseInt(e.getLine(2));} catch(Exception ex) {p.sendMessage(e.getLine(2) + "is not a number"); return;}
-				if(amount == 0) return;
-				if(amount > 64) {amount = 64; e.setLine(2, Integer.toString(64));}
-				double price = ConfigShop.getSellPrice(mat, amount);
-
-				e.setLine(0, "§1[Sell]");
-				e.setLine(3, Double.toString(price));
-				bs.update();
+				try
+				{
+					mat = Material.matchMaterial(item[0].toUpperCase());
+					e.setLine(1, mat.toString());
+					data = (short) 0;
+				}
+				catch(Exception ex)
+				{
+					p.sendMessage(Util.blobcatraz + "Invalid Item: " + lines[1]);
+					return;
+				}
 			}
-			if(e.getLine(0).contains("[buy]") && p.hasPermission("blobcatraz.sign.create.buy"))
+			if(item.length == 2)
 			{
-				String[] item = e.getLine(1).split(":");
-				Material mat = Material.matchMaterial(item[0]);
-				if(mat == null) {p.sendMessage(Util.blobcatraz + item[0] + " §eis not an item!"); return;}
-				int amount = 0;
-				try{amount = Integer.parseInt(e.getLine(2));} catch(Exception ex) {p.sendMessage(e.getLine(2) + "is not a number"); return;}
-				if(amount == 0) return;
-				if(amount > 64) {amount = 64; e.setLine(2, Integer.toString(64));}
-				double price = ConfigShop.getBuyPrice(mat, amount);
-
-				e.setLine(0, "§1[Buy]");
-				e.setLine(3, Double.toString(price));
-				bs.update(true);
+				try
+				{
+					mat = Material.matchMaterial(item[0].toUpperCase());
+					data = Short.parseShort(item[1]);
+					e.setLine(1, mat.toString() + ":" + data);
+				}
+				catch(Exception ex)
+				{
+					p.sendMessage(Util.blobcatraz + "Invalid Item: " + lines[1]);
+					return;
+				}
 			}
+			int amount = 0;
+			try{amount = Integer.parseInt(lines[2]);} catch (Exception ex) {p.sendMessage(Util.blobcatraz + "Invalid price: " + lines[2]);}
+			double price = ConfigShop.getBuyPrice(mat, amount);
+			
+			if(price > 0.0) {e.setLine(3, Double.toString(price)); e.setLine(0, "§1[Buy]");} else {p.sendMessage(Util.blobcatraz + "That item doesn't have a price.");}
+			e.getBlock().getState().update(true);
+		}
+		if(lines[0].equalsIgnoreCase("[sell]"))
+		{
+			String[] item = lines[1].split(":");
+			Material mat = Material.AIR;
+			short data = (short) 0;
+			if(item.length == 1)
+			{
+				try
+				{
+					mat = Material.matchMaterial(item[0].toUpperCase());
+					e.setLine(1, mat.toString());
+					data = (short) 0;
+				}
+				catch(Exception ex)
+				{
+					p.sendMessage(Util.blobcatraz + "Invalid Item: " + lines[1]);
+					return;
+				}
+			}
+			if(item.length == 2)
+			{
+				try
+				{
+					mat = Material.matchMaterial(item[0].toUpperCase());
+					data = Short.parseShort(item[1]);
+					e.setLine(1, mat.toString() + ":" + data);
+				}
+				catch(Exception ex)
+				{
+					p.sendMessage(Util.blobcatraz + "Invalid Item: " + lines[1]);
+					return;
+				}
+			}
+			int amount = 0;
+			try{amount = Integer.parseInt(lines[2]);} catch (Exception ex) {p.sendMessage(Util.blobcatraz + "Invalid price: " + lines[2]);}
+			if(amount > 64) {amount = 64; e.setLine(2, Integer.toString(64));}
+			double price = ConfigShop.getSellPrice(mat, amount);
+			
+			if(price > 0.0) {e.setLine(3, Double.toString(price)); e.setLine(0, "§1[Sell]");} else {p.sendMessage(Util.blobcatraz + "That item doesn't have a price.");}
+			e.getBlock().getState().update(true);
 		}
 	}
 }

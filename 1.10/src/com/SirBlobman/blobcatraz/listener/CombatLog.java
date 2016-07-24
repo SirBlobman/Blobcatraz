@@ -12,9 +12,11 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 
 import com.SirBlobman.blobcatraz.Blobcatraz;
 import com.SirBlobman.blobcatraz.Util;
+import com.SirBlobman.blobcatraz.scoreboard.CombatTimer;
 
 public class CombatLog implements Listener 
 {
+	CombatTimer CT = new CombatTimer(Blobcatraz.instance);
 	public static HashMap<Player, Long> tagged = new HashMap<Player, Long>();
 	
 	@EventHandler
@@ -43,7 +45,7 @@ public class CombatLog implements Listener
 		if(!tagged.containsKey((Player) damaged))
 		{
 			tagged.put((Player) damaged, escape);
-			damager.sendMessage(Util.blobcatraz + "§5" + damager.getName() + " §rattacked you! You are now in combat.");
+			damaged.sendMessage(Util.blobcatraz + "§5" + damager.getName() + " §rattacked you! You are now in combat.");
 		}
 	}
 	
@@ -54,6 +56,7 @@ public class CombatLog implements Listener
 		if(tagged.containsKey(p))
 		{
 			tagged.remove(p);
+			CT.clearTimer(p);
 			p.sendMessage(Util.blobcatraz + "You are no longer in combat!");
 		}
 	}

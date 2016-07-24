@@ -1,9 +1,9 @@
 main: com.SirBlobman.blobcatraz.Blobcatraz
 name: Blobcatraz
-version: 0.0.1.2
+version: 0.0.1.3
 author: SirBlobman
 description: Plugin used for nearly everything in the Blobcatraz server. 
-softdepend: [HolographicDisplays, Votifier, ClearLag]
+softdepend: [Vault, HolographicDisplays, Votifier]
 load: POSTWORLD
 commands:
   blobcatraz:
@@ -22,7 +22,7 @@ commands:
     permission: blobcatraz.find.origin
     permission-message: You don't have the permission "blobcatraz.find.origin"
   portal:
-    description: Creates a portal/Gets portal wand/Creates command portal
+    description: Creates a portal/Gets portal wand/Creates command portaln
     permission: blobcatraz.portal
     usage: /portal wand OR /portal create <name> OR /portal create <name> <command without /> OR /portal list OR /portal remove <name>
     permission-message: You don't have the permission "blobcatraz.portal" 
@@ -141,3 +141,22 @@ commands:
     description: Manage server plugins
     usage: /pluginmanager [load|unload|reload|sreload|enable|disable|show|list] [plugin name (without.jar)]
     aliases: [pm, plm, plugman]
+  enchant: 
+    description: Enchant an item with any level (up to 32767)
+    usage: /enchant [enchantment] [level]
+    aliases: [ench]
+  gamemode:
+    description: Change your gamemode (Survival, Creatie, Adventure, Spectator)
+    usage: /gamemode [s|c|a|sp] <player>
+    aliases: [gm, gms, gmc, gma, gmsp]
+  unbreakable:
+    description: Make one of your items unbreakable (non-enchant, Only works on SPIGOT-based builds)
+    usage: /unbreakable
+  clearinventory:
+    description: Clear an inventory
+    usage: /clearinventory <player> <enderchest|armor|inventory> <item>
+    aliases: [ci, clear]
+  baltop:
+    description: Get the top 10 players based on amount of $
+    usage: /baltop
+    aliases: [balancetop]

@@ -10,11 +10,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import com.SirBlobman.blobcatraz.Blobcatraz;
 import com.SirBlobman.blobcatraz.Util;
 import com.SirBlobman.blobcatraz.config.ConfigDatabase;
+import com.SirBlobman.blobcatraz.scoreboard.CombatTimer;
 
 public class JoinLeave implements Listener
 {
+	CombatTimer CT = new CombatTimer(Blobcatraz.instance);
+	
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e)
 	{
@@ -41,6 +45,7 @@ public class JoinLeave implements Listener
 			e.setQuitMessage(Util.blobcatraz + "§5" + p.getDisplayName() + " left during combat!");
 			p.setHealth(0.0);
 			CombatLog.tagged.remove(p);
+			CT.clearTimer(p);
 		}
 		else
 		{

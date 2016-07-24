@@ -1,7 +1,11 @@
 package com.SirBlobman.blobcatraz.config;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.UUID;
 
@@ -405,5 +409,33 @@ public class ConfigDatabase
 		if(!frozen.containsKey(uuid)) return false;
 		
 		return frozen.get(uuid);
+	}
+	
+	public static List<String> getBalanceTopTen()
+	{
+		List<Entry<UUID, Double>> sorted = new ArrayList<Entry<UUID, Double>>(balance.entrySet());
+		Collections.sort(sorted, Collections.reverseOrder(new Comparator<Entry<UUID, Double>>() 
+		{
+			@Override
+			public int compare(Entry<UUID, Double> arg0, Entry<UUID, Double> arg1)
+			{
+				return arg0.getValue().compareTo(arg1.getValue());
+			}
+	    }));
+		List<Entry<UUID, Double>> t;
+		if(sorted.size() > 8) t = sorted.subList(0, 9);
+		else t = sorted.subList(0, sorted.size());
+		
+		List<String> balTop = new ArrayList<String>();
+		int i = 1;
+		for(Entry<UUID, Double> e : t)
+		{
+			OfflinePlayer p = Bukkit.getOfflinePlayer(e.getKey());
+			String name = p.getName();
+			balTop.add(i + ". §6" + name + ": §e" + e.getValue());
+			i++;
+		}
+		
+		return balTop;
 	}
 }
