@@ -21,6 +21,7 @@ import com.SirBlobman.blobcatraz.command.CommandInventory;
 import com.SirBlobman.blobcatraz.command.CommandItem;
 import com.SirBlobman.blobcatraz.command.CommandItemEditor;
 import com.SirBlobman.blobcatraz.command.CommandMOTD;
+import com.SirBlobman.blobcatraz.command.CommandMessage;
 import com.SirBlobman.blobcatraz.command.CommandPluginManager;
 import com.SirBlobman.blobcatraz.command.CommandPortal;
 import com.SirBlobman.blobcatraz.command.CommandRandom;
@@ -82,32 +83,40 @@ public class Blobcatraz extends JavaPlugin
 	@Override
 	public void onEnable()
 	{
-	//Instance
 		instance = this;
+		configs();
+		listeners();
+		commands();
 		
-	//Configuration
-		if(!getDataFolder().exists()) try{getDataFolder().mkdir();} catch (Exception ex) {Util.print("Could not create the data folder! Disabling Blobcatraz"); Bukkit.getServer().getPluginManager().disablePlugin(this); return;}
-		ConfigBlobcatraz.loadConfig();
-		ConfigDatabase.loadDatabase();
-		ConfigPortals.loadPortals();
-		ConfigShop.loadPrices();
-		ConfigSpawn.loadSpawn();
-		
-	//Values
 		millis = ConfigBlobcatraz.config.getLong("random.combatLog.seconds") * 1000;
 		
-	//Listeners
+		Util.broadcast(Util.pluginEnabled);
+	}
+	
+	@Override
+	public void onDisable() 
+	{
+		Recipes.unloadRecipes();
+		Util.broadcast(Util.pluginDisabled);
+	}
+	
+	public ChunkGenerator getDefaultWorldGenerator(String world, String id)
+	{
+		return new FlatChunkGenerator(id);
+	}
+	
+	private void listeners()
+	{
+	//Default
 		Util.regEvent(new PreLogin());
 		Util.regEvent(new JoinLeave());
-		
 		Util.regEvent(new AFK());
 		Util.regEvent(new Chat());
 		Util.regEvent(new Freeze());
 		Util.regEvent(new GuiRandomTP());
 		Util.regEvent(new MOTD());
 		Util.regEvent(new ShopSigns());
-		
-	//Config Listeners
+	//Config Based
 		if(ConfigBlobcatraz.config.getBoolean("protection.preventPrisonEscape")) Util.regEvent(new Protection());
 		if(ConfigBlobcatraz.config.getBoolean("random.invincibleSlimes")) Util.regEvent(new InvincibleSlimes());
 		if(ConfigBlobcatraz.config.getBoolean("random.giantDropsPrize.enabled")) Util.regEvent(new GiantDropsPrize());
@@ -138,14 +147,27 @@ public class Blobcatraz extends JavaPlugin
 			Util.regEvent(new CombatLog());
 			Bukkit.getScheduler().runTaskTimerAsynchronously(this, new CombatTag(), 20L, 20L);
 		}
-	//Depend-Based Listeners
+	//Depend Based
 		if(getServer().getPluginManager().isPluginEnabled("Votifier")) Util.regEvent(new Vote());
 		if(getServer().getPluginManager().isPluginEnabled("Vault"))
 		{
 			Bukkit.getServicesManager().register(Economy.class, new BlobcatrazEconomy(), Vault.getPlugin(Vault.class), ServicePriority.Highest);
-			Util.print("Vault hook added");
+			Util.print("Hooked into Vault Economy");
 		}
-	//Commands
+	}
+	
+	private void configs()
+	{
+		if(!getDataFolder().exists()) try{getDataFolder().mkdir();} catch (Exception ex) {Util.print("Could not create the data folder! Disabling Blobcatraz"); Bukkit.getServer().getPluginManager().disablePlugin(this); return;}
+		ConfigBlobcatraz.loadConfig();
+		ConfigDatabase.loadDatabase();
+		ConfigPortals.loadPortals();
+		ConfigShop.loadPrices();
+		ConfigSpawn.loadSpawn();
+	}
+	
+	private void commands()
+	{
 		getCommand("addlore").setExecutor(new CommandItemEditor());
 		getCommand("afk").setExecutor(new CommandAFK());
 		getCommand("blobcatraz").setExecutor(new CommandBlobcatraz());
@@ -166,6 +188,7 @@ public class Blobcatraz extends JavaPlugin
 		getCommand("heal").setExecutor(new CommandHeal());
 		getCommand("item").setExecutor(new CommandItem());
 		getCommand("item").setTabCompleter(new CommandItem());
+		getCommand("tell").setExecutor(new CommandMessage());
 		getCommand("portal").setExecutor(new CommandPortal());
 		getCommand("pluginmanager").setExecutor(new CommandPluginManager(this));
 		getCommand("random").setExecutor(new CommandRandom());
@@ -174,6 +197,7 @@ public class Blobcatraz extends JavaPlugin
 		getCommand("rename").setExecutor(new CommandItemEditor());
 		getCommand("resetitem").setExecutor(new CommandItemEditor());
 		getCommand("repair").setExecutor(new CommandItemEditor());
+		getCommand("reply").setExecutor(new CommandMessage());
 		getCommand("setlore").setExecutor(new CommandItemEditor());
 		getCommand("setmotd").setExecutor(new CommandMOTD());
 		getCommand("setspawn").setExecutor(new CommandSpawn());
@@ -185,19 +209,5 @@ public class Blobcatraz extends JavaPlugin
 		getCommand("unfreeze").setExecutor(new CommandFreeze());
 		getCommand("vote").setExecutor(new CommandVote());
 		getCommand("worth").setExecutor(new CommandWorth());
-	//Other
-		Util.broadcast(Util.pluginEnabled);
-	}
-	
-	@Override
-	public void onDisable() 
-	{
-		Recipes.unloadRecipes();
-		Util.broadcast(Util.pluginDisabled);
-	}
-	
-	public ChunkGenerator getDefaultWorldGenerator(String world, String id)
-	{
-		return new FlatChunkGenerator(id);
 	}
 }

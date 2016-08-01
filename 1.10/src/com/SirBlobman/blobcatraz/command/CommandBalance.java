@@ -1,5 +1,7 @@
 package com.SirBlobman.blobcatraz.command;
 
+import java.text.NumberFormat;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -28,8 +30,9 @@ public class CommandBalance implements CommandExecutor
     			}
     			
     			double amount = ConfigDatabase.getBalance(p);
+    			String display = NumberFormat.getCurrencyInstance().format(amount);
     			
-    			cs.sendMessage(Util.blobcatraz + "§2" + p.getName() + " §rhas §2$" + amount);
+    			cs.sendMessage(Util.blobcatraz + "§2" + p.getName() + " §rhas §2" + display);
     			return true;
     		}
     		else
@@ -38,7 +41,8 @@ public class CommandBalance implements CommandExecutor
     			Player p = (Player) cs;
     			
     			double amount = ConfigDatabase.getBalance(p);
-    			p.sendMessage(Util.blobcatraz + "You have §2$" + amount);
+    			String display = NumberFormat.getCurrencyInstance().format(amount);
+    			p.sendMessage(Util.blobcatraz + "You have §2" + display);
     			return true;
     		}
     	}

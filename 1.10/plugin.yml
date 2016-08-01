@@ -1,6 +1,6 @@
 main: com.SirBlobman.blobcatraz.Blobcatraz
 name: Blobcatraz
-version: 0.0.1.3
+version: 0.0.1.4
 author: SirBlobman
 description: Plugin used for nearly everything in the Blobcatraz server. 
 softdepend: [Vault, HolographicDisplays, Votifier]
@@ -160,3 +160,11 @@ commands:
     description: Get the top 10 players based on amount of $
     usage: /baltop
     aliases: [balancetop]
+  tell:
+    description: Send a message to a Player
+    usage: /tell [player] [message]
+    aliases: [msg]
+  reply:
+    description: Reply to someone who msged you
+    usage: /r [message]
+    aliases: [r]

@@ -14,6 +14,9 @@ public class MOTD implements Listener
 	{
 		ConfigBlobcatraz.loadConfig();
 		String motd = ConfigBlobcatraz.config.getString("motd");
-		e.setMotd(Util.color(motd));
+		String[] display = motd.split("/n");
+		if(display.length >= 2) e.setMotd(Util.color(display[0]) + "\n" + Util.color(display[1]));
+		else e.setMotd(Util.color(motd));
+		if(ConfigBlobcatraz.config.getBoolean("random.unlimitedPlayers")) e.setMaxPlayers(e.getNumPlayers() + 1);
 	}
 }

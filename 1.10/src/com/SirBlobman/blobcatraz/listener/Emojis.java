@@ -19,6 +19,7 @@ public class Emojis
 	public static char cent = '\u00a2';
 	public static char questionExclamation = '\u2048';
 	public static char darkShade = '\u2593';
+	public static char doubleArrow = '\u00bb';
 	
 	public static String getString(Character c)
 	{

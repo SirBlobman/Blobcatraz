@@ -115,8 +115,9 @@ public class CommandPluginManager implements CommandExecutor
 				return false;
 			}
 
-			String toLoad = Util.getFinalArg(args, 2);
+			String toLoad = Util.getFinalArg(args, 1);
 			File fileToLoad = new File("plugins" + File.separator + toLoad + (toLoad.endsWith(".jar") ? "" : ".jar"));
+			Util.print("Attempting to load: " + fileToLoad.getName());
 			if (!fileToLoad.exists())
 			{
 				cs.sendMessage(Util.blobcatraz + "That file doesn't exist");
