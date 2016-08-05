@@ -4,13 +4,15 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.EntityType;
 
-import com.SirBlobman.blobcatraz.*;
+import com.SirBlobman.blobcatraz.Util;
 
-public class ConfigBlobcatraz 
+public class ConfigBlobcatraz
 {
 	private static File configFile = new File(com.SirBlobman.blobcatraz.Blobcatraz.instance.getDataFolder(), "blobcatraz.yml");
 	public static FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
@@ -86,6 +88,20 @@ public class ConfigBlobcatraz
 		config.set("randomtp.maxTinyDistance", 1000);
 		config.set("randomtp.maxNormalDistance", 3000);
 		config.set("randomtp.maxFarDistance", 6000);
+		
+		List<String> mobMergeDisableWorlds = Arrays.asList("WoRlD");
+		List<String> mobMergeMobs = Arrays.asList(EntityType.ZOMBIE.toString(), EntityType.SKELETON.toString());
+		config.set("mobmerge.enabled", true);
+		config.set("mobmerge.mobs", mobMergeMobs);
+		config.set("mobmerge.disabledWorlds", mobMergeDisableWorlds);
+		config.set("mobmerge.radius", 5);
+		config.set("mobmerge.period", 10);
+		config.set("mobmerge.color", ChatColor.DARK_RED.name());
+		config.set("mobmerge.limit", 100);
+		
+		List<String> disabledCommands = Arrays.asList("/login", "/register", "/changepassword");
+		config.set("commandspy.enabled", true);
+		config.set("commandspy.ignored commands", disabledCommands);
 		
 		List<String> voteLinks = Arrays.asList("planetminecraft.com", "topg.org", "serverpact.com");
 		config.set("vote.links", voteLinks);

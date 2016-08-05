@@ -69,7 +69,7 @@ public class Cure implements Listener
 				damager.sendMessage(success);
 				return;
 			}
-			else
+			else if(lore.contains("§7Cure"))
 			{
 				damager.sendMessage(failure);
 			}

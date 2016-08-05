@@ -35,8 +35,8 @@ public class Util
 	static Blobcatraz plugin = Blobcatraz.instance;
 	
 //Message
-	public static final String blobcatraz = "§1[§6Blobcatraz§1]§r ";
-	public static final String blobcatrazUnformatted = "[Blobcatraz] ";
+	public static final String blobcatraz = color("&1[&6Blobcatraz&1]&r ");
+	public static final String blobcatrazUnformatted = uncolor(blobcatraz);
 	public static final String pluginEnabled = "This plugin has been §2§lEnabled§r! " + Emojis.getString(Emojis.smiley);
 	public static final String pluginDisabled = "This plugin has been §4§lDisabled§r! " + Emojis.getString(Emojis.sad);
 	public static final String notEnoughArguments = blobcatraz + "§4Not Enough Arguments!";
@@ -51,7 +51,7 @@ public class Util
 /**
  * This formats the message with colored chat.
  * @param msg Message that you want to be colored
- * @return String with color codes. Example: &7 = ChatColor.GRAY
+ * @return String with color codes. <br/>Example: &7 = ChatColor.GRAY
  * @see String
  * @see ChatColor
  */
@@ -60,6 +60,19 @@ public class Util
 		if(msg == null) return "";
 		
 		return ChatColor.translateAlternateColorCodes('&', msg);
+	}
+	
+/**
+ * This removes all color codes from a message
+ * @param msg Message to remove colors
+ * @return String without color. Example: §7Hi = Hi
+ * @see String
+ * @see ChatColor
+ */
+	public static String uncolor(String msg)
+	{
+		if(msg == null) return "";
+		return ChatColor.stripColor(msg);
 	}
 	
 /**
@@ -566,7 +579,6 @@ public class Util
 	public static void regEvent(Listener l)
 	{
 		if(l == null) return;
-		
 		Bukkit.getServer().getPluginManager().registerEvents(l, plugin);
 	}
 	
@@ -852,7 +864,7 @@ public class Util
 		
 		for(String s : original)
 		{
-			if(s.startsWith(arg))
+			if(s.toLowerCase().startsWith(arg.toLowerCase()))
 			{
 				n.add(s);
 			}

@@ -10,6 +10,7 @@ import com.SirBlobman.blobcatraz.command.CommandBalance;
 import com.SirBlobman.blobcatraz.command.CommandBan;
 import com.SirBlobman.blobcatraz.command.CommandBlobcatraz;
 import com.SirBlobman.blobcatraz.command.CommandChat;
+import com.SirBlobman.blobcatraz.command.CommandCommandSpy;
 import com.SirBlobman.blobcatraz.command.CommandEconomy;
 import com.SirBlobman.blobcatraz.command.CommandEnchant;
 import com.SirBlobman.blobcatraz.command.CommandFindOrigin;
@@ -52,11 +53,13 @@ import com.SirBlobman.blobcatraz.item.SonicScrewdriver;
 import com.SirBlobman.blobcatraz.listener.AFK;
 import com.SirBlobman.blobcatraz.listener.Chat;
 import com.SirBlobman.blobcatraz.listener.CombatLog;
+import com.SirBlobman.blobcatraz.listener.CommandSpy;
 import com.SirBlobman.blobcatraz.listener.Freeze;
 import com.SirBlobman.blobcatraz.listener.GiantDropsPrize;
 import com.SirBlobman.blobcatraz.listener.InvincibleSlimes;
 import com.SirBlobman.blobcatraz.listener.JoinLeave;
 import com.SirBlobman.blobcatraz.listener.MOTD;
+import com.SirBlobman.blobcatraz.listener.MobCombiner;
 import com.SirBlobman.blobcatraz.listener.Portal;
 import com.SirBlobman.blobcatraz.listener.PreLogin;
 import com.SirBlobman.blobcatraz.listener.Protection;
@@ -84,6 +87,7 @@ public class Blobcatraz extends JavaPlugin
 	public void onEnable()
 	{
 		instance = this;
+		Util.regEvent(new PreLogin());
 		configs();
 		listeners();
 		commands();
@@ -108,7 +112,7 @@ public class Blobcatraz extends JavaPlugin
 	private void listeners()
 	{
 	//Default
-		Util.regEvent(new PreLogin());
+		
 		Util.regEvent(new JoinLeave());
 		Util.regEvent(new AFK());
 		Util.regEvent(new Chat());
@@ -147,6 +151,16 @@ public class Blobcatraz extends JavaPlugin
 			Util.regEvent(new CombatLog());
 			Bukkit.getScheduler().runTaskTimerAsynchronously(this, new CombatTag(), 20L, 20L);
 		}
+		if(ConfigBlobcatraz.config.getBoolean("mobmerge.enabled"))
+		{
+			int period = ConfigBlobcatraz.config.getInt("mobmerge.period");
+			Util.regEvent(new MobCombiner());
+			Bukkit.getScheduler().runTaskTimerAsynchronously(this, new MobCombiner(), period * 20, period * 20);
+		}
+		if(ConfigBlobcatraz.config.getBoolean("commandspy.enabled"))
+		{
+			Util.regEvent(new CommandSpy());
+		}
 	//Depend Based
 		if(getServer().getPluginManager().isPluginEnabled("Votifier")) Util.regEvent(new Vote());
 		if(getServer().getPluginManager().isPluginEnabled("Vault"))
@@ -177,6 +191,7 @@ public class Blobcatraz extends JavaPlugin
 		getCommand("btime").setExecutor(new CommandTime());
 		getCommand("chat").setExecutor(new CommandChat());
 		getCommand("clearinventory").setExecutor(new CommandInventory());
+		getCommand("commandspy").setExecutor(new CommandCommandSpy());
 		getCommand("date").setExecutor(new CommandTime());
 		getCommand("economy").setExecutor(new CommandEconomy());
 		getCommand("enchant").setExecutor(new CommandEnchant());

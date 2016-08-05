@@ -8,26 +8,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.SirBlobman.blobcatraz.Blobcatraz;
 import com.SirBlobman.blobcatraz.Util;
 import com.SirBlobman.blobcatraz.command.CommandMessage;
-import com.SirBlobman.blobcatraz.config.ConfigBlobcatraz;
 import com.SirBlobman.blobcatraz.config.ConfigDatabase;
 import com.SirBlobman.blobcatraz.scoreboard.CombatTimer;
 
 public class JoinLeave implements Listener
 {
 	CombatTimer CT = new CombatTimer(Blobcatraz.instance);
-	
-	@EventHandler
-	public void onPlayerLogin(PlayerLoginEvent e)
-	{
-		if(ConfigBlobcatraz.config.getBoolean("random.unlimitedPlayers")) e.setResult(Result.ALLOWED);
-	}
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e)
 	{

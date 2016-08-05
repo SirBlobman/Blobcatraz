@@ -10,18 +10,19 @@ import org.bukkit.entity.Player;
 
 import com.SirBlobman.blobcatraz.Util;
 import com.SirBlobman.blobcatraz.listener.Emojis;
+import com.google.common.collect.Maps;
 
 public class CommandMessage implements CommandExecutor
 {
-	public static HashMap<CommandSender, CommandSender> reply = new HashMap<CommandSender, CommandSender>();
+	public static HashMap<CommandSender, CommandSender> reply = Maps.newHashMap();
 	
 	@Override
 	public boolean onCommand(CommandSender cs, Command c, String label, String[] args)
 	{
 		if(label.equalsIgnoreCase("msg") || label.equalsIgnoreCase("tell"))
 		{
-			Player reciever = Bukkit.getPlayer(args[0]);
 			if(args.length < 2) {cs.sendMessage(Util.notEnoughArguments); return false;}
+			Player reciever = Bukkit.getPlayer(args[0]);
 			if(reciever == null) {cs.sendMessage(Util.blobcatraz + "§5" + args[0] + " §ris not a Player"); return true;}
 			String msg = Util.color(Util.getFinalArg(args, 1));
 			reciever.sendMessage("[" + cs.getName() + " §7" + Emojis.getString(Emojis.doubleArrow) + " §rme] " + msg);

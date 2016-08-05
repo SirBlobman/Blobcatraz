@@ -6,6 +6,7 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -19,7 +20,7 @@ public class CombatLog implements Listener
 	CombatTimer CT = new CombatTimer(Blobcatraz.instance);
 	public static HashMap<Player, Long> tagged = new HashMap<Player, Long>();
 	
-	@EventHandler
+	@EventHandler(priority=EventPriority.LOWEST)
 	public void pvp(EntityDamageByEntityEvent e)
 	{
 		Entity damaged = e.getEntity();
@@ -49,7 +50,7 @@ public class CombatLog implements Listener
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(priority=EventPriority.LOWEST)
 	public void onPlayerDeath(PlayerDeathEvent e)
 	{
 		Player p = e.getEntity();

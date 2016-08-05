@@ -17,16 +17,18 @@ import org.bukkit.entity.Player;
 
 import com.SirBlobman.blobcatraz.Blobcatraz;
 import com.SirBlobman.blobcatraz.Util;
+import com.google.common.collect.Maps;
 
 public class ConfigDatabase 
 {
-	public static HashMap<UUID, String> name = new HashMap<UUID, String>();
-	public static HashMap<UUID, Double> balance = new HashMap<UUID, Double>();
-	public static HashMap<UUID, Boolean> afk = new HashMap<UUID, Boolean>();
-	public static HashMap<UUID, Boolean> frozen = new HashMap<UUID, Boolean>();
-	public static HashMap<UUID, Boolean> banned = new HashMap<UUID, Boolean>();
-	public static HashMap<UUID, Long> bannedLength = new HashMap<UUID, Long>();
-	public static HashMap<UUID, String> bannedReason = new HashMap<UUID, String>();
+	public static HashMap<UUID, String> name = Maps.newHashMap();
+	public static HashMap<UUID, Double> balance = Maps.newHashMap();
+	public static HashMap<UUID, Boolean> afk = Maps.newHashMap();
+	public static HashMap<UUID, Boolean> frozen = Maps.newHashMap();
+	public static HashMap<UUID, Boolean> banned = Maps.newHashMap();
+	public static HashMap<UUID, Long> bannedLength = Maps.newHashMap();
+	public static HashMap<UUID, String> bannedReason = Maps.newHashMap();
+	public static HashMap<UUID, Boolean> spy = Maps.newHashMap();
 	
 	private static final File databaseFile = new File(Blobcatraz.instance.getDataFolder(), "database.yml");
 	public static FileConfiguration databaseConfig = YamlConfiguration.loadConfiguration(databaseFile);
@@ -51,6 +53,7 @@ public class ConfigDatabase
 		for(Entry<UUID, Boolean> e : banned.entrySet()) databaseConfig.set("players." + e.getKey() + ".banned.status", e.getValue());
 		for(Entry<UUID, Long> e : bannedLength.entrySet()) databaseConfig.set("players." + e.getKey() + ".banned.length", e.getValue());
 		for(Entry<UUID, String> e : bannedReason.entrySet()) databaseConfig.set("players." + e.getKey() + ".banned.reason", e.getValue());
+		for(Entry<UUID, Boolean> e : spy.entrySet()) databaseConfig.set("players." + e.getKey() + ".canSpy", e.getValue());
 		
 		try{databaseConfig.save(databaseFile);}
 		catch(Exception ex)
@@ -84,12 +87,12 @@ public class ConfigDatabase
 				banned.put(uuid, databaseConfig.getBoolean("players." + key + ".banned.status"));
 				bannedLength.put(uuid, databaseConfig.getLong("players." + key + ".banned.length"));
 				bannedReason.put(uuid, databaseConfig.getString("players." + key + ".banned.reason"));
+				spy.put(uuid, databaseConfig.getBoolean("players." + key + ".canSpy"));
 			}
 		}
 		catch (Exception ex)
 		{
-			Util.print(databaseFile + " is empty or null! Attempting to fix");
-			ex.printStackTrace();
+			Util.print(databaseFile + " is empty or null! Attempting to fix: " + ex.getMessage());
 			
 			UUID uuid = UUID.fromString("5ba03c6c-ad4c-4475-8ec9-8bc8a15a9ebe");
 			
@@ -314,6 +317,8 @@ public class ConfigDatabase
 		loadDatabase();
 		banned.put(uuid, true);
 		bannedReason.put(uuid, reason);
+		bannedLength.put(uuid, null);
+		databaseConfig.set(uuid + ".banned.length", null);
 		saveDatabase();
 		
 		if(p.isOnline())
@@ -432,10 +437,40 @@ public class ConfigDatabase
 		{
 			OfflinePlayer p = Bukkit.getOfflinePlayer(e.getKey());
 			String name = p.getName();
-			balTop.add(i + ". §6" + name + ": §e" + e.getValue());
+			balTop.add(i + ". §6" + name + ": §e$" + e.getValue());
 			i++;
 		}
 		
 		return balTop;
+	}
+	
+	public static boolean getCanSpy(Player p)
+	{
+		if(p == null) return false;
+		UUID uuid = p.getUniqueId();
+		if(uuid == null) return false;
+		loadDatabase();
+		if(spy.containsKey(uuid)) return spy.get(uuid);
+		return false;
+	}
+	
+	public static void toggleCanSpy(Player p)
+	{
+		if(p == null) return;
+		UUID uuid = p.getUniqueId();
+		if(uuid == null) return;
+		loadDatabase();
+		if(!spy.containsKey(uuid)) 
+		{
+			spy.put(uuid, true);
+			saveDatabase();
+			return;
+		}
+		if(spy.containsKey(uuid))
+		{
+			if(spy.get(uuid)) {spy.put(uuid, false); saveDatabase(); return;}
+			else {spy.put(uuid, true); saveDatabase(); return;}
+		}
+		saveDatabase();
 	}
 }

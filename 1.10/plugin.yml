@@ -168,3 +168,7 @@ commands:
     description: Reply to someone who msged you
     usage: /r [message]
     aliases: [r]
+  commandspy:
+    description: Toggle your ability to spy on everyone's commands!
+    usage: /commandspy
+    aliases: [spy]
