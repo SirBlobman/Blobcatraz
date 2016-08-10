@@ -8,6 +8,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import com.SirBlobman.blobcatraz.Util;
 
@@ -20,18 +22,15 @@ public class CommandVanish implements CommandExecutor
 	{
 		if(!(cs instanceof Player)) {cs.sendMessage(Util.commandExecutorNonPlayer); return true;}
 		Player p = (Player) cs;
-
-
-		if(label.equalsIgnoreCase("tp"))
-		{
-			//Teleport codee
-		}
+		
 		if(label.equalsIgnoreCase("vanish") || label.equalsIgnoreCase("v"))
 		{
 			if(!vanished.contains(p))
 			{
 				vanished.add(p);
 				p.sendMessage(Util.blobcatraz + "Vanish: enabled");
+				PotionEffect pe = new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 5, true);
+				p.addPotionEffect(pe, true);
 				for(Player other : Bukkit.getOnlinePlayers())
 				{
 					other.hidePlayer(p);
@@ -41,6 +40,7 @@ public class CommandVanish implements CommandExecutor
 			{
 				vanished.remove(p);
 				p.sendMessage(Util.blobcatraz + "Vanish: disabled");
+				p.removePotionEffect(PotionEffectType.INVISIBILITY);
 				for(Player other : Bukkit.getOnlinePlayers())
 				{
 					other.showPlayer(p);

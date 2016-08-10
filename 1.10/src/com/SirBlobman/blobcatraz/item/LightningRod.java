@@ -21,10 +21,9 @@ public class LightningRod implements Listener
 		PlayerInventory pi = p.getInventory();
 		World w = p.getWorld();
 		ItemStack lrod = Items.lightningRod();
-		Location strike = p.getTargetBlock((Set<Material>) null, 200).getLocation();
-		
 		if(!pi.getItemInMainHand().equals(lrod) && !pi.getItemInOffHand().equals(lrod)) return;
 		
-		w.strikeLightning(strike);
+		Location strike = p.getTargetBlock((Set<Material>) null, 200).getLocation();
+		w.strikeLightningEffect(strike);
 	}
 }

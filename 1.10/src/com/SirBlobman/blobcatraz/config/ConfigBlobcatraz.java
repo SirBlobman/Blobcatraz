@@ -40,16 +40,13 @@ public class ConfigBlobcatraz
 	
 	public static void loadConfig()
 	{
-		if(!configFile.exists()) writeDefaults();
-		
 		try{config.load(configFile);}
 		catch(Exception ex)
 		{
 			Util.print("Failed to load " + configFile + ". This plugin will fail to work properly");
 			return;
-		}
-		
-		if(config.get("chat.disabled") == null) writeDefaults();
+		}	
+		writeDefaults();
 	}
 	
 	public static void writeDefaults()
@@ -65,48 +62,55 @@ public class ConfigBlobcatraz
 			}
 		}
 		
-		config.set("protection.preventPrisonEscape", true);
+		set("protection.preventPrisonEscape", true);
 		
-		config.set("chat.disabled", false);
-		config.set("chat.ping", true);
-		config.set("chat.emojis", true);
+		set("chat.disabled", false);
+		set("chat.ping", true);
+		set("chat.emojis", true);
 		
-		config.set("random.invincibleSlimes", true);
-		config.set("random.giantDropsPrize.enabled", true);
-		config.set("random.giantDropsPrize.prize", Material.GOLDEN_APPLE.toString());
-		config.set("random.giantDropsPrize.meta", 1);
-		config.set("random.giantDropsPrize.amount", 64);
-		config.set("random.customItems", true);
-		config.set("random.customEnchants", true);
-		config.set("random.portals", true);
-		config.set("random.combatLog.enabled", true);
-		config.set("random.combatLog.seconds", 30);
-		config.set("random.unlimitedPlayers", true);
+		set("random.owner", "5ba03c6c-ad4c-4475-8ec9-8bc8a15a9ebe");
+		set("random.invincibleSlimes", true);
+		set("random.giantDropsPrize.enabled", true);
+		set("random.giantDropsPrize.prize", Material.GOLDEN_APPLE.toString());
+		set("random.giantDropsPrize.meta", 1);
+		set("random.giantDropsPrize.amount", 64);
+		set("random.customItems", true);
+		set("random.customEnchants", true);
+		set("random.combatLog.enabled", true);
+		set("random.combatLog.seconds", 30);
+		set("random.unlimitedPlayers", true);
+		
+		List<String> portalDisabledWorlds = Arrays.asList("world");
+		set("portals.enabled", true);
+		set("portals.preventNetherEntryWorlds", portalDisabledWorlds);
 		
 		List<String> randomTPWorlds = Arrays.asList("world", "world_nether");
-		config.set("randomtp.enabledWorlds", randomTPWorlds);
-		config.set("randomtp.maxTinyDistance", 1000);
-		config.set("randomtp.maxNormalDistance", 3000);
-		config.set("randomtp.maxFarDistance", 6000);
+		set("randomtp.enabledWorlds", randomTPWorlds);
+		set("randomtp.maxTinyDistance", 1000);
+		set("randomtp.maxNormalDistance", 3000);
+		set("randomtp.maxFarDistance", 6000);
 		
 		List<String> mobMergeDisableWorlds = Arrays.asList("WoRlD");
 		List<String> mobMergeMobs = Arrays.asList(EntityType.ZOMBIE.toString(), EntityType.SKELETON.toString());
-		config.set("mobmerge.enabled", true);
-		config.set("mobmerge.mobs", mobMergeMobs);
-		config.set("mobmerge.disabledWorlds", mobMergeDisableWorlds);
-		config.set("mobmerge.radius", 5);
-		config.set("mobmerge.period", 10);
-		config.set("mobmerge.color", ChatColor.DARK_RED.name());
-		config.set("mobmerge.limit", 100);
+		set("mobmerge.enabled", true);
+		set("mobmerge.mobs", mobMergeMobs);
+		set("mobmerge.disabledWorlds", mobMergeDisableWorlds);
+		set("mobmerge.radius", 5);
+		set("mobmerge.period", 10);
+		set("mobmerge.color", ChatColor.DARK_RED.name());
+		set("mobmerge.limit", 100);
 		
 		List<String> disabledCommands = Arrays.asList("/login", "/register", "/changepassword");
-		config.set("commandspy.enabled", true);
-		config.set("commandspy.ignored commands", disabledCommands);
+		set("commandspy.enabled", true);
+		set("commandspy.ignored commands", disabledCommands);
+		
+		set("player.quitMessage", "&8&l[&4&l-&8&l]&e&l %username%&8&l [&4&l-&8&l]");
+		set("player.joinMessage", "&8&l[&a&l+&8&l]&e&l %username%&8&l [&a&l+&8&l]");
 		
 		List<String> voteLinks = Arrays.asList("planetminecraft.com", "topg.org", "serverpact.com");
-		config.set("vote.links", voteLinks);
+		set("vote.links", voteLinks);
 		
-		config.set("motd", Util.blobcatrazUnformatted + "Default MOTD");
+		set("motd", Util.blobcatrazUnformatted + "Default MOTD");
 		
 		try{config.save(configFile);}
 		catch(Exception ex)
@@ -117,4 +121,13 @@ public class ConfigBlobcatraz
 	}
 	
 	public static void reloadConfig() {loadConfig(); saveConfig();}
+	
+	private static void set(String path, Object value)
+	{
+		if(config.get(path) == null)
+		{
+			config.set(path, value);
+		}
+		saveConfig();
+	}
 }

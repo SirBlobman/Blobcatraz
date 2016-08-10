@@ -11,6 +11,7 @@ import com.SirBlobman.blobcatraz.command.CommandBan;
 import com.SirBlobman.blobcatraz.command.CommandBlobcatraz;
 import com.SirBlobman.blobcatraz.command.CommandChat;
 import com.SirBlobman.blobcatraz.command.CommandCommandSpy;
+import com.SirBlobman.blobcatraz.command.CommandDisco;
 import com.SirBlobman.blobcatraz.command.CommandEconomy;
 import com.SirBlobman.blobcatraz.command.CommandEnchant;
 import com.SirBlobman.blobcatraz.command.CommandFindOrigin;
@@ -28,7 +29,9 @@ import com.SirBlobman.blobcatraz.command.CommandPortal;
 import com.SirBlobman.blobcatraz.command.CommandRandom;
 import com.SirBlobman.blobcatraz.command.CommandRandomTP;
 import com.SirBlobman.blobcatraz.command.CommandSpawn;
+import com.SirBlobman.blobcatraz.command.CommandTag;
 import com.SirBlobman.blobcatraz.command.CommandTime;
+import com.SirBlobman.blobcatraz.command.CommandVanish;
 import com.SirBlobman.blobcatraz.command.CommandVote;
 import com.SirBlobman.blobcatraz.command.CommandWorth;
 import com.SirBlobman.blobcatraz.config.ConfigBlobcatraz;
@@ -58,10 +61,10 @@ import com.SirBlobman.blobcatraz.listener.Freeze;
 import com.SirBlobman.blobcatraz.listener.GiantDropsPrize;
 import com.SirBlobman.blobcatraz.listener.InvincibleSlimes;
 import com.SirBlobman.blobcatraz.listener.JoinLeave;
+import com.SirBlobman.blobcatraz.listener.Login;
 import com.SirBlobman.blobcatraz.listener.MOTD;
 import com.SirBlobman.blobcatraz.listener.MobCombiner;
 import com.SirBlobman.blobcatraz.listener.Portal;
-import com.SirBlobman.blobcatraz.listener.PreLogin;
 import com.SirBlobman.blobcatraz.listener.Protection;
 import com.SirBlobman.blobcatraz.listener.ShopSigns;
 import com.SirBlobman.blobcatraz.listener.Vote;
@@ -71,15 +74,21 @@ import com.SirBlobman.blobcatraz.world.generator.FlatChunkGenerator;
 import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.economy.Economy;
 
+/**
+ * I see you Mr. Plugin Stealer
+ * <br/>I know that you see my code
+ * <br/>I wish you the best in understanding it
+ * <br/>Just credit me if you use it!
+ * <br/>I don't like hard work going to waste
+ * @author SirBlobman
+ */
 public class Blobcatraz extends JavaPlugin 
 {
-/*
- * Author = SirBlobman
- * I see you Mr. Plugin Stealer
- * I know that you see my code
- * I wish you the best in understanding it
- * Just credit me if you do use it, I like to help people out
- */
+	/**
+	 * Instance of Blobcatraz
+	 * @see Blobcatraz 
+	 * @see JavaPlugin
+	 */
 	public static Blobcatraz instance;
 	public static long millis = 0L;
 	
@@ -87,7 +96,7 @@ public class Blobcatraz extends JavaPlugin
 	public void onEnable()
 	{
 		instance = this;
-		Util.regEvent(new PreLogin());
+		Util.regEvent(new Login());
 		configs();
 		listeners();
 		commands();
@@ -104,6 +113,7 @@ public class Blobcatraz extends JavaPlugin
 		Util.broadcast(Util.pluginDisabled);
 	}
 	
+	@Override
 	public ChunkGenerator getDefaultWorldGenerator(String world, String id)
 	{
 		return new FlatChunkGenerator(id);
@@ -112,7 +122,6 @@ public class Blobcatraz extends JavaPlugin
 	private void listeners()
 	{
 	//Default
-		
 		Util.regEvent(new JoinLeave());
 		Util.regEvent(new AFK());
 		Util.regEvent(new Chat());
@@ -120,11 +129,12 @@ public class Blobcatraz extends JavaPlugin
 		Util.regEvent(new GuiRandomTP());
 		Util.regEvent(new MOTD());
 		Util.regEvent(new ShopSigns());
+		Util.regEvent(new CommandDisco());
 	//Config Based
 		if(ConfigBlobcatraz.config.getBoolean("protection.preventPrisonEscape")) Util.regEvent(new Protection());
 		if(ConfigBlobcatraz.config.getBoolean("random.invincibleSlimes")) Util.regEvent(new InvincibleSlimes());
 		if(ConfigBlobcatraz.config.getBoolean("random.giantDropsPrize.enabled")) Util.regEvent(new GiantDropsPrize());
-		if(ConfigBlobcatraz.config.getBoolean("random.portals"))
+		if(ConfigBlobcatraz.config.getBoolean("portals.enabled"))
 		{
 			Util.regEvent(new PortalWand());
 			Util.regEvent(new Portal());
@@ -168,6 +178,8 @@ public class Blobcatraz extends JavaPlugin
 			Bukkit.getServicesManager().register(Economy.class, new BlobcatrazEconomy(), Vault.getPlugin(Vault.class), ServicePriority.Highest);
 			Util.print("Hooked into Vault Economy");
 		}
+		
+		Bukkit.getScheduler().runTaskTimerAsynchronously(this, new CommandDisco(), 0L, 7L);
 	}
 	
 	private void configs()
@@ -193,6 +205,7 @@ public class Blobcatraz extends JavaPlugin
 		getCommand("clearinventory").setExecutor(new CommandInventory());
 		getCommand("commandspy").setExecutor(new CommandCommandSpy());
 		getCommand("date").setExecutor(new CommandTime());
+		getCommand("disco").setExecutor(new CommandDisco());
 		getCommand("economy").setExecutor(new CommandEconomy());
 		getCommand("enchant").setExecutor(new CommandEnchant());
 		getCommand("enchant").setTabCompleter(new CommandEnchant());
@@ -218,10 +231,12 @@ public class Blobcatraz extends JavaPlugin
 		getCommand("setspawn").setExecutor(new CommandSpawn());
 		getCommand("setworth").setExecutor(new CommandWorth());
 		getCommand("spawn").setExecutor(new CommandSpawn());
+		getCommand("tag").setExecutor(new CommandTag());
 		getCommand("tempban").setExecutor(new CommandBan());
 		getCommand("unban").setExecutor(new CommandBan());
 		getCommand("unbreakable").setExecutor(new CommandEnchant());
 		getCommand("unfreeze").setExecutor(new CommandFreeze());
+		getCommand("vanish").setExecutor(new CommandVanish());
 		getCommand("vote").setExecutor(new CommandVote());
 		getCommand("worth").setExecutor(new CommandWorth());
 	}

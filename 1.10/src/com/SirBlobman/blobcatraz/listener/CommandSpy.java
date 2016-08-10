@@ -26,7 +26,7 @@ public class CommandSpy implements Listener
 			for(String s : ignore)
 			{
 				String ignored = s.toLowerCase();
-				if(c.startsWith(ignored) || !canSpy || p.equals(p2)) return;
+				if(c.startsWith(ignored) || !canSpy || p != p2) return;
 				p2.sendMessage("§7§l" + p.getName() + ":§7 " + e.getMessage());
 				break;
 			}

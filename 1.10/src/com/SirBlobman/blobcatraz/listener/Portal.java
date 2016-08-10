@@ -7,13 +7,31 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerPortalEvent;
 
+import com.SirBlobman.blobcatraz.config.ConfigBlobcatraz;
 import com.SirBlobman.blobcatraz.config.ConfigPortals;
 
 public class Portal implements Listener
 {
+	@EventHandler(priority=EventPriority.HIGHEST)
+	public void onPlayerEnterPortal(PlayerPortalEvent e)
+	{
+		Player p = e.getPlayer();
+		World w = p.getWorld();
+		for(String s : ConfigBlobcatraz.config.getStringList("portals.preventNetherEntryWorlds"))
+		{
+			World w2 = Bukkit.getWorld(s);
+			if(w.equals(w2))
+			{
+				e.setCancelled(true);
+			}
+		}
+	}
+	
 	@EventHandler
 	public void onPlayerEnterPortal(PlayerMoveEvent e)
 	{

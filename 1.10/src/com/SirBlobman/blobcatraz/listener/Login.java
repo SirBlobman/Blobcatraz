@@ -13,7 +13,7 @@ import com.SirBlobman.blobcatraz.Util;
 import com.SirBlobman.blobcatraz.config.ConfigBlobcatraz;
 import com.SirBlobman.blobcatraz.config.ConfigDatabase;
 
-public class PreLogin implements Listener 
+public class Login implements Listener 
 {
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onLogin(PlayerLoginEvent e)

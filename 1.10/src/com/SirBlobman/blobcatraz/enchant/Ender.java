@@ -5,6 +5,7 @@ import java.util.List;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -48,8 +49,7 @@ public class Ender implements Listener
 				enderPearl.setAmount(1);
 				if(!pi.contains(enderPearl)) return;
 				
-				pi.remove(enderPearl);
-				
+				if(!pi.getItemInMainHand().getEnchantments().containsKey(Enchantment.ARROW_INFINITE)) pi.remove(enderPearl);
 			}
 			p.playSound(p.getLocation(), Sound.ENTITY_ENDERPEARL_THROW, 1, 1);
 		}

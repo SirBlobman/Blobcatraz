@@ -3,7 +3,7 @@ package com.SirBlobman.blobcatraz.listener;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,13 +27,14 @@ public class JoinLeave implements Listener
 		
 		if(ConfigDatabase.databaseConfig.getString("players." + uuid + ".name") == null) ConfigDatabase.writeDefaults(uuid);
 		
-		e.setJoinMessage("§1" + p.getName() + " §rjoined the server");
+		e.setJoinMessage(Util.getJoinMessage(p));
 		p.sendMessage(Util.blobcatraz + "You are in §1" + p.getGameMode());
 		
-		Player SirBlobman = Bukkit.getPlayer("SirBlobman");
-		if(SirBlobman == null) return;
-		if(!SirBlobman.isOnline()) return;
-		SirBlobman.playSound(SirBlobman.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100, 1);
+		UUID owner = Util.getOwner();
+		if(owner == null) return;
+		OfflinePlayer pOwner = Bukkit.getOfflinePlayer(owner);
+		if(!pOwner.isOnline()) return;
+		Util.pingPlayer((Player) pOwner); 
 	}
 	
 	@EventHandler
@@ -50,7 +51,7 @@ public class JoinLeave implements Listener
 		}
 		else
 		{
-			e.setQuitMessage("§5" + p.getDisplayName() + " §rleft!");
+			e.setQuitMessage(Util.getQuitMessage(p));
 		}
 	}
 }

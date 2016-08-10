@@ -162,7 +162,7 @@ public class ConfigDatabase
 		
 	}
 	
-	public static void setBalance(Player p, double amount)
+	public static void setBalance(OfflinePlayer p, double amount)
 	{
 		if(p == null) return;
 		UUID uuid = p.getUniqueId();
@@ -173,7 +173,7 @@ public class ConfigDatabase
 		saveDatabase();
 	}
 	
-	public static void addToBalance(Player p, double amount)
+	public static void addToBalance(OfflinePlayer p, double amount)
 	{
 		if(p == null) return;
 		UUID uuid = p.getUniqueId();
@@ -186,7 +186,7 @@ public class ConfigDatabase
 		setBalance(p, newBalance);
 	}
 	
-	public static void subtractFromBalance(Player p, double amount)
+	public static void subtractFromBalance(OfflinePlayer p, double amount)
 	{
 		if(p == null) return;
 		UUID uuid = p.getUniqueId();
@@ -199,13 +199,13 @@ public class ConfigDatabase
 		setBalance(p, newBalance);
 	}
 	
-	public static void resetBalance(Player p)
+	public static void resetBalance(OfflinePlayer p)
 	{
 		if(p == null) return;
 		setBalance(p, 0);
 	}
 	
-	public static boolean isBanned(Player p)
+	public static boolean isBanned(OfflinePlayer p)
 	{
 		if(p == null) return false;
 		UUID uuid = p.getUniqueId();
@@ -218,7 +218,7 @@ public class ConfigDatabase
 		return ban;
 	}
 	
-	public static String getBanReason(Player p)
+	public static String getBanReason(OfflinePlayer p)
 	{
 		if(p == null) return "";
 		UUID uuid = p.getUniqueId();

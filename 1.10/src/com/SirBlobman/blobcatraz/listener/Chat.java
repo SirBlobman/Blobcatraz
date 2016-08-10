@@ -1,7 +1,6 @@
 package com.SirBlobman.blobcatraz.listener;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -34,18 +33,22 @@ public class Chat implements Listener
 	{
 		if(ping)
 		{
-			Player p = e.getPlayer();
+			Player chatter = e.getPlayer();
 			String msg = e.getMessage();
 			
-			for(final Player P : Bukkit.getOnlinePlayers())
+			for(final Player other : Bukkit.getOnlinePlayers())
 			{
-				if(P != p && msg.toLowerCase().contains(P.getName().toLowerCase()) || msg.toLowerCase().contains(p.getDisplayName().toLowerCase()))
+				String otherName = other.getName().toLowerCase();
+				if(other != chatter && msg.contains(otherName))
 				{
-					P.playSound(P.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100.0F, 1.0F);
-					Bukkit.getServer().getScheduler().runTaskLater(Blobcatraz.instance, new Runnable()
+					Util.pingPlayer(other);
+					Bukkit.getScheduler().runTaskLater(Blobcatraz.instance, new Runnable()
 					{
 						@Override
-						public void run() {P.playSound(P.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 20.0F, 1.0F);}
+						public void run()
+						{
+							Util.pingPlayer(other);
+						}
 					}, 5L);
 				}
 			}

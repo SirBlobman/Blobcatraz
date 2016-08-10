@@ -1,6 +1,7 @@
 package com.SirBlobman.blobcatraz.command;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,6 +12,7 @@ import com.SirBlobman.blobcatraz.config.ConfigDatabase;
 
 public class CommandEconomy implements CommandExecutor
 {
+	@SuppressWarnings("deprecation")
 	@Override
     public boolean onCommand(CommandSender cs, Command c, String label, String[] args)
     {
@@ -29,7 +31,7 @@ public class CommandEconomy implements CommandExecutor
 			{
 				if(args.length != 2) {cs.sendMessage(Util.invalidArguments); return false;}
 				
-				Player p = Bukkit.getPlayer(args[1]);
+				OfflinePlayer p = Bukkit.getOfflinePlayer(args[1]);
 				if(p == null) {cs.sendMessage(Util.blobcatraz + "§9" + args[1] + " §ris not a Player"); return true;}
 				
 				ConfigDatabase.resetBalance(p);
@@ -38,7 +40,7 @@ public class CommandEconomy implements CommandExecutor
 			
 			if(args.length != 3) {cs.sendMessage(Util.invalidArguments); return false;}
 			
-			Player p = Bukkit.getPlayer(args[1]);
+			OfflinePlayer p = Bukkit.getOfflinePlayer(args[1]);
 			if(p == null) {cs.sendMessage(Util.blobcatraz + "§9" + args[1] + " §ris not a Player"); return true;}
 			double amount;
 			try{amount = Double.parseDouble(args[2]);}
@@ -49,21 +51,21 @@ public class CommandEconomy implements CommandExecutor
 			{
 				ConfigDatabase.setBalance(p, amount);
 				cs.sendMessage(Util.blobcatraz + "§9" + p.getName() + "'s §rbalance has been set to §2$" + amount);
-				p.sendMessage(Util.blobcatraz + "Your balance has been set to §2$" + amount);
+				if(p.isOnline()) ((Player)p).sendMessage(Util.blobcatraz + "Your balance has been set to §2$" + amount);
 				return true;
 			}
 			if(args[0].equalsIgnoreCase("give"))
 			{
 				ConfigDatabase.addToBalance(p, amount);
 				cs.sendMessage(Util.blobcatraz + "§9" + p.getName() + " §rhas been given §2$" + amount);
-				p.sendMessage(Util.blobcatraz + "You have been given §2$" + amount);
+				if(p.isOnline()) ((Player)p).sendMessage(Util.blobcatraz + "You have been given §2$" + amount);
 				return true;
 			}
 			if(args[0].equalsIgnoreCase("take"))
 			{
 				ConfigDatabase.subtractFromBalance(p, amount);
 				cs.sendMessage(Util.blobcatraz + "§2$" + amount + " §rhas been taken from §9" + p.getName() + "'s §raccount");
-				p.sendMessage(Util.blobcatraz + "§2$" + amount + " §r has been taken from your account");
+				if(p.isOnline()) ((Player)p).sendMessage(Util.blobcatraz + "§2$" + amount + " §r has been taken from your account");
 				return true;
 			}
 		}

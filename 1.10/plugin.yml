@@ -172,3 +172,13 @@ commands:
     description: Toggle your ability to spy on everyone's commands!
     usage: /commandspy
     aliases: [spy]
+  vanish:
+    description: Toggle your visibility
+    usage: /vanish
+    aliases: [v]  
+  disco:
+    description: Disco!!!
+    usage: /disco [off|glass|armor|wool|carpet|clay|banner]
+  tag:
+    description: Change your name in the Player List. Cannot be more than 16 characters.
+    usage: /tag <name>

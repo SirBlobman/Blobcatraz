@@ -5,13 +5,14 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -19,6 +20,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.potion.PotionEffect;
 
 import com.SirBlobman.blobcatraz.config.ConfigBlobcatraz;
@@ -260,7 +262,7 @@ public class Util
 	/**
 	 * Repair an item back to full durability
 	 * Items with metadata will be set to 0
-	 * @param p Player holding the item
+	 * @param p {@link Player} holding the item
 	 * @see Player
 	 */
 	public static void repairItem(Player p)
@@ -282,8 +284,8 @@ public class Util
 	
 	/**
 	 * Gives an item to a Player
-	 * @param p Player which will recieve the item
-	 * @param is ItemStack of the given item
+	 * @param p {@link Player} which will recieve the item
+	 * @param is {@link ItemStack} of the given item
 	 * @see Player
 	 * @see ItemStack
 	 */
@@ -311,7 +313,7 @@ public class Util
 	
 	/**
 	 * Used only in this plugin, enchants with the custom made enchantments
-	 * @param p Player holding the item that will be enchanted
+	 * @param p {@link Player} holding the item that will be enchanted
 	 * @param enchant Name of the enchantment
 	 * @param level Level of the enchantment, can go up to 10
 	 * @see String
@@ -361,8 +363,8 @@ public class Util
 	/**
 	 * Vanilla enchant with a twist! 
 	 * Allows enchantments to go up to level 32767
-	 * @param p Player holding the item
-	 * @param e Enchantment to be given
+	 * @param p {@link Player} holding the item
+	 * @param e {@link Enchantment} to be given
 	 * @param lvl level of the enchantment, from 0 to 32767
 	 * @see Integer
 	 * @see Player
@@ -386,8 +388,8 @@ public class Util
 	
 	/**
 	 * Remove an enchantment from an item
-	 * @param p Player holding the item
-	 * @param e Enchantment to remove
+	 * @param p {@link Player} holding the item
+	 * @param e {@link Enchantment} to remove
 	 * @see Player
 	 * @see Enchantment
 	 */
@@ -416,7 +418,7 @@ public class Util
 	
 	/**
 	 * If you use a Spigot build, this will make an item unbreakable
-	 * @param p Player holding the item
+	 * @param p {@link Player} holding the item
 	 * @see Player
 	 */
 	public static void toggleUnbreakable(Player p)
@@ -453,7 +455,7 @@ public class Util
 	
 	/**
 	 * Overpowered Enchantment HashMap
-	 * @return HashMap with all enchantments with level 32767
+	 * @return {@link HashMap} with all enchantments with level 32767
 	 * @see HashMap
 	 * @see Integer
 	 * @see Enchantment
@@ -468,7 +470,7 @@ public class Util
 	}
 	
 	/**
-	 * Clears a Player's inventory
+	 * Clears a {@link Player}'s inventory
 	 * Keeps their armor and shield (off hand item)
 	 * @param p Player to clear
 	 * @see Player
@@ -489,9 +491,9 @@ public class Util
 	
 	/**
 	 * Clear a specific item from a Player's inventory
-	 * @param p Player to clear
-	 * @param i Inventory type that will be cleared (Enderchest?)
-	 * @param is ItemStack to clear from the inventory
+	 * @param p {@link Player} to clear
+	 * @param i {@link Inventory} type that will be cleared (Enderchest?)
+	 * @param is {@link ItemStack} to clear from the inventory
 	 * @see Player
 	 * @see Inventory
 	 * @see ItemStack
@@ -544,6 +546,37 @@ public class Util
 		p.sendMessage(blobcatraz + "Your enderchest has been reset!");
 	}
 	
+	/**
+	 * Color an item with its metadata value
+	 * Used for Clay, Wool, and Glass
+	 * @param is ItemStack to color
+	 * @see ItemStack
+	 */
+	public static ItemStack colorRandom16(ItemStack is)
+	{
+		Random r = new Random();
+		if(is == null) return null;
+		short meta = (short) r.nextInt(15);
+		is.setDurability(meta);
+		return is;
+	}
+	
+	/**
+	 * Get a randomly colored leather armor set
+	 * @see ItemStack
+	 */
+	public static ItemStack[] getLeatherArmorRandom()
+	{
+		Random r = new Random();
+		int red = r.nextInt(256), green = r.nextInt(256), blue = r.nextInt(256);
+		Color color = Color.fromRGB(red, green, blue);
+		ItemStack helmet = new ItemStack(Material.LEATHER_HELMET), chestplate = new ItemStack(Material.LEATHER_CHESTPLATE), leggings = new ItemStack(Material.LEATHER_LEGGINGS), boots = new ItemStack(Material.LEATHER_BOOTS);
+		LeatherArmorMeta head = (LeatherArmorMeta) helmet.getItemMeta(), chest = (LeatherArmorMeta) chestplate.getItemMeta(), legs = (LeatherArmorMeta) leggings.getItemMeta(), feet = (LeatherArmorMeta) boots.getItemMeta();
+		head.setColor(color); chest.setColor(color); legs.setColor(color); feet.setColor(color);
+		helmet.setItemMeta(head); chestplate.setItemMeta(chest); leggings.setItemMeta(legs); boots.setItemMeta(feet);
+		return new ItemStack[] {boots, leggings, chestplate, helmet};
+	}
+	
 /**
  * Play the sonic screwdriver sound
  * @param p Player to play the sound to
@@ -560,15 +593,14 @@ public class Util
 	}
 	
 /**
- * Print a message to the current Logger
+ * Print a message to the system
  * @param msg Message to print
  * @see String
- * @see Logger
+ * @see System#out
  */
 	public static void print(String msg)
 	{
-		Logger LOGGER = plugin.getLogger();
-		LOGGER.log(Level.ALL, blobcatrazUnformatted + msg);
+		System.out.print(blobcatrazUnformatted + msg);
 	}
 	
 /**
@@ -871,5 +903,51 @@ public class Util
 		}
 		
 		return n;
+	}
+	
+/**
+ * Get the join message
+ * @param p Player to get the message for
+ * @return Message formatted from the config
+ */
+	public static String getJoinMessage(Player p)
+	{
+		ConfigBlobcatraz.loadConfig();
+		String msg = ConfigBlobcatraz.config.getString("player.joinMessage");
+		msg = msg.replace("%username%", p.getName());
+		msg = msg.replace("%displayname%", p.getDisplayName());
+		return color(msg);
+	}
+	
+/**
+ * Get the join message
+ * @param p Player to get the message for
+ * @return Message formatted from the config
+ */
+	public static String getQuitMessage(Player p)
+	{
+		ConfigBlobcatraz.loadConfig();
+		String msg = ConfigBlobcatraz.config.getString("player.quitMessage");
+		msg = msg.replace("%username%", p.getName());
+		msg = msg.replace("%displayname%", p.getDisplayName());
+		return color(msg);
+	}
+	
+/**
+ * Gets the UUID of the owner of the server, set from the config
+ * @return UUID of the owner
+ */
+	public static UUID getOwner()
+	{
+		ConfigBlobcatraz.loadConfig();
+		String uuid = ConfigBlobcatraz.config.getString("random.owner");
+		if(uuid == null) return null;
+		return UUID.fromString(uuid);
+	}
+	
+	public static void pingPlayer(Player p)
+	{
+		if(p == null) return;
+		p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100, 1);
 	}
 }
