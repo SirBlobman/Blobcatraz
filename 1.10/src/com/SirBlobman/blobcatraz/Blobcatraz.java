@@ -33,12 +33,14 @@ import com.SirBlobman.blobcatraz.command.CommandTag;
 import com.SirBlobman.blobcatraz.command.CommandTime;
 import com.SirBlobman.blobcatraz.command.CommandVanish;
 import com.SirBlobman.blobcatraz.command.CommandVote;
+import com.SirBlobman.blobcatraz.command.CommandWarp;
 import com.SirBlobman.blobcatraz.command.CommandWorth;
 import com.SirBlobman.blobcatraz.config.ConfigBlobcatraz;
 import com.SirBlobman.blobcatraz.config.ConfigDatabase;
 import com.SirBlobman.blobcatraz.config.ConfigPortals;
 import com.SirBlobman.blobcatraz.config.ConfigShop;
 import com.SirBlobman.blobcatraz.config.ConfigSpawn;
+import com.SirBlobman.blobcatraz.config.ConfigWarps;
 import com.SirBlobman.blobcatraz.economy.BlobcatrazEconomy;
 import com.SirBlobman.blobcatraz.enchant.Cure;
 import com.SirBlobman.blobcatraz.enchant.Ender;
@@ -190,6 +192,7 @@ public class Blobcatraz extends JavaPlugin
 		ConfigPortals.loadPortals();
 		ConfigShop.loadPrices();
 		ConfigSpawn.loadSpawn();
+		ConfigWarps.loadWarps();
 	}
 	
 	private void commands()
@@ -205,6 +208,7 @@ public class Blobcatraz extends JavaPlugin
 		getCommand("clearinventory").setExecutor(new CommandInventory());
 		getCommand("commandspy").setExecutor(new CommandCommandSpy());
 		getCommand("date").setExecutor(new CommandTime());
+		getCommand("delwarp").setExecutor(new CommandWarp());
 		getCommand("disco").setExecutor(new CommandDisco());
 		getCommand("economy").setExecutor(new CommandEconomy());
 		getCommand("enchant").setExecutor(new CommandEnchant());
@@ -214,6 +218,7 @@ public class Blobcatraz extends JavaPlugin
 		getCommand("fly").setExecutor(new CommandFly());
 		getCommand("gamemode").setExecutor(new CommandGamemode());
 		getCommand("heal").setExecutor(new CommandHeal());
+		getCommand("hub").setExecutor(new CommandSpawn());
 		getCommand("item").setExecutor(new CommandItem());
 		getCommand("item").setTabCompleter(new CommandItem());
 		getCommand("tell").setExecutor(new CommandMessage());
@@ -226,9 +231,11 @@ public class Blobcatraz extends JavaPlugin
 		getCommand("resetitem").setExecutor(new CommandItemEditor());
 		getCommand("repair").setExecutor(new CommandItemEditor());
 		getCommand("reply").setExecutor(new CommandMessage());
+		getCommand("sethub").setExecutor(new CommandSpawn());
 		getCommand("setlore").setExecutor(new CommandItemEditor());
 		getCommand("setmotd").setExecutor(new CommandMOTD());
 		getCommand("setspawn").setExecutor(new CommandSpawn());
+		getCommand("setwarp").setExecutor(new CommandWarp());
 		getCommand("setworth").setExecutor(new CommandWorth());
 		getCommand("spawn").setExecutor(new CommandSpawn());
 		getCommand("tag").setExecutor(new CommandTag());
@@ -238,6 +245,7 @@ public class Blobcatraz extends JavaPlugin
 		getCommand("unfreeze").setExecutor(new CommandFreeze());
 		getCommand("vanish").setExecutor(new CommandVanish());
 		getCommand("vote").setExecutor(new CommandVote());
+		getCommand("warp").setExecutor(new CommandWarp());
 		getCommand("worth").setExecutor(new CommandWorth());
 	}
 }

@@ -34,6 +34,7 @@ public class ConfigSpawn
 		try{spawnConfig.load(spawnFile);} catch (Exception ex) {Util.print("Failed to load " + spawnFile); ex.printStackTrace(); return;}
 		
 		if(spawnConfig.get("spawn.world") == null) setSpawn("world", 0, 64, 0, 0, 0);
+		if(spawnConfig.get("hub.world") == null) setHub("world", 0, 64, 0, 0, 0);
 	}
 	
 	public static void setSpawn(String worldName, double x, double y, double z, float pitch, float yaw)
@@ -69,7 +70,7 @@ public class ConfigSpawn
 	public static Location getSpawn()
 	{
 		loadSpawn();
-		Location spawn = new Location(Bukkit.getWorlds().get(0), 0, 64, 0);
+		Location spawn = new Location(null, 0, 0, 0);
 		
 		World w = Bukkit.getWorld(spawnConfig.getString("spawn.world"));
 		if(w == null) return spawn;
@@ -103,6 +104,76 @@ public class ConfigSpawn
 		catch(Exception ex)
 		{
 			e.sendMessage(Util.blobcatraz + "The spawn hasn't been set yet! Please contact an Administrator");
+		}
+	}
+	
+	public static void setHub(Location l)
+	{
+		if(l == null) return;
+		World w = l.getWorld();
+		String worldName = w.getName();
+		double x = l.getX();
+		double y = l.getY();
+		double z = l.getZ();
+		float pitch = l.getPitch();
+		float yaw = l.getYaw();
+		setHub(worldName, x, y, z, pitch, yaw);
+	}
+	
+	public static void setHub(String worldName, double x, double y, double z, float pitch, float yaw)
+	{
+		if(worldName == null) return;
+		saveSpawn();
+		World w = Bukkit.getWorld(worldName);
+		if(w == null) return;
+		
+		spawnConfig.set("hub.world", worldName);
+		spawnConfig.set("hub.x", x);
+		spawnConfig.set("hub.y", y);
+		spawnConfig.set("hub.z", z);
+		spawnConfig.set("hub.pitch", pitch);
+		spawnConfig.set("hub.yaw", yaw);
+		saveSpawn();
+	}
+	
+	public static Location getHub()
+	{
+		loadSpawn();
+		Location hub = new Location(null, 0, 0, 0);
+		
+		String worldName = spawnConfig.getString("hub.world");
+		World w = Bukkit.getWorld(worldName);
+		if(w == null) return hub;
+		double x = spawnConfig.getDouble("hub.x");
+		double y = spawnConfig.getDouble("hub.y");
+		double z = spawnConfig.getDouble("hub.z");
+		float pitch = (float) spawnConfig.getDouble("hub.pitch");
+		float yaw = (float) spawnConfig.getDouble("hub.yaw");
+		
+		hub.setWorld(w);
+		hub.setX(x);
+		hub.setY(y);
+		hub.setZ(z);
+		hub.setPitch(pitch);
+		hub.setYaw(yaw);
+		
+		return hub;
+	}
+	
+	public static void teleportToHub(Entity e)
+	{
+		try
+		{
+			if(e == null) return;
+
+			Location hub = getHub();
+			e.setFallDistance(0.0F);
+			e.teleport(hub);
+			e.sendMessage(Util.blobcatraz + "You have been teleported to hub!");
+		}
+		catch(Exception ex)
+		{
+			e.sendMessage(Util.blobcatraz + "The hub hasn't been set yet! Please contact an Administrator");
 		}
 	}
 }

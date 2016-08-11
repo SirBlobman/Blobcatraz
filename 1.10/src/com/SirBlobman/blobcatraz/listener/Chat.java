@@ -6,7 +6,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import com.SirBlobman.blobcatraz.Blobcatraz;
 import com.SirBlobman.blobcatraz.Util;
 import com.SirBlobman.blobcatraz.config.ConfigBlobcatraz;
 
@@ -34,22 +33,15 @@ public class Chat implements Listener
 		if(ping)
 		{
 			Player chatter = e.getPlayer();
-			String msg = e.getMessage();
-			
-			for(final Player other : Bukkit.getOnlinePlayers())
+			String msg = e.getMessage().toLowerCase();
+			for(Player other : Bukkit.getOnlinePlayers())
 			{
-				String otherName = other.getName().toLowerCase();
-				if(other != chatter && msg.contains(otherName))
+				String name1 = chatter.getName().toLowerCase();
+				String name2 = other.getName().toLowerCase();
+				String display = other.getDisplayName().toLowerCase();
+				if(!name1.equals(name2) && msg.contains(name2) || msg.contains(display))
 				{
 					Util.pingPlayer(other);
-					Bukkit.getScheduler().runTaskLater(Blobcatraz.instance, new Runnable()
-					{
-						@Override
-						public void run()
-						{
-							Util.pingPlayer(other);
-						}
-					}, 5L);
 				}
 			}
 		}

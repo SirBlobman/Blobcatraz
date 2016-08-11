@@ -25,6 +25,7 @@ public class CommandVanish implements CommandExecutor
 		
 		if(label.equalsIgnoreCase("vanish") || label.equalsIgnoreCase("v"))
 		{
+			if(!p.hasPermission("blobcatraz.vanish")) {p.sendMessage(Util.noPermission + "blobcatraz.vanish"); return true;}
 			if(!vanished.contains(p))
 			{
 				vanished.add(p);

@@ -32,6 +32,21 @@ public class CommandSpawn implements CommandExecutor
 			le.sendMessage(Util.blobcatraz + "You set the spawn to §3" + sl + "§r!");
 			return true;
 		}
+		if(label.equalsIgnoreCase("hub"))
+		{
+			ConfigSpawn.teleportToHub(le);
+			return true;
+		}
+		if(label.equalsIgnoreCase("sethub"))
+		{
+			if(!cs.hasPermission("blobcatraz.sethub") && !cs.isOp()) {cs.sendMessage(Util.noPermission + "blobcatraz.sethub"); return true;}
+
+			Location l = le.getLocation();
+			String sl = l.getWorld().getName() + ": " + l.getX() + " " + l.getY() + " " + l.getZ();
+			ConfigSpawn.setHub(l);
+			le.sendMessage(Util.blobcatraz + "You set the hub to §3" + sl + "§r!");
+			return true;
+		}
 		return false;
 	}
 }

@@ -1,6 +1,6 @@
 main: com.SirBlobman.blobcatraz.Blobcatraz
 name: Blobcatraz
-version: 0.0.1.4
+version: 0.0.1.6
 author: SirBlobman
 description: Plugin used for nearly everything in the Blobcatraz server. 
 softdepend: [Vault, HolographicDisplays, Votifier]
@@ -182,3 +182,18 @@ commands:
   tag:
     description: Change your name in the Player List. Cannot be more than 16 characters.
     usage: /tag <name>
+  hub:
+    description: Teleport to the Hub
+    usage: /hub
+  sethub:
+    description: Change where the hub is located
+    usage: /sethub
+  warp:
+    description: Warp to a defined warp
+    usage: /warp [name]
+  setwarp:
+    description: Set the location to a warp
+    usage: /setwarp [name]
+  delwarp: 
+    description: Delete a warp that you have set
+    usage: /delwarp [name]
