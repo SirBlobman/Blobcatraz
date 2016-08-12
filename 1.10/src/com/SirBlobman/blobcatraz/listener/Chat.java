@@ -53,27 +53,7 @@ public class Chat implements Listener
 		if(emojis)
 		{
 			String m = e.getMessage();
-
-			m = m.replace(":)", Emojis.getString(Emojis.smiley));
-			m = m.replace("<3", Emojis.getString(Emojis.heart));
-			m = m.replace(":(", Emojis.getString(Emojis.sad));
-			m = m.replace("[telephone]", Emojis.getString(Emojis.telephone));
-			m = m.replace("[c]", Emojis.getString(Emojis.copyright));
-			m = m.replace("[r]", Emojis.getString(Emojis.registered));
-			m = m.replace("[tm]", Emojis.getString(Emojis.trademark));
-			m = m.replace("[n~]", Emojis.spanish_n);
-			m = m.replace("[~n]", Emojis.spanish_n);
-			m = m.replace("[~N]", Emojis.spanish_N);
-			m = m.replace("[N~]", Emojis.spanish_N);
-			m = m.replace("[degree]", Emojis.getString(Emojis.degree));
-			m = m.replace("[male]", Emojis.getString(Emojis.male));
-			m = m.replace("[female]", Emojis.getString(Emojis.female));
-			m = m.replace("[transgender]", Emojis.getString(Emojis.transgender));
-			m = m.replace("[skullxbones]", Emojis.getString(Emojis.skullXbones));
-			m = m.replace("[cent]", Emojis.getString(Emojis.cent));
-			m = m.replace("[?!]", Emojis.getString(Emojis.questionExclamation));
-
-			e.setMessage(m);
+			e.setMessage(Util.symbolize(m));
 		}
 	}
 }

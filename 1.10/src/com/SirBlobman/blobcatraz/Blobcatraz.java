@@ -30,6 +30,7 @@ import com.SirBlobman.blobcatraz.command.CommandRandom;
 import com.SirBlobman.blobcatraz.command.CommandRandomTP;
 import com.SirBlobman.blobcatraz.command.CommandSpawn;
 import com.SirBlobman.blobcatraz.command.CommandTag;
+import com.SirBlobman.blobcatraz.command.CommandTeleport;
 import com.SirBlobman.blobcatraz.command.CommandTime;
 import com.SirBlobman.blobcatraz.command.CommandVanish;
 import com.SirBlobman.blobcatraz.command.CommandVote;
@@ -204,6 +205,7 @@ public class Blobcatraz extends JavaPlugin
 		getCommand("baltop").setExecutor(new CommandBalance());
 		getCommand("ban").setExecutor(new CommandBan());
 		getCommand("btime").setExecutor(new CommandTime());
+		getCommand("center").setExecutor(new CommandTeleport());
 		getCommand("chat").setExecutor(new CommandChat());
 		getCommand("clearinventory").setExecutor(new CommandInventory());
 		getCommand("commandspy").setExecutor(new CommandCommandSpy());
@@ -239,6 +241,7 @@ public class Blobcatraz extends JavaPlugin
 		getCommand("setworth").setExecutor(new CommandWorth());
 		getCommand("spawn").setExecutor(new CommandSpawn());
 		getCommand("tag").setExecutor(new CommandTag());
+		getCommand("teleport").setExecutor(new CommandTeleport());
 		getCommand("tempban").setExecutor(new CommandBan());
 		getCommand("unban").setExecutor(new CommandBan());
 		getCommand("unbreakable").setExecutor(new CommandEnchant());

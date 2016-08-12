@@ -78,6 +78,36 @@ public class Util
 	}
 	
 /**
+ * This changes the msg to have emojis
+ * @param msg Message to format
+ * @return Formatted String <br><b>Example:</b> :) to &#9786; <br><b>Example 2:</b> :( to &#9785;
+ */
+	public static String symbolize(String msg)
+	{
+		msg = msg.replace(":)", Emojis.getString(Emojis.smiley));
+		msg = msg.replace("<3", Emojis.getString(Emojis.heart));
+		msg = msg.replace(":(", Emojis.getString(Emojis.sad));
+		msg = msg.replace("[telephone]", Emojis.getString(Emojis.telephone));
+		msg = msg.replace("[c]", Emojis.getString(Emojis.copyright));
+		msg = msg.replace("[r]", Emojis.getString(Emojis.registered));
+		msg = msg.replace("[tm]", Emojis.getString(Emojis.trademark));
+		msg = msg.replace("[n~]", Emojis.spanish_n);
+		msg = msg.replace("[~n]", Emojis.spanish_n);
+		msg = msg.replace("[~N]", Emojis.spanish_N);
+		msg = msg.replace("[N~]", Emojis.spanish_N);
+		msg = msg.replace("[degree]", Emojis.getString(Emojis.degree));
+		msg = msg.replace("[male]", Emojis.getString(Emojis.male));
+		msg = msg.replace("[female]", Emojis.getString(Emojis.female));
+		msg = msg.replace("[transgender]", Emojis.getString(Emojis.transgender));
+		msg = msg.replace("[skullxbones]", Emojis.getString(Emojis.skullXbones));
+		msg = msg.replace("[cent]", Emojis.getString(Emojis.cent));
+		msg = msg.replace("[?!]", Emojis.getString(Emojis.questionExclamation));
+		msg = msg.replace("[darkshade]", Emojis.getString(Emojis.darkShade));
+		msg = msg.replaceAll(">>", Emojis.getString(Emojis.doubleArrow));
+		return msg;
+	}
+	
+/**
  * Broadcasts a message to all player's and to the console
  * @param msg Message to broadcast
  */

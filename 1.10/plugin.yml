@@ -1,6 +1,6 @@
 main: com.SirBlobman.blobcatraz.Blobcatraz
 name: Blobcatraz
-version: 0.0.1.6
+version: 0.0.1.7
 author: SirBlobman
 description: Plugin used for nearly everything in the Blobcatraz server. 
 softdepend: [Vault, HolographicDisplays, Votifier]
@@ -22,7 +22,7 @@ commands:
     permission: blobcatraz.find.origin
     permission-message: You don't have the permission "blobcatraz.find.origin"
   portal:
-    description: Creates a portal/Gets portal wand/Creates command portaln
+    description: Creates a portal/Gets portal wand/Creates command portal
     permission: blobcatraz.portal
     usage: /portal wand OR /portal create <name> OR /portal create <name> <command without /> OR /portal list OR /portal remove <name>
     permission-message: You don't have the permission "blobcatraz.portal" 
@@ -197,3 +197,11 @@ commands:
   delwarp: 
     description: Delete a warp that you have set
     usage: /delwarp [name]
+  teleport:
+    description: Teleport to a Player or to Coordinates
+    usage: /teleport [player] OR /teleport [x] [y] [z] OR /teleport [player] [player]
+    aliases: [tp]
+  center:
+    description: Go to the center of a Block
+    usage: /center
+    aliases: [centre]

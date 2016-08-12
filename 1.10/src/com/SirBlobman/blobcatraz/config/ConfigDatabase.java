@@ -435,10 +435,13 @@ public class ConfigDatabase
 		int i = 1;
 		for(Entry<UUID, Double> e : t)
 		{
-			OfflinePlayer p = Bukkit.getOfflinePlayer(e.getKey());
-			String name = p.getName();
-			balTop.add(i + ". §6" + name + ": §e$" + e.getValue());
-			i++;
+			if(e.getKey() != null)
+			{
+				OfflinePlayer p = Bukkit.getOfflinePlayer(e.getKey());
+				String name = p.getName();
+				balTop.add(i + ". §6" + name + ": §e$" + e.getValue());
+				i++;
+			}
 		}
 		
 		return balTop;
