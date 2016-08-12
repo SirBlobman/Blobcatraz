@@ -10,7 +10,9 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -29,6 +31,7 @@ public class ConfigDatabase
 	public static HashMap<UUID, Long> bannedLength = Maps.newHashMap();
 	public static HashMap<UUID, String> bannedReason = Maps.newHashMap();
 	public static HashMap<UUID, Boolean> spy = Maps.newHashMap();
+	public static HashMap<UUID, List<String>> homes = Maps.newHashMap();
 	
 	private static final File databaseFile = new File(Blobcatraz.instance.getDataFolder(), "database.yml");
 	public static FileConfiguration databaseConfig = YamlConfiguration.loadConfiguration(databaseFile);
@@ -88,6 +91,16 @@ public class ConfigDatabase
 				bannedLength.put(uuid, databaseConfig.getLong("players." + key + ".banned.length"));
 				bannedReason.put(uuid, databaseConfig.getString("players." + key + ".banned.reason"));
 				spy.put(uuid, databaseConfig.getBoolean("players." + key + ".canSpy"));
+				List<String> homeList = new ArrayList<String>();
+				try
+				{
+					for(String s : databaseConfig.getConfigurationSection("players." + key + ".homes").getKeys(false))
+					{
+						homeList.add(s);
+					}
+					homes.put(uuid, homeList);
+				}
+				catch(Exception ex) {}
 			}
 		}
 		catch (Exception ex)
@@ -474,6 +487,68 @@ public class ConfigDatabase
 			if(spy.get(uuid)) {spy.put(uuid, false); saveDatabase(); return;}
 			else {spy.put(uuid, true); saveDatabase(); return;}
 		}
+		saveDatabase();
+	}
+	
+	public static List<String> getHomes(Player p)
+	{
+		if(p == null) return null;
+		UUID uuid = p.getUniqueId();
+		if(uuid == null) return null;
+		loadDatabase();
+		List<String> homeList = new ArrayList<String>();
+		if(homes.containsKey(uuid))
+		{
+			homeList = homes.get(uuid);
+		}
+		return homeList;
+	}
+	
+	public static Location getHome(String home, Player p)
+	{
+		if(p == null) return null;
+		UUID uuid = p.getUniqueId();
+		if(uuid == null) return null;
+		List<String> homes = getHomes(p);
+		if(homes.contains(home))
+		{
+			Location l = new Location(null, 0, 0, 0);
+			String path = "players." + uuid + ".homes." + home;
+			String worldName = databaseConfig.getString(path + ".world");
+			World w = Bukkit.getWorld(worldName);
+			double x = databaseConfig.getDouble(path + ".x");
+			double y = databaseConfig.getDouble(path + ".y");
+			double z = databaseConfig.getDouble(path + ".z");
+			float yaw = (float) databaseConfig.getDouble(path + ".yaw");
+			float pitch = (float) databaseConfig.getDouble(path + ".pitch");
+			l.setWorld(w); l.setX(x); l.setY(y); l.setZ(z); l.setYaw(yaw); l.setPitch(pitch);
+			return l;
+		}
+		return null;
+	}
+	
+	public static void teleportHome(String home, Player p)
+	{
+		if(p == null || home == null) return;
+		if(getHomes(p).contains(home))
+		{
+			Location l = getHome(home, p);
+			p.teleport(l);
+		}
+	}
+	
+	public static void setHome(Player p, Location l, String home)
+	{
+		if(p == null || l == null) return;
+		UUID uuid = p.getUniqueId();
+		if(uuid == null) return;
+		String path = "players." + uuid + ".homes." + home;
+		databaseConfig.set(path + ".world", l.getWorld().getName());
+		databaseConfig.set(path + ".x", l.getX());
+		databaseConfig.set(path + ".y", l.getY());
+		databaseConfig.set(path + ".z", l.getZ());
+		databaseConfig.set(path + ".pitch", l.getPitch());
+		databaseConfig.set(path + ".yaw", l.getYaw());
 		saveDatabase();
 	}
 }

@@ -1,6 +1,6 @@
 main: com.SirBlobman.blobcatraz.Blobcatraz
 name: Blobcatraz
-version: 0.0.1.7
+version: 0.0.1.8
 author: SirBlobman
 description: Plugin used for nearly everything in the Blobcatraz server. 
 softdepend: [Vault, HolographicDisplays, Votifier]
@@ -205,3 +205,9 @@ commands:
     description: Go to the center of a Block
     usage: /center
     aliases: [centre]
+  home:
+    description: Teleport to your home
+    usage: /home [name]
+  sethome:
+    description: Set the location for your home
+    usage: /sethome [name]

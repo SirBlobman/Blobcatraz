@@ -19,6 +19,7 @@ import com.SirBlobman.blobcatraz.command.CommandFly;
 import com.SirBlobman.blobcatraz.command.CommandFreeze;
 import com.SirBlobman.blobcatraz.command.CommandGamemode;
 import com.SirBlobman.blobcatraz.command.CommandHeal;
+import com.SirBlobman.blobcatraz.command.CommandHome;
 import com.SirBlobman.blobcatraz.command.CommandInventory;
 import com.SirBlobman.blobcatraz.command.CommandItem;
 import com.SirBlobman.blobcatraz.command.CommandItemEditor;
@@ -220,6 +221,7 @@ public class Blobcatraz extends JavaPlugin
 		getCommand("fly").setExecutor(new CommandFly());
 		getCommand("gamemode").setExecutor(new CommandGamemode());
 		getCommand("heal").setExecutor(new CommandHeal());
+		getCommand("home").setExecutor(new CommandHome());
 		getCommand("hub").setExecutor(new CommandSpawn());
 		getCommand("item").setExecutor(new CommandItem());
 		getCommand("item").setTabCompleter(new CommandItem());
@@ -233,6 +235,7 @@ public class Blobcatraz extends JavaPlugin
 		getCommand("resetitem").setExecutor(new CommandItemEditor());
 		getCommand("repair").setExecutor(new CommandItemEditor());
 		getCommand("reply").setExecutor(new CommandMessage());
+		getCommand("sethome").setExecutor(new CommandHome());
 		getCommand("sethub").setExecutor(new CommandSpawn());
 		getCommand("setlore").setExecutor(new CommandItemEditor());
 		getCommand("setmotd").setExecutor(new CommandMOTD());
