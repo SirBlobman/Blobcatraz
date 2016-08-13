@@ -22,7 +22,7 @@ public class CommandCommandSpy implements CommandExecutor
 			if(ConfigBlobcatraz.config.getBoolean("commandspy.enabled"))
 			{
 				ConfigDatabase.toggleCanSpy(p);
-				ConfigDatabase.loadDatabase();
+				ConfigDatabase.load(p);
 				if(ConfigDatabase.getCanSpy(p)) {p.sendMessage(Util.blobcatraz + "CommandSpy is on"); return true;}
 				else {p.sendMessage(Util.blobcatraz + "CommandSpy is off"); return true;}
 			}

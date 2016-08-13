@@ -5,8 +5,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 
 import com.SirBlobman.blobcatraz.Util;
+import com.SirBlobman.blobcatraz.config.ConfigLanguage;
 import com.SirBlobman.blobcatraz.config.ConfigWarps;
 
 public class CommandWarp implements CommandExecutor
@@ -27,8 +29,11 @@ public class CommandWarp implements CommandExecutor
 					StringBuffer warpList = new StringBuffer();
 					for(int i = 0; i < ConfigWarps.getWarps().size(); i++)
 					{
-						if(i != 0) warpList.append(Util.color("&r, "));
-						if(le.hasPermission("blobcatraz.warps." + ConfigWarps.getWarps().get(i))) warpList.append("§2" + ConfigWarps.getWarps().get(i));
+						if(le.hasPermission("blobcatraz.warps." + ConfigWarps.getWarps().get(i))) 
+						{
+							if(i != 0) warpList.append(Util.color("&r, "));
+							warpList.append("§2" + ConfigWarps.getWarps().get(i));
+						}
 					}
 					cs.sendMessage(Util.blobcatraz + "List of warps: ");
 					cs.sendMessage(warpList.toString());
@@ -51,7 +56,9 @@ public class CommandWarp implements CommandExecutor
 				}
 				else
 				{
-					le.sendMessage(Util.noPermission + "blobcatraz.warps." + warpName);
+					String title = ConfigLanguage.getMessage("title.noPermission");
+					String subtitle = ConfigLanguage.getMessage("title.noPermission2", "blobcatraz.warps." + warpName);
+					if(le instanceof Player) Util.sendTitle((Player) le, title, subtitle);
 					return true;
 				}
 			}

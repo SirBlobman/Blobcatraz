@@ -1,7 +1,7 @@
 package com.SirBlobman.blobcatraz.listener;
 
-import java.util.UUID;
-
+import org.bukkit.Bukkit;
+import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -19,11 +19,9 @@ public class Login implements Listener
 	public void onLogin(PlayerLoginEvent e)
 	{
 		Util.print(e.getEventName());
-		ConfigDatabase.loadDatabase();
 		Player p = e.getPlayer();
+		ConfigDatabase.load(p);
 		if(p == null) return;
-		UUID uuid = p.getUniqueId();
-		if(uuid == null || !ConfigDatabase.banned.containsKey(uuid)) return;
 		
 		long current = System.currentTimeMillis();
 		long end = ConfigDatabase.getEndOfBan(p);
@@ -31,7 +29,7 @@ public class Login implements Listener
 		
 		if(ConfigDatabase.isBanned(p))
 		{
-			if(ConfigDatabase.databaseConfig.get("players." + uuid + ".banned.length") == null) 
+			if(ConfigDatabase.load(p).get("banned.length") == null) 
 			{
 				Util.print(p.getName() + " is perma-banned");
 				e.disallow(Result.KICK_OTHER, Util.banned + Util.color(reason));
@@ -57,7 +55,15 @@ public class Login implements Listener
 		Util.print(p.getName() + " is not banned!");
 		if(ConfigBlobcatraz.config.getBoolean("random.unlimitedPlayers"))
 		{
-			e.setResult(Result.ALLOWED);
+			Server s = Bukkit.getServer();
+			if(s.hasWhitelist() && !s.getWhitelistedPlayers().contains(p))
+			{
+				return;
+			}
+			else
+			{
+				e.setResult(Result.ALLOWED);
+			}
 		}
 	}
 }

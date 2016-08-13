@@ -1,6 +1,7 @@
 package com.SirBlobman.blobcatraz;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -58,6 +59,7 @@ import com.SirBlobman.blobcatraz.item.PortalWand;
 import com.SirBlobman.blobcatraz.item.Recipes;
 import com.SirBlobman.blobcatraz.item.SonicScrewdriver;
 import com.SirBlobman.blobcatraz.listener.AFK;
+import com.SirBlobman.blobcatraz.listener.AutoPickup;
 import com.SirBlobman.blobcatraz.listener.Chat;
 import com.SirBlobman.blobcatraz.listener.CombatLog;
 import com.SirBlobman.blobcatraz.listener.CommandSpy;
@@ -94,6 +96,7 @@ public class Blobcatraz extends JavaPlugin
 	 * @see JavaPlugin
 	 */
 	public static Blobcatraz instance;
+	public static FileConfiguration config;
 	public static long millis = 0L;
 	
 	@Override
@@ -105,7 +108,7 @@ public class Blobcatraz extends JavaPlugin
 		listeners();
 		commands();
 		
-		millis = ConfigBlobcatraz.config.getLong("random.combatLog.seconds") * 1000;
+		millis = config.getLong("random.combatLog.seconds") * 1000;
 		
 		Util.broadcast(Util.pluginEnabled);
 	}
@@ -135,15 +138,15 @@ public class Blobcatraz extends JavaPlugin
 		Util.regEvent(new ShopSigns());
 		Util.regEvent(new CommandDisco());
 	//Config Based
-		if(ConfigBlobcatraz.config.getBoolean("protection.preventPrisonEscape")) Util.regEvent(new Protection());
-		if(ConfigBlobcatraz.config.getBoolean("random.invincibleSlimes")) Util.regEvent(new InvincibleSlimes());
-		if(ConfigBlobcatraz.config.getBoolean("random.giantDropsPrize.enabled")) Util.regEvent(new GiantDropsPrize());
-		if(ConfigBlobcatraz.config.getBoolean("portals.enabled"))
+		if(config.getBoolean("protection.preventPrisonEscape")) Util.regEvent(new Protection());
+		if(config.getBoolean("random.invincibleSlimes")) Util.regEvent(new InvincibleSlimes());
+		if(config.getBoolean("random.giantDropsPrize.enabled")) Util.regEvent(new GiantDropsPrize());
+		if(config.getBoolean("portals.enabled"))
 		{
 			Util.regEvent(new PortalWand());
 			Util.regEvent(new Portal());
 		}
-		if(ConfigBlobcatraz.config.getBoolean("random.customEnchants"))
+		if(config.getBoolean("random.customEnchants"))
 		{
 			Util.regEvent(new Cure());
 			Util.regEvent(new Ender());
@@ -154,24 +157,28 @@ public class Blobcatraz extends JavaPlugin
 			Util.regEvent(new Wither());
 			Util.regEvent(new XPDrain());
 		}
-		if(ConfigBlobcatraz.config.getBoolean("random.customItems"))
+		if(config.getBoolean("random.customItems"))
 		{
 			Util.regEvent(new LightningRod());
 			Util.regEvent(new SonicScrewdriver());
 			Recipes.loadRecipes();
 		}
-		if(ConfigBlobcatraz.config.getBoolean("random.combatLog.enabled"))
+		if(config.getBoolean("random.combatLog.enabled"))
 		{
 			Util.regEvent(new CombatLog());
 			Bukkit.getScheduler().runTaskTimerAsynchronously(this, new CombatTag(), 20L, 20L);
 		}
-		if(ConfigBlobcatraz.config.getBoolean("mobmerge.enabled"))
+		if(config.getBoolean("random.autoPickup"))
 		{
-			int period = ConfigBlobcatraz.config.getInt("mobmerge.period");
+			Util.regEvent(new AutoPickup());
+		}
+		if(config.getBoolean("mobmerge.enabled"))
+		{
+			int period = config.getInt("mobmerge.period");
 			Util.regEvent(new MobCombiner());
 			Bukkit.getScheduler().runTaskTimerAsynchronously(this, new MobCombiner(), period * 20, period * 20);
 		}
-		if(ConfigBlobcatraz.config.getBoolean("commandspy.enabled"))
+		if(config.getBoolean("commandspy.enabled"))
 		{
 			Util.regEvent(new CommandSpy());
 		}
@@ -189,8 +196,8 @@ public class Blobcatraz extends JavaPlugin
 	private void configs()
 	{
 		if(!getDataFolder().exists()) try{getDataFolder().mkdir();} catch (Exception ex) {Util.print("Could not create the data folder! Disabling Blobcatraz"); Bukkit.getServer().getPluginManager().disablePlugin(this); return;}
-		ConfigBlobcatraz.loadConfig();
-		ConfigDatabase.loadDatabase();
+		config = ConfigBlobcatraz.getConfig();
+		ConfigDatabase.getBalances();
 		ConfigPortals.loadPortals();
 		ConfigShop.loadPrices();
 		ConfigSpawn.loadSpawn();
@@ -211,6 +218,7 @@ public class Blobcatraz extends JavaPlugin
 		getCommand("clearinventory").setExecutor(new CommandInventory());
 		getCommand("commandspy").setExecutor(new CommandCommandSpy());
 		getCommand("date").setExecutor(new CommandTime());
+		getCommand("delhome").setExecutor(new CommandHome());
 		getCommand("delwarp").setExecutor(new CommandWarp());
 		getCommand("disco").setExecutor(new CommandDisco());
 		getCommand("economy").setExecutor(new CommandEconomy());

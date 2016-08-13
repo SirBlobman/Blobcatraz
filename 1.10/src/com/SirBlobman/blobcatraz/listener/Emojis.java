@@ -20,7 +20,7 @@ public class Emojis
 	public static char questionExclamation = '\u2048';
 	public static char darkShade = '\u2593';
 	public static char doubleArrow = '\u00bb';
-	
+	public static char doubleArrow2 = '\u00ab';	
 	public static String getString(Character c)
 	{
 		return Character.toString(c);

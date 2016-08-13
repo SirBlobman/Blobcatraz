@@ -1,6 +1,6 @@
 main: com.SirBlobman.blobcatraz.Blobcatraz
 name: Blobcatraz
-version: 0.0.1.8
+version: 0.0.1.9
 author: SirBlobman
 description: Plugin used for nearly everything in the Blobcatraz server. 
 softdepend: [Vault, HolographicDisplays, Votifier]
@@ -211,3 +211,6 @@ commands:
   sethome:
     description: Set the location for your home
     usage: /sethome [name]
+  delhome:
+    description: Delete your home
+    usage: /delhome [name]

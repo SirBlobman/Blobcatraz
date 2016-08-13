@@ -13,6 +13,7 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -24,6 +25,7 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.potion.PotionEffect;
 
 import com.SirBlobman.blobcatraz.config.ConfigBlobcatraz;
+import com.SirBlobman.blobcatraz.config.ConfigLanguage;
 import com.SirBlobman.blobcatraz.listener.Emojis;
 
 /**
@@ -35,9 +37,10 @@ public class Util
 {
 //Plugin
 	static Blobcatraz plugin = Blobcatraz.instance;
+	static FileConfiguration config = ConfigBlobcatraz.getConfig();
 	
 //Message
-	public static final String blobcatraz = color("&1[&6Blobcatraz&1]&r ");
+	public static final String blobcatraz = ConfigLanguage.getMessage("prefix");
 	public static final String blobcatrazUnformatted = uncolor(blobcatraz);
 	public static final String pluginEnabled = "This plugin has been §2§lEnabled§r! " + Emojis.getString(Emojis.smiley);
 	public static final String pluginDisabled = "This plugin has been §4§lDisabled§r! " + Emojis.getString(Emojis.sad);
@@ -103,8 +106,20 @@ public class Util
 		msg = msg.replace("[cent]", Emojis.getString(Emojis.cent));
 		msg = msg.replace("[?!]", Emojis.getString(Emojis.questionExclamation));
 		msg = msg.replace("[darkshade]", Emojis.getString(Emojis.darkShade));
-		msg = msg.replaceAll(">>", Emojis.getString(Emojis.doubleArrow));
+		msg = msg.replace(">>", Emojis.getString(Emojis.doubleArrow));
+		msg = msg.replace("<<", Emojis.getString(Emojis.doubleArrow2));
 		return msg;
+	}
+	
+/**
+ * Formats the message completely
+ * @param msg Message to format
+ * @return Formatted message
+ */
+	public static String format(String msg)
+	{
+		msg = msg.replace("/n", "\n");
+		return color(symbolize(msg));
 	}
 	
 /**
@@ -943,7 +958,7 @@ public class Util
 	public static String getJoinMessage(Player p)
 	{
 		ConfigBlobcatraz.loadConfig();
-		String msg = ConfigBlobcatraz.config.getString("player.joinMessage");
+		String msg = ConfigLanguage.getMessage("player.join");
 		msg = msg.replace("%username%", p.getName());
 		msg = msg.replace("%displayname%", p.getDisplayName());
 		return color(msg);
@@ -957,7 +972,7 @@ public class Util
 	public static String getQuitMessage(Player p)
 	{
 		ConfigBlobcatraz.loadConfig();
-		String msg = ConfigBlobcatraz.config.getString("player.quitMessage");
+		String msg = ConfigLanguage.getMessage("player.quit");
 		msg = msg.replace("%username%", p.getName());
 		msg = msg.replace("%displayname%", p.getDisplayName());
 		return color(msg);
@@ -979,5 +994,11 @@ public class Util
 	{
 		if(p == null) return;
 		p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100, 1);
+	}
+	
+	@SuppressWarnings("deprecation")
+	public static void sendTitle(Player p, String title, String subtitle)
+	{
+		p.sendTitle(title, subtitle);
 	}
 }

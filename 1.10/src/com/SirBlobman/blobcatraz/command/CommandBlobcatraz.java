@@ -36,7 +36,7 @@ public class CommandBlobcatraz implements CommandExecutor
     			{
     				ConfigBlobcatraz.reloadConfig();
     				ConfigPortals.reloadPortals();
-    				ConfigDatabase.reloadDatabase();
+    				ConfigDatabase.getBalances();
     				ConfigShop.loadPrices();
     				ConfigSpawn.loadSpawn();
     				

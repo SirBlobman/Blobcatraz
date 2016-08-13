@@ -56,14 +56,14 @@ public class CommandEconomy implements CommandExecutor
 			}
 			if(args[0].equalsIgnoreCase("give"))
 			{
-				ConfigDatabase.addToBalance(p, amount);
+				ConfigDatabase.addMoney(p, amount);
 				cs.sendMessage(Util.blobcatraz + "§9" + p.getName() + " §rhas been given §2$" + amount);
 				if(p.isOnline()) ((Player)p).sendMessage(Util.blobcatraz + "You have been given §2$" + amount);
 				return true;
 			}
 			if(args[0].equalsIgnoreCase("take"))
 			{
-				ConfigDatabase.subtractFromBalance(p, amount);
+				ConfigDatabase.subtractMoney(p, amount);
 				cs.sendMessage(Util.blobcatraz + "§2$" + amount + " §rhas been taken from §9" + p.getName() + "'s §raccount");
 				if(p.isOnline()) ((Player)p).sendMessage(Util.blobcatraz + "§2$" + amount + " §r has been taken from your account");
 				return true;

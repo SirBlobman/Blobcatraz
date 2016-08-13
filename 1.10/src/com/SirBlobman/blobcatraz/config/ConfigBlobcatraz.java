@@ -49,6 +49,12 @@ public class ConfigBlobcatraz
 		writeDefaults();
 	}
 	
+	public static FileConfiguration getConfig()
+	{
+		loadConfig();
+		return config;
+	}
+	
 	public static void writeDefaults()
 	{
 		if(!configFile.exists())
@@ -79,6 +85,7 @@ public class ConfigBlobcatraz
 		set("random.combatLog.enabled", true);
 		set("random.combatLog.seconds", 30);
 		set("random.unlimitedPlayers", true);
+		set("random.autoPickup", true);
 		
 		List<String> portalDisabledWorlds = Arrays.asList("world");
 		set("portals.enabled", true);
@@ -97,20 +104,15 @@ public class ConfigBlobcatraz
 		set("mobmerge.disabledWorlds", mobMergeDisableWorlds);
 		set("mobmerge.radius", 5);
 		set("mobmerge.period", 10);
-		set("mobmerge.color", ChatColor.DARK_RED.name());
+		set("mobmerge.color", ChatColor.DARK_BLUE.name());
 		set("mobmerge.limit", 100);
 		
 		List<String> disabledCommands = Arrays.asList("/login", "/register", "/changepassword");
 		set("commandspy.enabled", true);
 		set("commandspy.ignored commands", disabledCommands);
 		
-		set("player.quitMessage", "&8&l[&4&l-&8&l]&e&l %username%&8&l [&4&l-&8&l]");
-		set("player.joinMessage", "&8&l[&a&l+&8&l]&e&l %username%&8&l [&a&l+&8&l]");
-		
 		List<String> voteLinks = Arrays.asList("planetminecraft.com", "topg.org", "serverpact.com");
 		set("vote.links", voteLinks);
-		
-		set("motd", Util.blobcatrazUnformatted + "Default MOTD");
 		
 		try{config.save(configFile);}
 		catch(Exception ex)

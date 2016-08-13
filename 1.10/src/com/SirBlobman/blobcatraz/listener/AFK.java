@@ -16,7 +16,7 @@ public class AFK implements Listener
 	{
 		Player p = e.getPlayer();
 		
-		boolean AFK = ConfigDatabase.getAFKStatus(p);
+		boolean AFK = ConfigDatabase.isAFK(p);
 		
 		if(AFK) notAFK(p);
 	}
@@ -26,7 +26,7 @@ public class AFK implements Listener
 	{
 		Player p = e.getPlayer();
 		
-		boolean AFK = ConfigDatabase.getAFKStatus(p);
+		boolean AFK = ConfigDatabase.isAFK(p);
 		
 		if(AFK) notAFK(p);
 	}
@@ -38,6 +38,6 @@ public class AFK implements Listener
 		String name = p.getName();
 		
 		Bukkit.broadcastMessage("§6§l* §7" + name + " §6is no longer AFK");
-		ConfigDatabase.setNotAFK(p);
+		ConfigDatabase.setAFK(p, false);
 	}
 }

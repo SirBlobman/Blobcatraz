@@ -23,7 +23,7 @@ public class CommandAFK implements CommandExecutor
 			if(args.length < 1)
 			{
 				Bukkit.broadcastMessage("§6§l* §7" + name + " §6is now AFK");
-				ConfigDatabase.setAFK(p);
+				ConfigDatabase.setAFK(p, true);
 			}
 			else
 			{
@@ -31,7 +31,7 @@ public class CommandAFK implements CommandExecutor
 				
 				Bukkit.broadcastMessage("§6§l* §7" + name + " §6is now AFK:");
 				Bukkit.broadcastMessage(" " + reason);
-				ConfigDatabase.setAFK(p);
+				ConfigDatabase.setAFK(p, true);
 			}
 			return true;
 		}

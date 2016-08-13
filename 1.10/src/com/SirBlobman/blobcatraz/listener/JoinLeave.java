@@ -23,9 +23,8 @@ public class JoinLeave implements Listener
 	public void onPlayerJoin(PlayerJoinEvent e)
 	{
 		Player p = e.getPlayer();
-		UUID uuid = p.getUniqueId();
 		
-		if(ConfigDatabase.databaseConfig.getString("players." + uuid + ".name") == null) ConfigDatabase.writeDefaults(uuid);
+		ConfigDatabase.load(p);
 		
 		e.setJoinMessage(Util.getJoinMessage(p));
 		p.sendMessage(Util.blobcatraz + "You are in §1" + p.getGameMode());

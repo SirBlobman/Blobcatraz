@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import com.SirBlobman.blobcatraz.Util;
-import com.SirBlobman.blobcatraz.config.ConfigBlobcatraz;
+import com.SirBlobman.blobcatraz.config.ConfigLanguage;
 
 public class CommandMOTD implements CommandExecutor
 {
@@ -16,11 +16,9 @@ public class CommandMOTD implements CommandExecutor
 		{
 			if(args.length > 0)
 			{
-				ConfigBlobcatraz.loadConfig();
-				ConfigBlobcatraz.config.set("motd", Util.getFinalArg(args, 0));
-				ConfigBlobcatraz.saveConfig();
+				ConfigLanguage.setMessage("motd", Util.getFinalArg(args, 0));
 
-				String motd = Util.color(ConfigBlobcatraz.config.getString("motd"));
+				String motd = ConfigLanguage.getMessage("motd");
 				cs.sendMessage(Util.blobcatraz + "Changed the MOTD to " + motd);
 				return true;
 			}

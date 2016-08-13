@@ -13,8 +13,8 @@ public class Freeze implements Listener
 	@EventHandler
 	public void onAttemptMove(PlayerMoveEvent e)
 	{
-		ConfigDatabase.loadDatabase();
 		Player p = e.getPlayer();
+		ConfigDatabase.load(p);
 		boolean frozen = ConfigDatabase.isFrozen(p);
 		
 		if(frozen) 

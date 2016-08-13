@@ -27,7 +27,7 @@ public class CommandFreeze implements CommandExecutor
 			Player p = Bukkit.getPlayer(args[0]);
 			if(p == null) {cs.sendMessage(Util.blobcatraz + "§4" + args[0] + " §ris not a Player"); return true;}
 			
-			ConfigDatabase.freeze(p);
+			ConfigDatabase.setFrozen(p, true);
 			cs.sendMessage(Util.blobcatraz + "You froze §5" + p.getName());
 			return true;
 		}
@@ -43,7 +43,7 @@ public class CommandFreeze implements CommandExecutor
 			Player p = Bukkit.getPlayer(args[0]);
 			if(p == null) {cs.sendMessage(Util.blobcatraz + "§4" + args[0] + " §ris not a Player"); return true;}
 			
-			ConfigDatabase.unFreeze(p);
+			ConfigDatabase.setFrozen(p, false);
 			cs.sendMessage(Util.blobcatraz + "§5" + p.getName() + " has been unfrozen");
 			return true;
 		}

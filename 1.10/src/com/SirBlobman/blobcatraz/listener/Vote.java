@@ -55,7 +55,7 @@ public class Vote implements Listener
 			Random rand = new Random();
 			double amount = rand.nextInt((5000 - 500) + 1) + 500;
 			
-			ConfigDatabase.addToBalance(pvoter, amount);
+			ConfigDatabase.addMoney(pvoter, amount);
 			pvoter.sendMessage(Util.blobcatraz + "Thanks for voting! You got §3$" + amount);
 		}
 	}

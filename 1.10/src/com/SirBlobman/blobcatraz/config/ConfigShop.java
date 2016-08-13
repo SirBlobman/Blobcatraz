@@ -133,7 +133,7 @@ public class ConfigShop
 			double sellPrice = getSellPrice(m, is.getAmount());
 			p.getInventory().removeItem(is);
 			p.updateInventory();
-			ConfigDatabase.addToBalance(p, sellPrice);
+			ConfigDatabase.addMoney(p, sellPrice);
 			p.sendMessage(Util.blobcatraz + "You have recieved §5$" + sellPrice + " §rfor selling §e" + is.getAmount() + " §rof §e" + m.toString());
 		}
 		if(!p.getInventory().contains(toSell))
@@ -154,7 +154,7 @@ public class ConfigShop
 		{
 			if(ConfigDatabase.getBalance(p) >= buyPrice)
 			{
-				ConfigDatabase.subtractFromBalance(p, buyPrice);
+				ConfigDatabase.subtractMoney(p, buyPrice);
 				p.getInventory().addItem(is);
 				p.sendMessage(Util.blobcatraz + "You bought §5" + amount + " §rof §5" + m.toString() + ":" + is.getDurability() + " §rfor §5$" + buyPrice);
 			}
