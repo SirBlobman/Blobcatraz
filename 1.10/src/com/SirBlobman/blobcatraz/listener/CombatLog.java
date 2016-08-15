@@ -2,9 +2,9 @@ package com.SirBlobman.blobcatraz.listener;
 
 import java.util.HashMap;
 
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -26,12 +26,11 @@ public class CombatLog implements Listener
 		Entity damaged = e.getEntity();
 		Entity damager = e.getDamager();
 		
-		if(damager instanceof Arrow)
+		if(damager instanceof Projectile)
 		{
-			damager = (Player) ((Arrow) damager).getShooter();
+			damager = (Entity) ((Projectile) damager).getShooter();
 		}
 		
-		Util.print(damager.getName() + " attacked " + damaged.getName());
 		if(!(damager instanceof Player) || !(damaged instanceof Player)) return;
 		
 		long time = System.currentTimeMillis();

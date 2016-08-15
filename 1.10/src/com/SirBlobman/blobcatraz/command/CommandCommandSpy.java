@@ -19,11 +19,10 @@ public class CommandCommandSpy implements CommandExecutor
 		
 		if(label.equalsIgnoreCase("commandspy") || label.equalsIgnoreCase("spy"))
 		{
+			if(!p.hasPermission("blobcatraz.commandspy")) {Util.noPermission(p, "blobcatraz.commandspy"); return true;}
 			if(ConfigBlobcatraz.config.getBoolean("commandspy.enabled"))
 			{
-				ConfigDatabase.toggleCanSpy(p);
-				ConfigDatabase.load(p);
-				if(ConfigDatabase.getCanSpy(p)) {p.sendMessage(Util.blobcatraz + "CommandSpy is on"); return true;}
+				if(ConfigDatabase.toggleCanSpy(p)) {p.sendMessage(Util.blobcatraz + "CommandSpy is on"); return true;}
 				else {p.sendMessage(Util.blobcatraz + "CommandSpy is off"); return true;}
 			}
 			else

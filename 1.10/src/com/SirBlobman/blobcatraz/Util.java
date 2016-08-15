@@ -115,6 +115,8 @@ public class Util
  * Formats the message completely
  * @param msg Message to format
  * @return Formatted message
+ * @see Util#symbolize(String)
+ * @see Util#color(String)
  */
 	public static String format(String msg)
 	{
@@ -999,6 +1001,25 @@ public class Util
 	@SuppressWarnings("deprecation")
 	public static void sendTitle(Player p, String title, String subtitle)
 	{
+		if(p == null) return;
 		p.sendTitle(title, subtitle);
+	}
+	
+	public static void noPermission(Player p, String permission)
+	{
+		if(p == null || permission == null) return;
+		String title = ConfigLanguage.getMessage("title.noPermission");
+		String subtitle = ConfigLanguage.getMessage("title.noPermission2", permission);
+		sendTitle(p, title, subtitle);
+		pingPlayer(p);
+	}
+	
+	public static void sendAction1_10(Player p, String msg)
+	{
+		if(p == null) return;
+		pingPlayer(p);
+		net.minecraft.server.v1_10_R1.IChatBaseComponent message = net.minecraft.server.v1_10_R1.IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + msg + "\"}");
+		net.minecraft.server.v1_10_R1.PacketPlayOutChat chat = new net.minecraft.server.v1_10_R1.PacketPlayOutChat(message, (byte) 2);
+		((org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer) p).getHandle().playerConnection.sendPacket(chat);
 	}
 }

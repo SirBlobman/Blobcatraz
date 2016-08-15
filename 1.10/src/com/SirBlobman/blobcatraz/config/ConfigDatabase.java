@@ -109,6 +109,7 @@ public class ConfigDatabase
 		fc.set("banned.reason", null);
 		fc.set("balance", 0.0D);
 		fc.set("canSpy", false);
+		fc.set("autopickup", true);
 		save(op, fc);
 	}
 	
@@ -392,9 +393,8 @@ public class ConfigDatabase
 				FileConfiguration fc = load(op);
 				balances.put(uuid, fc.getDouble("balance"));
 			}
-			return balances;
 		}
-		return Maps.newHashMap();
+		return balances;
 	}
 	
 	public static List<String> getBalanceTopTen()
@@ -489,5 +489,20 @@ public class ConfigDatabase
 		fc.set(path + ".pitch", l.getPitch());
 		fc.set(path + ".yaw", l.getYaw());
 		save(op, fc);
+	}
+	
+	public static boolean canAutoPickup(OfflinePlayer op)
+	{
+		if(op == null) return false;
+		return load(op).getBoolean("autopickup");
+	}
+	
+	public static boolean toggleAutoPickup(OfflinePlayer op)
+	{
+		if(op == null) return false;
+		FileConfiguration fc = load(op);
+		fc.set("autopickup", !canAutoPickup(op));
+		save(op, fc);
+		return canAutoPickup(op);
 	}
 }

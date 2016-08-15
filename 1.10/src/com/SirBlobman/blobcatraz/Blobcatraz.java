@@ -7,6 +7,7 @@ import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.SirBlobman.blobcatraz.command.CommandAFK;
+import com.SirBlobman.blobcatraz.command.CommandAutopickup;
 import com.SirBlobman.blobcatraz.command.CommandBalance;
 import com.SirBlobman.blobcatraz.command.CommandBan;
 import com.SirBlobman.blobcatraz.command.CommandBlobcatraz;
@@ -137,6 +138,7 @@ public class Blobcatraz extends JavaPlugin
 		Util.regEvent(new MOTD());
 		Util.regEvent(new ShopSigns());
 		Util.regEvent(new CommandDisco());
+		Util.regEvent(new CommandBalance());
 	//Config Based
 		if(config.getBoolean("protection.preventPrisonEscape")) Util.regEvent(new Protection());
 		if(config.getBoolean("random.invincibleSlimes")) Util.regEvent(new InvincibleSlimes());
@@ -208,6 +210,7 @@ public class Blobcatraz extends JavaPlugin
 	{
 		getCommand("addlore").setExecutor(new CommandItemEditor());
 		getCommand("afk").setExecutor(new CommandAFK());
+		getCommand("autopickup").setExecutor(new CommandAutopickup());
 		getCommand("blobcatraz").setExecutor(new CommandBlobcatraz());
 		getCommand("balance").setExecutor(new CommandBalance());
 		getCommand("baltop").setExecutor(new CommandBalance());
@@ -260,6 +263,7 @@ public class Blobcatraz extends JavaPlugin
 		getCommand("vanish").setExecutor(new CommandVanish());
 		getCommand("vote").setExecutor(new CommandVote());
 		getCommand("warp").setExecutor(new CommandWarp());
+		getCommand("withdraw").setExecutor(new CommandBalance());
 		getCommand("worth").setExecutor(new CommandWorth());
 	}
 }

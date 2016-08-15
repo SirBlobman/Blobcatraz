@@ -12,6 +12,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -19,7 +20,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.SirBlobman.blobcatraz.Util;
 import com.SirBlobman.blobcatraz.config.ConfigDatabase;
 
-public class CommandBalance implements CommandExecutor
+public class CommandBalance implements CommandExecutor,Listener
 {
     @SuppressWarnings("deprecation")
 	@Override
@@ -71,7 +72,7 @@ public class CommandBalance implements CommandExecutor
     		try{amount = Double.parseDouble(args[0]);} catch(Exception ex) {p.sendMessage(Util.blobcatraz + "§5" + args[0] + " §ris not a Number");}
     		if(amount != 0.0D && ConfigDatabase.getBalance(p) >= amount)
     		{
-    			ItemStack bankNote = new ItemStack(Material.PAPER);
+    			ItemStack bankNote = new ItemStack(Material.DOUBLE_PLANT);
     			ItemMeta meta = bankNote.getItemMeta();
     			meta.setDisplayName("§fBlobcatraz Bank Note");
     			meta.setLore(Arrays.asList("$" + amount));
@@ -98,7 +99,7 @@ public class CommandBalance implements CommandExecutor
     		Player p = e.getPlayer();
     		ItemStack is = e.getItem();
     		ItemMeta meta = is.getItemMeta();
-    		if(meta.getDisplayName().equalsIgnoreCase("§fBlobcatraz Bank Note") && is.getType() == Material.PAPER)
+    		if(meta.getDisplayName().equalsIgnoreCase("§fBlobcatraz Bank Note") && is.getType() == Material.DOUBLE_PLANT)
     		{
     			double amount = Double.parseDouble(meta.getLore().get(1));
     			is.setType(Material.AIR);
