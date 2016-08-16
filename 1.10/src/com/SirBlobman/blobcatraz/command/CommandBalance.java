@@ -3,6 +3,7 @@ package com.SirBlobman.blobcatraz.command;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -13,8 +14,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.SirBlobman.blobcatraz.Util;
@@ -70,16 +73,17 @@ public class CommandBalance implements CommandExecutor,Listener
     		if(args.length == 0) {p.sendMessage(Util.notEnoughArguments); return false;}
     		double amount = 0.0D;
     		try{amount = Double.parseDouble(args[0]);} catch(Exception ex) {p.sendMessage(Util.blobcatraz + "§5" + args[0] + " §ris not a Number");}
-    		if(amount != 0.0D && ConfigDatabase.getBalance(p) >= amount)
+    		if(amount > 0.0D && ConfigDatabase.getBalance(p) >= amount)
     		{
     			ItemStack bankNote = new ItemStack(Material.DOUBLE_PLANT);
     			ItemMeta meta = bankNote.getItemMeta();
     			meta.setDisplayName("§fBlobcatraz Bank Note");
-    			meta.setLore(Arrays.asList("$" + amount));
+    			meta.setLore(Arrays.asList("§2" + NumberFormat.getCurrencyInstance().format(amount)));
     			bankNote.setItemMeta(meta);
     			HashMap<Integer, ItemStack> i = p.getInventory().addItem(bankNote);
     			if(!i.keySet().isEmpty()) {p.sendMessage(Util.blobcatraz + "Make some space in your inventory"); return true;}
     			ConfigDatabase.subtractMoney(p, amount);
+    			return true;
     		}
     		else
     		{
@@ -94,18 +98,31 @@ public class CommandBalance implements CommandExecutor,Listener
     @EventHandler
     public void onDeposit(PlayerInteractEvent e)
     {
-    	try
+    	Player p = e.getPlayer();
+    	Action a = e.getAction();
+    	if(a.equals(Action.RIGHT_CLICK_AIR) || a.equals(Action.RIGHT_CLICK_BLOCK))
     	{
-    		Player p = e.getPlayer();
-    		ItemStack is = e.getItem();
+    		PlayerInventory pi = p.getInventory();
+    		ItemStack is = pi.getItemInMainHand();
+    		if(is == null) return;
+    		Material mat = is.getType();
+    		if(mat != Material.DOUBLE_PLANT);
     		ItemMeta meta = is.getItemMeta();
-    		if(meta.getDisplayName().equalsIgnoreCase("§fBlobcatraz Bank Note") && is.getType() == Material.DOUBLE_PLANT)
-    		{
-    			double amount = Double.parseDouble(meta.getLore().get(1));
-    			is.setType(Material.AIR);
-    			ConfigDatabase.addMoney(p, amount);
-    			p.sendMessage(Util.blobcatraz + "You turned in a ban note for §2$" + amount);
-    		}
-    	} catch(Exception ex) {}
+    		if(meta == null) return;
+    		String displayName = meta.getDisplayName();
+    		if(displayName == null) return;
+    		if(!displayName.equalsIgnoreCase("§fBlobcatraz Bank Note")) return;
+    		List<String> lore = meta.getLore();
+    		if(lore == null) return;
+    		String money = lore.get(0);
+    		if(!money.contains("$")) return;
+    		double amount = 0.0D;
+    		try{amount = Double.parseDouble(Util.uncolor(money.replace("$", "").replace(",", "")));} catch(Exception ex){p.sendMessage(Util.blobcatraz + "Invalid Bank Note"); return;}
+    		int item = is.getAmount();
+    		if(item == 1) pi.setItemInMainHand(new ItemStack(Material.AIR));
+    		else{int newAmount = item - 1; is.setAmount(newAmount);}
+    		p.sendMessage(Util.blobcatraz + "You deposited §2" + NumberFormat.getCurrencyInstance().format(amount));
+    		e.setCancelled(true);
+    	}
     }
 }

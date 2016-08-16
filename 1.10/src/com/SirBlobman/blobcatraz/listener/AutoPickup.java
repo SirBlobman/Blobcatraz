@@ -4,11 +4,13 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Random;
 
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
@@ -19,10 +21,11 @@ import com.SirBlobman.blobcatraz.Util;
 import com.SirBlobman.blobcatraz.WorldGuardChecker;
 import com.SirBlobman.blobcatraz.config.ConfigDatabase;
 import com.SirBlobman.blobcatraz.config.ConfigLanguage;
+import com.google.common.collect.Maps;
 
 public class AutoPickup implements Listener 
 {
-	@EventHandler
+	@EventHandler(priority=EventPriority.HIGHEST)
 	public void autoPickup(BlockBreakEvent e)
 	{
 		Block b = e.getBlock();
@@ -33,26 +36,32 @@ public class AutoPickup implements Listener
 		PlayerInventory pi = p.getInventory();
 		ItemStack held = pi.getItemInMainHand();
 		ItemMeta meta = held.getItemMeta();
-		Map<Enchantment, Integer> enchants = meta.getEnchants();
+		Map<Enchantment, Integer> enchants = Maps.newHashMap();
+		try
+		{
+			enchants = meta.getEnchants();
+		} catch(Exception ex) {}
+		if(enchants == null) enchants = Maps.newHashMap();
 		Enchantment silk = Enchantment.SILK_TOUCH;
 		Enchantment fortune = Enchantment.LOOT_BONUS_BLOCKS;
 		Collection<ItemStack> drops = b.getDrops(held);
+		if(p.getGameMode() == GameMode.CREATIVE) return;
 		if(enchants.containsKey(silk)) return;
 		if(!ConfigDatabase.canAutoPickup(p)) return;
 		if(!WorldGuardChecker.canBreak(p, b)) return;
-		if(!p.getCanPickupItems()) return;
-		int fortuneLevel = meta.getEnchantLevel(fortune);
-		e.setCancelled(true);
+		int fortuneLevel = 0;
+		try{fortuneLevel = meta.getEnchantLevel(fortune);}
+		catch(Exception ex) {}
 		p.giveExp(xp);
 		e.setExpToDrop(0);
 		for(ItemStack drop : drops)
 		{
 			int firstEmpty = pi.firstEmpty();
-			if(firstEmpty == -1) {inventoryFull(p); break;}
+			if(firstEmpty == -1) {inventoryFull(p); e.setCancelled(true); break;}
 			drop.setAmount(Math.min(64, getDropCount(original, fortuneLevel, new Random())));
 			pi.addItem(drop);
+			b.setType(Material.AIR);
 		}
-		b.setType(Material.AIR);
 	}
 	
 	private void inventoryFull(Player p)

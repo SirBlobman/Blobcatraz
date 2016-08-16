@@ -20,8 +20,9 @@ public class CommandHeal implements CommandExecutor
 				if(!(cs instanceof Player)) {cs.sendMessage(Util.commandExecutorNonPlayer); return true;}
 				Player p = (Player) cs;
 				
-				if(p.hasPermission("blobcatraz.heal")) Util.heal(p);
-				else p.sendMessage(Util.noPermission + "blobcatraz.heal");
+				String permission = "blobcatraz.heal";
+				if(p.hasPermission(permission)) Util.heal(p);
+				else Util.noPermission(p, permission);
 				
 				return true;
 			}
@@ -30,8 +31,34 @@ public class CommandHeal implements CommandExecutor
 				Player toHeal = Bukkit.getPlayer(args[0]);
 				if(toHeal == null) {cs.sendMessage(Util.blobcatraz + "§9" + args[0] + " §ris not a Player"); return true;}
 				
-				if(cs.hasPermission("blobcatraz.heal.others")) Util.heal(toHeal);
-				else cs.sendMessage(Util.noPermission + "blobcatraz.heal.others");
+				String permission = "blobcatraz.heal.others";
+				if(cs.hasPermission(permission)) Util.heal(toHeal);
+				else Util.noPermission(cs, permission);
+				
+				return true;
+			}
+		}
+		if(label.equalsIgnoreCase("feed") || label.equalsIgnoreCase("eat"))
+		{
+			if(args.length == 0)
+			{
+				if(!(cs instanceof Player)) {cs.sendMessage(Util.commandExecutorNonPlayer); return true;}
+				Player p = (Player) cs;
+				
+				String permission = "blobcatraz.feed";
+				if(p.hasPermission(permission)) Util.feed(p);
+				else Util.noPermission(p, permission);
+				
+				return true;
+			}
+			if(args.length == 1)
+			{
+				Player toFeed = Bukkit.getPlayer(args[0]);
+				if(toFeed == null) {cs.sendMessage(Util.blobcatraz + "§9" + args[0] + " §ris not a Player"); return true;}
+				
+				String permission = "blobcatraz.feed.others";
+				if(cs.hasPermission(permission)) Util.feed(toFeed);
+				else Util.noPermission(cs, permission);
 				
 				return true;
 			}

@@ -1,6 +1,6 @@
 main: com.SirBlobman.blobcatraz.Blobcatraz
 name: Blobcatraz
-version: 0.0.1.10
+version: 0.0.1.11
 author: SirBlobman
 description: Plugin used for nearly everything in the Blobcatraz server. 
 softdepend: [Vault, HolographicDisplays, Votifier]
@@ -214,12 +214,21 @@ commands:
   delhome:
     description: Delete your home
     usage: /delhome [name]
-  crash:
-    description: Attempt to crash someone
-    usage: /crash [player]
   withdraw:
     description: Take some money from your account
     usage: /withdraw [amount]
   autopickup:
     description: Toggle your ability to auto pickup mined blocks
     usage: /autopickup
+  feed:
+    description: No more hunger!
+    usage: /feed <player>
+  kit:
+    description: Give yourself a kit from the list
+    usage: /kit [name]
+  createkit:
+    description: Create a new kit from your inventory
+    usage: /createkit [name]
+  deletekit: 
+    description: Delete a kit
+    usage: /delekit [name]

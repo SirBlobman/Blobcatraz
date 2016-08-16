@@ -32,7 +32,7 @@ public class Vote implements Listener
 			return;
 		}
 		
-		Util.broadcast("§c§l" + voter + "§rhas voted using §c§l" + service + "§r!");
+		Util.broadcast("§c§l" + voter + " §rhas voted using §c§l" + service + "§r!");
 		
 		double chance = Math.random();
 		

@@ -13,6 +13,7 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -793,6 +794,22 @@ public class Util
 	}
 	
 /**
+ * Feed
+ * Sets food level to 20.0
+ * Sets saturation level to 20.0
+ * @param p Player to feed
+ * @see Player
+ */
+	public static void feed(Player p)
+	{
+		if(p == null) return;
+
+		p.setFoodLevel(20);
+		p.setSaturation(20.0F);
+		p.sendMessage(blobcatraz + "You are no longer hungry!");
+	}
+	
+/**
  * Set the MOTD of the server
  * Saves the value to the config
  * @param motd Message to set
@@ -1005,13 +1022,18 @@ public class Util
 		p.sendTitle(title, subtitle);
 	}
 	
-	public static void noPermission(Player p, String permission)
+	public static void noPermission(CommandSender cs, String permission)
 	{
-		if(p == null || permission == null) return;
-		String title = ConfigLanguage.getMessage("title.noPermission");
-		String subtitle = ConfigLanguage.getMessage("title.noPermission2", permission);
-		sendTitle(p, title, subtitle);
-		pingPlayer(p);
+		if(cs == null || permission == null) return;
+		if(cs instanceof Player)
+		{
+			Player p = (Player) cs;
+			String title = ConfigLanguage.getMessage("title.noPermission");
+			String subtitle = ConfigLanguage.getMessage("title.noPermission2", permission);
+			sendTitle(p, title, subtitle);
+			pingPlayer(p);
+		}
+		else cs.sendMessage(noPermission + permission);
 	}
 	
 	public static void sendAction1_10(Player p, String msg)

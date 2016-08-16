@@ -143,7 +143,10 @@ public class CommandDisco implements CommandExecutor,Runnable,Listener
 			Player p = (Player) e.getWhoClicked();
 			if(disco.containsKey(p))
 			{
-				Material m = e.getCurrentItem().getType();
+				ItemStack is = e.getCurrentItem();
+				if(is == null) return;
+				Material m = is.getType();
+				if(m == null) return;
 				List<Material> discoTypes = Arrays.asList(Material.STAINED_GLASS, Material.STAINED_GLASS_PANE, Material.STAINED_CLAY, Material.CARPET, Material.BANNER, Material.LEATHER_HELMET, Material.LEATHER_CHESTPLATE, Material.LEATHER_LEGGINGS, Material.LEATHER_BOOTS, Material.WOOL);
 				if(discoTypes.contains(m))
 				{
