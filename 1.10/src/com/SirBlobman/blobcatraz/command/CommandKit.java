@@ -1,9 +1,15 @@
 package com.SirBlobman.blobcatraz.command;
 
+import java.util.Set;
+
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.PlayerInventory;
 
 import com.SirBlobman.blobcatraz.Util;
@@ -82,6 +88,41 @@ public class CommandKit implements CommandExecutor
 			ConfigKits.deleteKit(kitName);
 			p.sendMessage(Util.blobcatraz + "Kit '§c" + kitName + "§r' has been deleted!");
 			return true;
+		}
+		if(label.equalsIgnoreCase("KitToChest"))
+		{
+			if(!Util.hasPermission(p, "blobcatraz.kit.toChest")) return true;
+			if(args.length == 0) {p.sendMessage(Util.notEnoughArguments); return true;}
+			String kitName = Util.getFinalArg(args, 0);
+			if(!Util.hasPermission(p, "blobcatraz.kits." + kitName)) return true;
+			Block b = p.getTargetBlock((Set<Material>) null, 20);
+			if(b.getType() == Material.CHEST)
+			{
+				Chest chest = (Chest) b.getState();
+				ConfigKits.putKitInChest(kitName, chest);
+				String coords = chest.getX() + " " + chest.getY() + " " + chest.getZ();
+				cs.sendMessage(Util.blobcatraz + "The chest at §5" + coords + "§r has been filled with the kit §c" + kitName);
+				return true;
+			}
+			else {p.sendMessage(Util.blobcatraz + "You are not looking at a chest!"); p.sendMessage("You are looking at a " + b.getClass().getSimpleName()); return true;}
+			
+		}
+		if(label.equalsIgnoreCase("ChestToKit"))
+		{
+			if(!Util.hasPermission(p, "blobcatraz.kit.fromChest")) return true;
+			if(args.length == 0) {p.sendMessage(Util.notEnoughArguments); return true;}
+			String kitName = Util.getFinalArg(args, 0);
+			Block b = p.getTargetBlock((Set<Material>) null, 20);
+			if(b.getType() == Material.CHEST)
+			{
+				Chest chest = (Chest) b.getState();
+				Inventory i = chest.getInventory();
+				ConfigKits.createKit(i, kitName);
+				String coords = chest.getX() + " " + chest.getY() + " " + chest.getZ();
+				cs.sendMessage(Util.blobcatraz + "You have created a kit called §c" + kitName + "§r from the chest at: §5" + coords);
+				return true;
+			}
+			else {p.sendMessage(Util.blobcatraz + "You are not looking at a chest!"); p.sendMessage("You are looking at a " + b.getType()); return true;}
 		}
 		return false;
 	}

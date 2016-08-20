@@ -2,7 +2,6 @@ package com.SirBlobman.blobcatraz;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -28,20 +27,20 @@ import com.SirBlobman.blobcatraz.command.CommandItemEditor;
 import com.SirBlobman.blobcatraz.command.CommandKit;
 import com.SirBlobman.blobcatraz.command.CommandMOTD;
 import com.SirBlobman.blobcatraz.command.CommandMessage;
-import com.SirBlobman.blobcatraz.command.CommandPluginManager;
 import com.SirBlobman.blobcatraz.command.CommandPortal;
 import com.SirBlobman.blobcatraz.command.CommandRandom;
 import com.SirBlobman.blobcatraz.command.CommandRandomTP;
+import com.SirBlobman.blobcatraz.command.CommandRecipe;
 import com.SirBlobman.blobcatraz.command.CommandSpawn;
 import com.SirBlobman.blobcatraz.command.CommandTag;
 import com.SirBlobman.blobcatraz.command.CommandTeleport;
 import com.SirBlobman.blobcatraz.command.CommandTime;
+import com.SirBlobman.blobcatraz.command.CommandTokenShop;
 import com.SirBlobman.blobcatraz.command.CommandVanish;
 import com.SirBlobman.blobcatraz.command.CommandVote;
 import com.SirBlobman.blobcatraz.command.CommandWarp;
 import com.SirBlobman.blobcatraz.command.CommandWorth;
 import com.SirBlobman.blobcatraz.config.ConfigBlobcatraz;
-import com.SirBlobman.blobcatraz.config.ConfigDatabase;
 import com.SirBlobman.blobcatraz.config.ConfigPortals;
 import com.SirBlobman.blobcatraz.config.ConfigShop;
 import com.SirBlobman.blobcatraz.config.ConfigSpawn;
@@ -56,6 +55,7 @@ import com.SirBlobman.blobcatraz.enchant.Levitate;
 import com.SirBlobman.blobcatraz.enchant.Wither;
 import com.SirBlobman.blobcatraz.enchant.XPDrain;
 import com.SirBlobman.blobcatraz.gui.GuiRandomTP;
+import com.SirBlobman.blobcatraz.gui.GuiTokenShop;
 import com.SirBlobman.blobcatraz.item.LightningRod;
 import com.SirBlobman.blobcatraz.item.PortalWand;
 import com.SirBlobman.blobcatraz.item.Recipes;
@@ -77,7 +77,6 @@ import com.SirBlobman.blobcatraz.listener.Protection;
 import com.SirBlobman.blobcatraz.listener.ShopSigns;
 import com.SirBlobman.blobcatraz.listener.Vote;
 import com.SirBlobman.blobcatraz.task.CombatTag;
-import com.SirBlobman.blobcatraz.world.generator.FlatChunkGenerator;
 
 import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.economy.Economy;
@@ -118,14 +117,9 @@ public class Blobcatraz extends JavaPlugin
 	@Override
 	public void onDisable() 
 	{
+		Util.closeAllInventories();
 		Recipes.unloadRecipes();
 		Util.broadcast(Util.pluginDisabled);
-	}
-	
-	@Override
-	public ChunkGenerator getDefaultWorldGenerator(String world, String id)
-	{
-		return new FlatChunkGenerator(id);
 	}
 	
 	private void listeners()
@@ -140,6 +134,8 @@ public class Blobcatraz extends JavaPlugin
 		Util.regEvent(new ShopSigns());
 		Util.regEvent(new CommandDisco());
 		Util.regEvent(new CommandBalance());
+		Util.regEvent(new CommandRecipe());
+		Util.regEvent(new GuiTokenShop());
 	//Config Based
 		if(config.getBoolean("protection.preventPrisonEscape")) Util.regEvent(new Protection());
 		if(config.getBoolean("random.invincibleSlimes")) Util.regEvent(new InvincibleSlimes());
@@ -200,7 +196,6 @@ public class Blobcatraz extends JavaPlugin
 	{
 		if(!getDataFolder().exists()) try{getDataFolder().mkdir();} catch (Exception ex) {Util.print("Could not create the data folder! Disabling Blobcatraz"); Bukkit.getServer().getPluginManager().disablePlugin(this); return;}
 		config = ConfigBlobcatraz.getConfig();
-		ConfigDatabase.getBalances();
 		ConfigPortals.loadPortals();
 		ConfigShop.loadPrices();
 		ConfigSpawn.loadSpawn();
@@ -219,6 +214,7 @@ public class Blobcatraz extends JavaPlugin
 		getCommand("btime").setExecutor(new CommandTime());
 		getCommand("center").setExecutor(new CommandTeleport());
 		getCommand("chat").setExecutor(new CommandChat());
+		getCommand("ChestToKit").setExecutor(new CommandKit());
 		getCommand("clearinventory").setExecutor(new CommandInventory());
 		getCommand("commandspy").setExecutor(new CommandCommandSpy());
 		getCommand("createkit").setExecutor(new CommandKit());
@@ -241,11 +237,12 @@ public class Blobcatraz extends JavaPlugin
 		getCommand("item").setExecutor(new CommandItem());
 		getCommand("item").setTabCompleter(new CommandItem());
 		getCommand("kit").setExecutor(new CommandKit());
+		getCommand("KitToChest").setExecutor(new CommandKit());
 		getCommand("tell").setExecutor(new CommandMessage());
 		getCommand("portal").setExecutor(new CommandPortal());
-		getCommand("pluginmanager").setExecutor(new CommandPluginManager(this));
 		getCommand("random").setExecutor(new CommandRandom());
 		getCommand("randomtp").setExecutor(new CommandRandomTP());
+		getCommand("recipe").setExecutor(new CommandRecipe());
 		getCommand("removelore").setExecutor(new CommandItemEditor());
 		getCommand("rename").setExecutor(new CommandItemEditor());
 		getCommand("resetitem").setExecutor(new CommandItemEditor());
@@ -262,6 +259,7 @@ public class Blobcatraz extends JavaPlugin
 		getCommand("tag").setExecutor(new CommandTag());
 		getCommand("teleport").setExecutor(new CommandTeleport());
 		getCommand("tempban").setExecutor(new CommandBan());
+		getCommand("tshop").setExecutor(new CommandTokenShop());
 		getCommand("unban").setExecutor(new CommandBan());
 		getCommand("unbreakable").setExecutor(new CommandEnchant());
 		getCommand("unfreeze").setExecutor(new CommandFreeze());

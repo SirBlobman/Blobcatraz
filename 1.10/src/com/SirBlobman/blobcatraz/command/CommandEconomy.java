@@ -35,6 +35,7 @@ public class CommandEconomy implements CommandExecutor
 				if(p == null) {cs.sendMessage(Util.blobcatraz + "§9" + args[1] + " §ris not a Player"); return true;}
 				
 				ConfigDatabase.resetBalance(p);
+				cs.sendMessage(Util.blobcatraz + "You reset the balance of " + p.getName());
 				return true;
 			}
 			

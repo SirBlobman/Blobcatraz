@@ -10,9 +10,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.projectiles.ProjectileSource;
 
 import com.SirBlobman.blobcatraz.Blobcatraz;
 import com.SirBlobman.blobcatraz.Util;
+import com.SirBlobman.blobcatraz.WorldGuardChecker;
 import com.SirBlobman.blobcatraz.scoreboard.CombatTimer;
 
 public class CombatLog implements Listener 
@@ -28,23 +30,29 @@ public class CombatLog implements Listener
 		
 		if(damager instanceof Projectile)
 		{
-			damager = (Entity) ((Projectile) damager).getShooter();
+			Projectile pj = (Projectile) damager;
+			ProjectileSource pjs = pj.getShooter();
+			Entity ent = null;
+			if(pjs instanceof Entity) ent = (Entity) pjs;
+			damager = ent;
 		}
 		
 		if(!(damager instanceof Player) || !(damaged instanceof Player)) return;
 		
+		Player p = (Player) damager;
+		if(!WorldGuardChecker.canPvP(p)) return;
 		long time = System.currentTimeMillis();
 		long escape = time + Blobcatraz.millis;
 		
-		if(!tagged.containsKey((Player) damager))
+		if(!tagged.containsKey(p))
 		{
-			tagged.put((Player) damager, escape);
+			tagged.put(p, escape);
 			damager.sendMessage(Util.blobcatraz + "You are now in combat for attacking §5" + damaged.getName() + "§r.");
 		}
 		
-		if(!tagged.containsKey((Player) damaged))
+		if(!tagged.containsKey(p))
 		{
-			tagged.put((Player) damaged, escape);
+			tagged.put(p, escape);
 			damaged.sendMessage(Util.blobcatraz + "§5" + damager.getName() + " §rattacked you! You are now in combat.");
 		}
 	}

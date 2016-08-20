@@ -494,6 +494,12 @@ public class ConfigDatabase
 	public static boolean canAutoPickup(OfflinePlayer op)
 	{
 		if(op == null) return false;
+		FileConfiguration fc = load(op);
+		if(fc.get("autopickup") == null) 
+		{
+			fc.set("autopickup", true);
+			save(op, fc);
+		}
 		return load(op).getBoolean("autopickup");
 	}
 	

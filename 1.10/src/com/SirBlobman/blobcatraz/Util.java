@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -13,11 +14,17 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -1009,12 +1016,28 @@ public class Util
 		return UUID.fromString(uuid);
 	}
 	
+/**
+ * Ping a Player
+ * @param p Player to ping
+ * @see Player
+ * @see Player#playSound(Location, String, float, float)
+ * @see Sound#ENTITY_EXPERIENCE_ORB_PICKUP
+ */
 	public static void pingPlayer(Player p)
 	{
 		if(p == null) return;
 		p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100, 1);
 	}
 	
+/**
+ * Sends a title to a Player
+ * @param p Player which will recieve the title
+ * @param title Title to send
+ * @param subtitle Subtitle to send
+ * @see Player
+ * @see String
+ * @see Player#sendTitle(String, String)
+ */
 	@SuppressWarnings("deprecation")
 	public static void sendTitle(Player p, String title, String subtitle)
 	{
@@ -1022,6 +1045,17 @@ public class Util
 		p.sendTitle(title, subtitle);
 	}
 	
+/**
+ * Sends the no permission message to the command sender
+ * If the {@link CommandSender} is a {@link Player} they will see a title instead
+ * @param cs CommandSender of the command
+ * @param permission Permission that they don't have
+ * @see CommandSender
+ * @see String
+ * @see Util#sendTitle(Player, String, String)
+ * @see Util#pingPlayer(Player)
+ * @see CommandSender#sendMessage(String)
+ */
 	public static void noPermission(CommandSender cs, String permission)
 	{
 		if(cs == null || permission == null) return;
@@ -1036,6 +1070,16 @@ public class Util
 		else cs.sendMessage(noPermission + permission);
 	}
 	
+/**
+ * Use 1.10_R1 NMS code to send an action message
+ * @param p Player which will recieve the message
+ * @param msg Message to send
+ * @see Player
+ * @see String
+ * @see net.minecraft.server.v1_10_R1.IChatBaseComponent
+ * @see net.minecraft.server.v1_10_R1.PacketPlayOutChat
+ * @see org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer
+ */
 	public static void sendAction1_10(Player p, String msg)
 	{
 		if(p == null) return;
@@ -1043,5 +1087,167 @@ public class Util
 		net.minecraft.server.v1_10_R1.IChatBaseComponent message = net.minecraft.server.v1_10_R1.IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + msg + "\"}");
 		net.minecraft.server.v1_10_R1.PacketPlayOutChat chat = new net.minecraft.server.v1_10_R1.PacketPlayOutChat(message, (byte) 2);
 		((org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer) p).getHandle().playerConnection.sendPacket(chat);
+	}
+	
+/**
+ * Spawns a mob at the given location
+ * @param et EntityType to summon
+ * @param l Location where the entity will be summoned
+ * @param noArmor Does the entity have this plugin's special armor?
+ * @see EntityType
+ * @see Location
+ * @see Boolean
+ * @see World#spawnEntity(Location, EntityType)
+ */
+	public static void spawnMob(EntityType et, Location l, boolean noArmor)
+	{
+		World w = l.getWorld();
+		Entity e = w.spawnEntity(l, et);
+		if(e instanceof LivingEntity)
+		{
+			LivingEntity le = (LivingEntity) e;
+			EntityEquipment eq = le.getEquipment();
+			if(!noArmor) {ItemStack boots = getLeatherArmorRandom()[0]; eq.setBoots(boots);}
+		}
+	}
+	
+/**
+ * Gets the block the player is looking at
+ * Works up to 200 blocks away
+ * @param p Player that is looking
+ * @return Location of the block they are looking at
+ * @see Location
+ * @see Player
+ * @see Player#getTargetBlock(Set, int)
+ * @see org.bukkit.block.Block#getLocation()
+ */
+	public static Location getPlayerLook(Player p)
+	{
+		Location look = p.getTargetBlock((Set<Material>) null, 200).getLocation();
+		return look;
+	}
+	
+/**
+ * Get the coordinates for a string version of xyz which can include relative coordinates (~)
+ * @param original Original location
+ * @param sx String of coordinate X
+ * @param sy String of coordinate Y
+ * @param sz String of coordinate Z
+ * @return Location with the new coordinates
+ * @see Location
+ * @see String
+ * @see Util#getRelative(double, double)
+ */
+	public static Location getCoords(Location original, String sx, String sy, String sz)
+	{
+		try
+		{
+			double ox = original.getX();
+			double oy = original.getY();
+			double oz = original.getZ();
+			double x = 0.0D;
+			double y = 0.0D;
+			double z = 0.0D;
+			
+			try
+			{
+				x = Double.parseDouble(sx);
+				y = Double.parseDouble(sy);
+				z = Double.parseDouble(sz);
+			} catch(Exception ex) {}
+
+			if(sx.equalsIgnoreCase("~")) x = ox;
+			if(sy.equalsIgnoreCase("~")) y = oy;
+			if(sz.equalsIgnoreCase("~")) z = oz;
+
+			if(sx.startsWith("~") && sx.length() != 1)
+			{
+				String sx2 = sx.replace("~", "");
+				double add = Double.parseDouble(sx2);
+				x = getRelative(ox, add);
+			}
+			if(sy.startsWith("~") && sy.length() != 1)
+			{
+				String sy2 = sy.replace("~", "");
+				double add = Double.parseDouble(sy2);
+				y = getRelative(oy, add);
+			}
+			if(sz.startsWith("~") && sz.length() != 1)
+			{
+				String sz2 = sz.replace("~", "");
+				double add = Double.parseDouble(sz2);
+				z = getRelative(oz, add);
+			}
+			return new Location(original.getWorld(), x, y, z, original.getYaw(), original.getPitch());
+		} catch(Exception ex) {return null;}
+	}
+	
+/**
+ * Gets a relative coordinate
+ * <br>Example: If you are at x = 8, ~1 = 9
+ * @param original Original coordinate
+ * @param add Amount to add to that coordinate (can be negative to subtract)
+ * @return new coordinate (as a double)
+ * @see Double
+ */
+	public static double getRelative(double original, double add)
+	{
+		return original + add;
+	}
+
+/**
+ * Checks if a player has permission
+ * @param cs CommandSender to check
+ * @param permission Permission to check
+ * @return <b>true</b> if the CommandSender has the permission<br><b>false</b> if they don't
+ * @see CommandSender
+ * @see String
+ * @see CommandSender#hasPermission(String)
+ */
+	public static boolean hasPermission(CommandSender cs, String permission)
+	{
+		ConsoleCommandSender ccs = Bukkit.getServer().getConsoleSender();
+		if(cs != ccs)
+		{
+			if(cs.isOp() || cs.hasPermission(permission)) return true;
+			noPermission(cs, permission);
+			return false;
+		}
+		return true;
+	}
+
+/**
+ * Gets the name of an ItemStack
+ * @param item Item to get the name from
+ * @return Items displayname, or Material name if it doesn't have a displayname
+ * @see ItemStack
+ * @see String
+ * @see ItemMeta#getDisplayName()
+ * @see Material#name()
+ */
+	public static String getItemName(ItemStack item) 
+	{
+		if(item == null) return "";
+		ItemMeta meta = item.getItemMeta();
+		short data = item.getDurability();
+		if(meta == null || !meta.hasDisplayName()) 
+		{
+			String name = item.getType().name() + ((data == 0 || data == 32767) ? "" : ":" + item.getDurability());
+			return name;
+		}
+		return meta.getDisplayName();
+	}
+
+/**
+ * Used in the onDisable() section to close the inventories of every player on the server
+ * @see Player#closeInventory()
+ * @see Bukkit#getOnlinePlayers()
+ */
+	public static void closeAllInventories()
+	{
+		for(Player p : Bukkit.getOnlinePlayers())
+		{
+			p.closeInventory();
+		}
 	}
 }

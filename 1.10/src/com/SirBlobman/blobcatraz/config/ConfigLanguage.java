@@ -61,6 +61,7 @@ public class ConfigLanguage
 		set("title.noPermission2", "&b%s");
 		set("title.inventoryFull", "&b&l&m--&8&l&m[-<&f&lInventory Full&8&l&m>-]&b&l&m--");
 		set("title.inventoryFull2", "&2You should sell some items");
+		set("title.tokenShop", "&f&l&m---&8&l&m[--&9&l Token Shop &8&l&m--]&f&l&m---");
 		save();
 	}
 	

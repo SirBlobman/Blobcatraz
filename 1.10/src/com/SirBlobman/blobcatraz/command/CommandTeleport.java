@@ -20,126 +20,93 @@ public class CommandTeleport implements CommandExecutor
 
 		if(label.equalsIgnoreCase("tp") || label.equalsIgnoreCase("teleport"))
 		{
-			if(!le.hasPermission("blobcatraz.tp")) {le.sendMessage(Util.noPermission + "blobcatraz.tp"); return true;}
-			if(args.length == 1)
+			String permission = "blobcatraz.tp";
+			if(!Util.hasPermission(cs, permission)) return true;
+			switch(args.length)
 			{
-				Player p = Bukkit.getPlayer(args[0]);
-				if(p == null) {le.sendMessage(Util.blobcatraz + "§5" + args[0] + " §ris not a Player"); return true;}
-				le.teleport(p);
-				le.sendMessage(Util.blobcatraz + "You have been teleported to " + p.getDisplayName());
-				return true;
-			}
-			if(args.length == 2)
-			{
-				if(!le.hasPermission("blobcatraz.tp.others")) {le.sendMessage(Util.noPermission + "blobcatraz.tp.others"); return true;}
-				Player p = Bukkit.getPlayer(args[0]);
-				Player p2 = Bukkit.getPlayer(args[1]);
-				if(p == null) {le.sendMessage(Util.blobcatraz + "§5" + args[0] + " §ris not a Player"); return true;}
-				if(p2 == null) {le.sendMessage(Util.blobcatraz + "§5" + args[1] + " §ris not a Player"); return true;}
-				p.teleport(p2);
-				p.sendMessage(Util.blobcatraz + le.getName() + " has teleported you to " + p2.getDisplayName());
-				p2.sendMessage(Util.blobcatraz + le.getName() + " has teleported " + p.getDisplayName() + " §rto you");
-				le.sendMessage(Util.blobcatraz + "You teleported §5" + p.getDisplayName() + " §rto §5" + p2.getDisplayName());
-				return true;
-			}
-			if(args.length == 3)
-			{
-				Double x = null, y = null, z = null;
-				Location l = le.getLocation();
-				if(args[0].startsWith("~"))
-				{
-					try
-					{
-						double xr = Double.parseDouble(args[0].substring(1));
-						x = getRelativeX(l, xr);
-					} catch(Exception ex)
-					{
-						le.sendMessage(Util.blobcatraz + "Invalid coordinates");
-						return true;
-					}
-				}
-				if(args[1].startsWith("~"))
-				{
-					try
-					{
-						double yr = Double.parseDouble(args[1].substring(1));
-						y = getRelativeY(l, yr);
-					} catch(Exception ex)
-					{
-						le.sendMessage(Util.blobcatraz + "Invalid coordinates");
-						return true;
-					}
-				}
-				if(args[2].startsWith("~"))
-				{
-					try
-					{
-						double zr = Double.parseDouble(args[2].substring(1));
-						z = getRelativeZ(l, zr);
-					} catch(Exception ex)
-					{
-						le.sendMessage(Util.blobcatraz + "Invalid coordinates");
-						return true;
-					}
-				}
-				else
-				{
-					try
-					{
-						x = Double.parseDouble(args[0]);
-						y = Double.parseDouble(args[1]);
-						z = Double.parseDouble(args[2]);
-					} catch(Exception ex)
-					{
-						le.sendMessage(Util.blobcatraz + "Invalid coordinates");
-						return true;
-					}
-				}
-				
-				if(x!=null && y!=null && z!=null)
-				{
-					Location l2 = new Location(l.getWorld(), x, y, z, l.getYaw(), l.getPitch());
-					String ls = l2.getX() + " " + l2.getY() + " " + l2.getZ();
-					le.teleport(l2);
-					le.sendMessage(Util.blobcatraz + "You have been teleported to " + ls);
-					return true;
-				}
-				else
-				{
-					le.sendMessage(Util.blobcatraz + "Invalid coordinates");
-					return true;
-				}
+			case 1:
+				return senderToPlayer(le, args);
+			case 2:
+				return playerToPlayer(le, args);
+			case 3:
+				return senderToCoords(le, args);
+			case 4:
+				return playerToCoords(le, args);
 			}
 		}
 		if(label.equalsIgnoreCase("center") || label.equalsIgnoreCase("centre"))
 		{
-			if(!le.hasPermission("blobcatraz.center")) {le.sendMessage(Util.noPermission + "blobcatraz.center"); return true;}
-			Location l = le.getLocation();
-			Location center = new Location(l.getWorld(), l.getBlockX() + 0.5, l.getY(), l.getBlockZ() + 0.5, 0, 90);
+			if(!Util.hasPermission(le, "blobcatraz.center")) return true;
+			Location o = le.getLocation();
+			Location center = new Location(o.getWorld(), o.getBlockX() + 0.5, o.getY(), o.getBlockZ() + 0.5, 0, 90);
 			le.teleport(center);
+			le.sendMessage(Util.blobcatraz + "You have been teleported to the center");
 			return true;
 		}
 		return false;
 	}
 	
-	private static double getRelativeX(Location original, double x)
+	private boolean senderToPlayer(LivingEntity le, String[] args)
 	{
-		Location l = original;
-		l.setX(original.getX() + x);
-		return l.getX();
-	}
-
-	private static double getRelativeY(Location original, double y)
-	{
-		Location l = original;
-		l.setY(original.getY() + y);
-		return l.getY();
+		String name = args[0];
+		Player p = Bukkit.getPlayer(name);
+		if(p == null) {le.sendMessage(Util.blobcatraz + "§5" + name + " §ris not a Player!"); return true;}
+		le.teleport(p);
+		le.sendMessage(Util.blobcatraz + "You have been teleported to " + p.getDisplayName());
+		return true;
 	}
 	
-	private static double getRelativeZ(Location original, double z)
+	private boolean senderToCoords(LivingEntity le, String[] args)
 	{
-		Location l = original;
-		l.setY(original.getZ() + z);
-		return l.getZ();
+		String sx = args[0];
+		String sy = args[1];
+		String sz = args[2];
+		Location coords = Util.getCoords(le.getLocation(), sx, sy, sz);
+		if(coords == null) {le.sendMessage(Util.blobcatraz + "Invalid coordinates"); return false;}
+		le.teleport(coords);
+		String scoords = "§5" + coords.getBlockX() + "§r, §5" + coords.getBlockY() + "§r, §5" + coords.getBlockZ();
+		le.sendMessage(Util.blobcatraz + "You have been teleported to: " + scoords);
+		return true;
+	}
+	
+	private boolean playerToPlayer(LivingEntity le, String[] args)
+	{
+		String permission = "blobcatraz.tp.others";
+		if(!Util.hasPermission(le, permission)) return true;
+		String name = args[0];
+		String name2 = args[1];
+		Player p = Bukkit.getPlayer(name);
+		Player p2 = Bukkit.getPlayer(name2);
+		if(p == null) {le.sendMessage(Util.blobcatraz + "§5" + name + " §ris not a Player!"); return true;}
+		if(p2 == null) {le.sendMessage(Util.blobcatraz + "§5" + name2 + " §ris not a Player!"); return true;}
+		p.teleport(p2);
+		if(!p.equals(le))
+		{
+			le.sendMessage(Util.blobcatraz + "You teleported " + p.getDisplayName() + " §rto " + p2.getDisplayName());
+			p.sendMessage(Util.blobcatraz + le.getName() + " §rteleported you to " + p2.getDisplayName());
+		}
+		return true;
+	}
+	
+	private boolean playerToCoords(LivingEntity le, String[] args)
+	{
+		String permission = "blobcatraz.tp.others";
+		if(!Util.hasPermission(le, permission)) return true;
+		String name = args[0];
+		Player p = Bukkit.getPlayer(name);
+		if(p == null) {le.sendMessage(Util.blobcatraz + "§5" + name + " §ris not a Player!"); return true;}
+		String sx = args[1];
+		String sy = args[2];
+		String sz = args[3];
+		Location coords = Util.getCoords(p.getLocation(), sx, sy, sz);
+		if(coords == null) {le.sendMessage(Util.blobcatraz + "Invalid coordinates"); return false;}
+		p.teleport(coords);
+		String scoords = "§5" + coords.getBlockX() + "§r, §5" + coords.getBlockY() + "§r, §5" + coords.getBlockZ();
+		if(!p.equals(le))
+		{
+			p.sendMessage(Util.blobcatraz + le.getName() + " §rhas teleported you to " + scoords);
+			le.sendMessage(Util.blobcatraz + p.getDisplayName() + " §rhas been teleported to: " + scoords);
+		}
+		return true;
 	}
 }

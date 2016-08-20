@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 import org.bukkit.Material;
+import org.bukkit.block.Chest;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -146,5 +147,18 @@ public class ConfigKits
 	public static boolean doesKitExist(String kitName)
 	{
 		return getKits().contains(kitName);
+	}
+
+	public static void putKitInChest(String kitName, Chest chest)
+	{
+		Inventory i = chest.getInventory();
+		List<ItemStack> kit = ConfigKits.getItemsInKit(kitName);
+		i.clear();
+		for(ItemStack is : kit)
+		{
+			HashMap<Integer, ItemStack> leftover = i.addItem(is);
+			if(!leftover.isEmpty()) break;
+		}
+		chest.update(true);
 	}
 }

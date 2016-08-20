@@ -10,11 +10,12 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 
+import com.SirBlobman.blobcatraz.Blobcatraz;
 import com.SirBlobman.blobcatraz.Util;
 
 public class ConfigBlobcatraz
 {
-	private static File configFile = new File(com.SirBlobman.blobcatraz.Blobcatraz.instance.getDataFolder(), "blobcatraz.yml");
+	private static File configFile = new File(Blobcatraz.instance.getDataFolder(), "blobcatraz.yml");
 	public static FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 	
 	public static void saveConfig()

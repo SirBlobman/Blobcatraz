@@ -1,6 +1,6 @@
 main: com.SirBlobman.blobcatraz.Blobcatraz
 name: Blobcatraz
-version: 0.0.1.11
+version: 0.0.1.12
 author: SirBlobman
 description: Plugin used for nearly everything in the Blobcatraz server. 
 softdepend: [Vault, HolographicDisplays, Votifier]
@@ -232,3 +232,17 @@ commands:
   deletekit: 
     description: Delete a kit
     usage: /delekit [name]
+  recipe:
+    description: Show the recipe for an item
+    usage: /recipe [item] <page>
+    aliases: [formula]
+  KitToChest:
+    description: Put a kit into a chest
+    usage: /KitToChest [kit]
+  ChestToKit:
+    description: Turn a chest's inventory into a kit
+    usage: /ChestToKit [kit name]
+  tshop:
+    description: Open the token shop GUI
+    usage: /tshop
+    aliases: [tokenshop]

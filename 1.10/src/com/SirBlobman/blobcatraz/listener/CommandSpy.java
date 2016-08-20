@@ -23,14 +23,18 @@ public class CommandSpy implements Listener
 		for(Player p2 : Bukkit.getServer().getOnlinePlayers())
 		{
 			boolean canSpy = ConfigDatabase.getCanSpy(p2);
-			for(String s : ignore)
+			if(canSpy)
 			{
-				String name1 = p.getName();
-				String name2 = p2.getName();
-				String ignored = s.toLowerCase();
-				if(c.startsWith(ignored) || !canSpy || name1.equalsIgnoreCase(name2)) return;
-				p2.sendMessage("§7§l" + p.getName() + ":§7 " + e.getMessage());
-				break;
+				for(String s : ignore)
+				{
+					String name1 = p.getName();
+					String name2 = p2.getName();
+					String ignored = s.toLowerCase();
+					if(c.startsWith(ignored)) return;
+					if(name1.equalsIgnoreCase(name2)) return;
+					p2.sendMessage("§7§l" + p.getName() + ":§7 " + e.getMessage());
+					break;
+				}
 			}
 		}
 	}
