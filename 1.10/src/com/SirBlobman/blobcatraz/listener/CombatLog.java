@@ -40,6 +40,7 @@ public class CombatLog implements Listener
 		if(!(damager instanceof Player) || !(damaged instanceof Player)) return;
 		
 		Player p = (Player) damager;
+		Player p2 = (Player) damaged;
 		if(!WorldGuardChecker.canPvP(p)) return;
 		long time = System.currentTimeMillis();
 		long escape = time + Blobcatraz.millis;
@@ -50,7 +51,7 @@ public class CombatLog implements Listener
 			damager.sendMessage(Util.blobcatraz + "You are now in combat for attacking §5" + damaged.getName() + "§r.");
 		}
 		
-		if(!tagged.containsKey(p))
+		if(!tagged.containsKey(p2))
 		{
 			tagged.put(p, escape);
 			damaged.sendMessage(Util.blobcatraz + "§5" + damager.getName() + " §rattacked you! You are now in combat.");

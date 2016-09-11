@@ -24,6 +24,7 @@ public class GuiTokenShop implements Listener
 	private final ItemStack MAIN_BOOTS = TokenShopItems.mainBoots();
 	private final ItemStack MAIN_WEAPONS = TokenShopItems.mainWeapons();
 	private final ItemStack MAIN_TOOLS = TokenShopItems.mainTools();
+	private final ItemStack BACK = TokenShopItems.back();
 	
 	private final ItemStack TOOL_FILLER = TokenShopItems.toolsFiller();
 	private final ItemStack UPGRADE_STONE = TokenShopItems.upgrade("§7§lStone", Material.STONE_PICKAXE);
@@ -32,7 +33,7 @@ public class GuiTokenShop implements Listener
 	private final ItemStack UPGRADE_DIAMOND = TokenShopItems.upgrade("§3§lDiamond", Material.DIAMOND_PICKAXE);
 	private final ItemStack UPGRADE_EFFICIENCY = TokenShopItems.upgradeEnchant("Efficiency", Enchantment.DIG_SPEED, Material.OBSIDIAN, "§b§l§oMine Blocks Faster");
 	private final ItemStack UPGRADE_SHARPNESS = TokenShopItems.upgradeEnchant("Sharpness", Enchantment.DAMAGE_ALL, Material.SMOOTH_BRICK, "§b§l§oDo More Damage");
-	private final ItemStack UPGRADE_FORTUNE = TokenShopItems.upgradeEnchant("Fortune", Enchantment.LOOT_BONUS_BLOCKS, Material.EMERALD_BLOCK, "§b§l§o§nGet Blocks Faster");
+	private final ItemStack UPGRADE_FORTUNE = TokenShopItems.upgradeEnchant("Fortune", Enchantment.LOOT_BONUS_BLOCKS, Material.EMERALD_BLOCK, "§b§l§oGet Blocks Faster");
 	private final ItemStack UPGRADE_SILK_TOUCH = TokenShopItems.upgradeEnchant("Silk Touch", Enchantment.SILK_TOUCH, Material.IRON_BLOCK, "§b§l§oGet The Ore Instead");
 	
 	private final ItemStack ARMOR_FILLER = TokenShopItems.armorFiller();
@@ -69,7 +70,18 @@ public class GuiTokenShop implements Listener
 		{
 			UPGRADE_STONE, TOOL_FILLER, TOOL_FILLER, UPGRADE_GOLD, TOOL_FILLER, UPGRADE_IRON, TOOL_FILLER, TOOL_FILLER, UPGRADE_DIAMOND,//1st Row
 			TOOL_FILLER, TOOL_FILLER, TOOL_FILLER, TOOL_FILLER, UPGRADE_EFFICIENCY, TOOL_FILLER, TOOL_FILLER, TOOL_FILLER, TOOL_FILLER, //2nd Row
-			TOOL_FILLER, TOOL_FILLER, UPGRADE_SHARPNESS, TOOL_FILLER, UPGRADE_FORTUNE, TOOL_FILLER, UPGRADE_SILK_TOUCH, TOOL_FILLER, TOOL_FILLER//3rd Row
+			TOOL_FILLER, TOOL_FILLER, UPGRADE_SHARPNESS, TOOL_FILLER, UPGRADE_FORTUNE, TOOL_FILLER, UPGRADE_SILK_TOUCH, TOOL_FILLER, BACK//3rd Row
+		};
+		Inventory shop = Bukkit.createInventory(null, items.length, TITLE);
+		shop.setContents(items);
+		return shop;
+	}
+	
+	public Inventory weapons()
+	{
+		ItemStack[] items = new ItemStack[]
+		{
+				
 		};
 		Inventory shop = Bukkit.createInventory(null, items.length, TITLE);
 		shop.setContents(items);
@@ -80,7 +92,9 @@ public class GuiTokenShop implements Listener
 	{
 		ItemStack[] items = new ItemStack[]
 		{
-			ARMOR_FILLER, HELMET_PP, HELMET_FP, HELMET_P, HELMET_WB, HELMET_T, HELMET_BP, HELMET_KB, ARMOR_FILLER//1st Row
+			ARMOR_FILLER, ARMOR_FILLER, ARMOR_FILLER, ARMOR_FILLER, BACK, ARMOR_FILLER, ARMOR_FILLER, ARMOR_FILLER, ARMOR_FILLER, //1st Row
+			ARMOR_FILLER, HELMET_PP, HELMET_FP, HELMET_P, HELMET_WB, HELMET_T, HELMET_BP, HELMET_KB, ARMOR_FILLER, //2nd Row
+			ARMOR_FILLER, ARMOR_FILLER, ARMOR_FILLER, ARMOR_FILLER, ARMOR_FILLER, ARMOR_FILLER, ARMOR_FILLER, ARMOR_FILLER, ARMOR_FILLER //3rd Row
 		};
 		Inventory shop = Bukkit.createInventory(null, items.length, TITLE);
 		shop.setContents(items);
@@ -99,8 +113,9 @@ public class GuiTokenShop implements Listener
 		{
 			e.setCancelled(true);
 			if(is.equals(MAIN_TOOLS)) open(p, tools());
-			//if(is.equals(MAIN_WEAPONS)) open(p, weapons());
+			if(is.equals(MAIN_WEAPONS)) open(p, weapons());
 			if(is.equals(MAIN_HELMET)) open(p, helmet());
+			if(is.equals(BACK)) open(p, mainGUI());
 		}
 	}
 }

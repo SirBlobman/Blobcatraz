@@ -2,34 +2,35 @@ package com.SirBlobman.blobcatraz.enchant;
 
 import java.util.List;
 
-import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
+
+import com.SirBlobman.blobcatraz.enchant.event.DamageEnchantEvent;
 
 public class XPDrain implements Listener
 {
+	public static final String steal = "§6XP Steal ";
+	private final String steal1 = steal + "§fI";
+	
 	@EventHandler
-	public void attackWithXPStealEnchant(EntityDamageByEntityEvent e)
+	public void steal(DamageEnchantEvent e)
 	{
-		if(e.getEntity().getType() != EntityType.PLAYER || e.getDamager().getType() != EntityType.PLAYER) return;
-		Player damaged = (Player) e.getDamager();
-		Player damager = (Player) e.getEntity();
-		ItemStack held = damager.getInventory().getItemInMainHand();
-		if(held == null) held = damager.getInventory().getItemInOffHand();
-		if(held == null) return;
-		ItemMeta meta = held.getItemMeta();
-		if(meta == null) return;
-		List<String> lore = meta.getLore();
-		if(lore == null) return;
-		
-		if(lore.contains("§7XP Drain I") && damaged.getLevel() >= 5)
+		List<String> lore = e.getLore();
+		LivingEntity damaged = e.getDamaged();
+		LivingEntity damager = e.getDamager();
+		if(!(damaged instanceof Player) || !(damager instanceof Player)) return;
+		Player ded = (Player) damaged;
+		Player der = (Player) damager;
+		double chance = Math.random();
+		if(lore.contains(steal1) && chance < 0.25)
 		{
-			damaged.setLevel(damaged.getLevel() - 5);
-			damager.setLevel(damager.getLevel() + 5);
+			if(ded.getLevel() >= 5)
+			{
+				ded.setExp(ded.getExp() - 5.0F);
+				der.setExp(der.getExp() + 5.0F);
+			}
 		}
 	}
 }

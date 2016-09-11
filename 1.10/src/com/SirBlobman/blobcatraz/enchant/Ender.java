@@ -7,39 +7,33 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EnderPearl;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.projectiles.ProjectileSource;
+
+import com.SirBlobman.blobcatraz.enchant.event.BowEnchantEvent;
 
 public class Ender implements Listener 
 {
+	public static final String ender = "§7Ender ";
+	private final String ender1 = ender + "I";
+	
 	@EventHandler
-	public void onShootArrow(EntityShootBowEvent e)
+	public void ender(BowEnchantEvent e)
 	{
-		LivingEntity le = e.getEntity();
-		ItemStack bow = e.getBow();
-		ItemMeta meta = bow.getItemMeta();
-		if(meta == null) return;
-		List<String> lore = meta.getLore();
-		if(lore == null) return;
-		
-		if(lore.contains("§7Ender I"))
-		{
-			shootPearl(le);
-			e.setCancelled(true);
-		}
+		List<String> lore = e.getLore();
+		ProjectileSource shooter = e.getShooter();
+		if(lore.contains(ender1)) shootPearl(shooter);
 	}
 	
-	private void shootPearl(LivingEntity le)
+	private void shootPearl(ProjectileSource pjs)
 	{
-		if(le instanceof Player)
+		if(pjs instanceof Player)
 		{
-			Player p = (Player) le;
+			Player p = (Player) pjs;
 			PlayerInventory pi = p.getInventory();
 			GameMode gm = p.getGameMode();
 			
@@ -54,7 +48,7 @@ public class Ender implements Listener
 			p.playSound(p.getLocation(), Sound.ENTITY_ENDERPEARL_THROW, 1, 1);
 		}
 		
-		EnderPearl enderPearl = le.launchProjectile(EnderPearl.class);
-		enderPearl.setShooter(le);
+		EnderPearl enderPearl = pjs.launchProjectile(EnderPearl.class);
+		enderPearl.setShooter(pjs);
 	}
 }

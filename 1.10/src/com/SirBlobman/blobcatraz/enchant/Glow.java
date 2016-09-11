@@ -5,36 +5,29 @@ import java.util.List;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.inventory.EntityEquipment;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import com.SirBlobman.blobcatraz.enchant.event.DamageEnchantEvent;
+
 public class Glow implements Listener 
 {
+	public static final String glow = "§a§lGlow ";
+	private final String glow1 = glow + "§fI";
+	private final String glow2 = glow1 + "I";
+	private final String glow3 = glow2 + "I";
+	
 	@EventHandler
-	public void attackWithGlowEnchant(EntityDamageByEntityEvent e)
+	public void attackWithGlowEnchant(DamageEnchantEvent e)
 	{
-		if(!(e.getEntity() instanceof LivingEntity) || !(e.getDamager() instanceof LivingEntity)) return;
-		LivingEntity damaged = (LivingEntity) e.getEntity();
-		LivingEntity damager = (LivingEntity) e.getDamager();
-		EntityEquipment ee = damager.getEquipment();
-		ItemStack held = ee.getItemInMainHand();
-		if(held == null) held = ee.getItemInOffHand();
-		if(held == null) return;
-		ItemMeta meta = held.getItemMeta();
-		if(meta == null) return;
-		List<String> lore = meta.getLore();
-		if(lore == null) return;
+		LivingEntity damaged = e.getDamaged();
+		List<String> lore = e.getLore();
+		PotionEffect pglow1 = new PotionEffect(PotionEffectType.GLOWING, 200, 1);
+		PotionEffect pglow2 = new PotionEffect(PotionEffectType.GLOWING, 400, 3);
+		PotionEffect pglow3 = new PotionEffect(PotionEffectType.GLOWING, 800, 7);
 
-		PotionEffect glow1 = new PotionEffect(PotionEffectType.GLOWING, 200, 1);
-		PotionEffect glow2 = new PotionEffect(PotionEffectType.GLOWING, 400, 3);
-		PotionEffect glow3 = new PotionEffect(PotionEffectType.GLOWING, 800, 7);
-
-		if(lore.contains("§7Glow I")) damaged.addPotionEffect(glow1);
-		if(lore.contains("§7Glow II")) damaged.addPotionEffect(glow2);
-		if(lore.contains("§7Glow III")) damaged.addPotionEffect(glow3);
+		if(lore.contains(glow1)) damaged.addPotionEffect(pglow1);
+		if(lore.contains(glow2)) damaged.addPotionEffect(pglow2);
+		if(lore.contains(glow3)) damaged.addPotionEffect(pglow3);
 	}
 }

@@ -6,73 +6,93 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Villager;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.inventory.EntityEquipment;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import com.SirBlobman.blobcatraz.Util;
+import com.SirBlobman.blobcatraz.enchant.event.DamageEnchantEvent;
 
 public class Cure implements Listener
 {
 	String success = Util.blobcatraz + "Cured the Villager!";
 	String failure = Util.blobcatraz + "§4Failed to cure the Zombie!";
 	
+	public static final String cure = "§7Cure ";
+	private final String cure1 = cure + "I";
+	private final String cure2 = cure1 + "I";
+	private final String cure3 = cure2 + "I";
+	private final String cure4 = cure1 + "V";
+	
 	@EventHandler
-	public void playerHitZombieVillager(EntityDamageByEntityEvent e)
+	public void cure(DamageEnchantEvent e)
 	{
-		
-		if(!(e.getDamager() instanceof LivingEntity) || !(e.getEntity() instanceof LivingEntity)) return;
-		LivingEntity damaged = (LivingEntity) e.getEntity();
-		LivingEntity damager = (LivingEntity) e.getDamager();
-		
-		EntityEquipment ee = damager.getEquipment();
-		ItemStack held = ee.getItemInMainHand();
-		if(held == null) held = ee.getItemInOffHand();
-		if(held == null) return;
-		ItemMeta meta = held.getItemMeta();
-		if(meta == null) return;
-		List<String> lore = meta.getLore();
-		if(lore == null) return;
-		
-		if(damaged.getType() != EntityType.ZOMBIE) return;
+		LivingEntity damager = e.getDamager();
+		LivingEntity damaged = e.getDamaged();
+		List<String> lore = e.getLore();
+		if(!(damaged instanceof Zombie)) return;
 		Zombie z = (Zombie) damaged;
-		Location l = z.getLocation();
-		World w = z.getWorld();
-		
+		if(!z.isVillager()) return;
 		double chance = Math.random();
-		
-		if(z.isVillager())
+		if(lore.contains(cure1))
 		{
-			if(lore.contains("§7Cure I") && chance >= .8)
+			if(chance < .25)
 			{
-				z.setHealth(0);
-				w.spawn(l, Villager.class);
+				Location l = z.getLocation();
+				World w = l.getWorld();
+				z.remove();
+				w.spawnEntity(l, EntityType.VILLAGER);
 				damager.sendMessage(success);
 				return;
 			}
-			if(lore.contains("§7Cure II") && chance >= .5)
-			{
-				z.setHealth(0);
-				w.spawn(l, Villager.class);
-				damager.sendMessage(success);
-				return;
-			}
-			if(lore.contains("§7Cure III"))
-			{
-				z.setHealth(0);
-				w.spawn(l, Villager.class);
-				damager.sendMessage(success);
-				return;
-			}
-			else if(lore.contains("§7Cure"))
+			else
 			{
 				damager.sendMessage(failure);
+				return;
 			}
+		}
+		if(lore.contains(cure2))
+		{
+			if(chance < .5)
+			{
+				Location l = z.getLocation();
+				World w = l.getWorld();
+				z.remove();
+				w.spawnEntity(l, EntityType.VILLAGER);
+				damager.sendMessage(success);
+				return;
+			}
+			else
+			{
+				damager.sendMessage(failure);
+				return;
+			}
+		}
+		if(lore.contains(cure3))
+		{
+			if(chance < .75)
+			{
+				Location l = z.getLocation();
+				World w = l.getWorld();
+				z.remove();
+				w.spawnEntity(l, EntityType.VILLAGER);
+				damager.sendMessage(success);
+				return;
+			}
+			else
+			{
+				damager.sendMessage(failure);
+				return;
+			}
+		}
+		if(lore.contains(cure4))
+		{
+			Location l = z.getLocation();
+			World w = l.getWorld();
+			z.remove();
+			w.spawnEntity(l, EntityType.VILLAGER);
+			damager.sendMessage(success);
+			return;
 		}
 	}
 }

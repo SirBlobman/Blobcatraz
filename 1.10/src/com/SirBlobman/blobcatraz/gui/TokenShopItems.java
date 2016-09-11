@@ -14,10 +14,7 @@ public class TokenShopItems
 {
 	public static ItemStack mainFiller()
 	{
-		ItemStack filler = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 3);
-		ItemMeta meta = filler.getItemMeta();
-		meta.setDisplayName("§f");
-		filler.setItemMeta(meta);
+		ItemStack filler = new ItemStack(Material.AIR);
 		return filler;
 	}
 	
@@ -90,7 +87,6 @@ public class TokenShopItems
 	public static ItemStack toolsFiller()
 	{
 		ItemStack filler = mainFiller();
-		filler.setDurability((short) 5);
 		return filler;
 	}
 	
@@ -102,7 +98,7 @@ public class TokenShopItems
 		ItemMeta meta = up.getItemMeta();
 		meta.setDisplayName("§f§l§m---§8§l§m[-§4§l UPGRADE §8§l§m-]§f§l§m---");
 		StringBuilder lore = new StringBuilder();
-		int i = Util.uncolor(meta.getDisplayName()).length() + 5;
+		int i = Util.uncolor(meta.getDisplayName()).length() + Util.uncolor(type).length();
 		while(i > 0) {lore.append(space); i--;}
 		meta.setLore(Arrays.asList(lore.toString() + type));
 		meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
@@ -126,7 +122,6 @@ public class TokenShopItems
 	public static ItemStack armorFiller()
 	{
 		ItemStack filler = mainFiller();
-		filler.setDurability((short) 15);
 		return filler;
 	}
 	
@@ -140,5 +135,14 @@ public class TokenShopItems
 		meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
 		up.setItemMeta(meta);
 		return up;
+	}
+	
+	public static ItemStack back()
+	{
+		ItemStack back = new ItemStack(Material.NETHER_STAR);
+		ItemMeta meta = back.getItemMeta();
+		meta.setDisplayName("§4§lGo Back");
+		back.setItemMeta(meta);
+		return back;
 	}
 }

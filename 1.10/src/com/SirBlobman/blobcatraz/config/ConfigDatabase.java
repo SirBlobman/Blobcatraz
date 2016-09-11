@@ -29,6 +29,7 @@ public class ConfigDatabase
 	/**
 	 * Saves the data for this player
 	 * @param op OfflinePlayer to save
+	 * @param fc FileConfiguration to save
 	 * @see OfflinePlayer
 	 */
 	public static void save(OfflinePlayer op, FileConfiguration fc)

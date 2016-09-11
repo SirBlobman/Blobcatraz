@@ -605,6 +605,7 @@ public class Util
 	 * Color an item with its metadata value
 	 * Used for Clay, Wool, and Glass
 	 * @param is ItemStack to color
+	 * @return ItemStack of the same type with a random color (0 - 15)
 	 * @see ItemStack
 	 */
 	public static ItemStack colorRandom16(ItemStack is)
@@ -618,6 +619,7 @@ public class Util
 	
 	/**
 	 * Get a randomly colored leather armor set
+	 * @return ItemStack[] of a random leather armor set
 	 * @see ItemStack
 	 */
 	public static ItemStack[] getLeatherArmorRandom()

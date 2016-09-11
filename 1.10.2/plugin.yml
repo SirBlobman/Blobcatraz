@@ -1,0 +1,238 @@
+main: com.SirBlobman.blobcatraz.Blobcatraz
+name: Blobcatraz
+version: 0.0.2.0
+description: Plugin made for the Blobcatraz server! Has a lot of useful stuff
+load: POSTWORLD
+author: SirBlobman
+website: http://sirblobman.ddns.net
+softdepend: [WorldGuard, Vault, Votifier]
+
+commands:
+  blobcatraz:
+    description: Blobcatraz base command. [] = Required | {} = Optional
+    usage: /blobcatraz OR /blobcatraz enchant [custom enchant] OR /blobcatraz reload OR /blobcatraz restart OR /blobcatraz give [custom item]
+  afk:
+    description: Set yourself to AFK (Away From Keyboard)
+    usage: /afk {reason}
+  autopickup:
+    description: Toggle your ability to automatically pickup items
+    usage: /autopickup
+  balance:
+    description: Check how much money you have
+    usage: /balance {player}
+    aliases: [bal, money]
+  baltop:
+    description: Get the top 10 players, sorted by how much money they have
+    usage: /baltop
+    aliases: [balancetop]
+  withdraw:
+    description: Take some money out in the form of a bank note
+    usage: /withdraw [amount]
+  ban:
+    description: Prevent a player from joining the server
+    usage: /ban [player] [reason]
+    aliases: [banish]
+  tempban:
+    description: Temporarily ban a player
+    usage: /tempban [player] [time[s|m|h|w|d|y|c]] [reason]
+  unban:
+    description: Remove the ban status of a Player
+    usage: /unban [player]
+    aliases: [pardon]
+  chat:
+    description: Chat utility command
+    usage: /chat [off|on|status]
+  commandspy:
+    description: Spy on what people are doing
+    usage: /commandspy
+  disco:
+    description: Disco!
+    usage: /disco [off|armor|clay|wool|glass|carpet|pane|banner]
+  economy:
+    description: Manage the server economy
+    usage: /eco [give|take|set|reset|clearall] [player]
+    aliases: [eco]
+  addlore:
+    description: Add lore to the item you are holding
+    usage: /addlore [lore]
+  clearlore:
+    description: Clear the lore of your item
+    usage: /clearlore
+  removelore: 
+    description: Remove a line of lore from the item you are holding
+    usage: /removelore [line]
+  rename: 
+    description: Change the name of an item
+    usage: /rename [name]
+  repair:
+    description: Repair an item (set the durability to max)
+    usage: /repair
+    aliases: [fix]
+  resetitem:
+    description: Reset an item back to its vanilla default
+    usage: /resetitem
+  setlore:
+    description: Force the lore of your item
+    usage: /setlore [lore]
+  enchant:
+    description: Add enchantments to the item you are holding
+    usage: /enchant [enchantment] [level]
+    aliases: [ench]
+  unbreakable:
+    description: Make your item unbreakable
+    usage: /unbreakable
+  findorigin:
+    description: Find the origin of the world (0, 64, 0)
+    usage: /findorigin
+  fly:
+    description: Allows you to fly
+    usage: /fly [on|off] {player}
+    aliases: [soar]
+  freeze:
+    description: Prevent a player from moving
+    usage: /freeze [player]
+  unfreeze:
+    description: Unfreeze a player
+    usage: /unfreeze [player]
+  gamemode:
+    description: Change your gamemode
+    usage: /gamemode [mode] {player}
+    aliases: [gm]
+  gma:
+    description: Adventure Mode
+    usage: /gma {player}
+  gmc:
+    description: Creative Mode
+    usage: /gmc {player}
+  gms:
+    description: Adventure Mode
+    usage: /gms {player}
+  gmsp:
+    description: Adventure Mode
+    usage: /gmsp {player}
+  heal:
+    description: Heal a player
+    usage: /heal {player}
+  feed: 
+    description: Feed a player
+    usage: /feed {player}
+    aliases: [eat, munch]
+  delhome:
+    description: Delete one of you homes
+    usage: /delhome [home]
+  home:
+    description: Go back to a previously set home
+    usage: /home [home]
+  sethome:
+    description: Set a waypoint
+    usage: /sethome [name]
+  clear:
+    description: Clear your inventory
+    usage: /clear {player} {inventory type}
+    aliases: [ci, clearinventory]
+  item:
+    description: Give yourself an item
+    usage: /i [item] {amount} {meta} OR /i list
+    aliases: [i, selfgive]
+  chesttokit:
+    description: Turn a chest into a kit
+    usage: /chesttokit [kit name]
+    aliases: [ctk]
+  createkit:
+    description: Create a new kit using your inventory (not armor)
+    usage: /createkit [kit name]
+  deletekit:
+    description: Delete an unneeded kit
+    usage: /delekit [kit name]
+  kit:
+    description: Get a kit
+    usage: /kit [name]
+  kittochest:
+    description: Put a kit into a chest
+    usage: /kittochest [name]
+    aliases: [ktc]
+  getmotd:
+    description: Get the server MOTD
+    usage: /getmotd
+  setmotd:
+    description: Set the server MOTD
+    usage: /setmotd [motd]
+  portal:
+    description: Command for portals
+    usage: /portal create [name] {command without /} OR /portal list OR /portal remove [name]
+  random:
+    description: Generate a random number
+    usage: /random {min} {max}
+  randomtp:
+    description: Teleport to a random location
+    usage: /randomtp tp OR /randomtp GUI
+    aliases: [rtp]
+  recipe:
+    description: View the recipe for an item
+    usage: /recipe [item{:meta}] {page}
+  hub:
+    description: Teleport to the hub
+    usage: /hub
+    aliases: [lobby]
+  spawn:
+    description: Teleport to the spawn of your current world
+    usage: /spawn
+  setspawn:
+    description: Set the spawn of the current world
+    usage: /setspawn
+  sethub:
+    description: Set the hub for the server
+    usage: /sethub
+    aliases: [setlobby]
+  tag:
+    description: Change your name in the Tab List
+    usage: /tag [name]
+  center:
+    description: Teleport to the EXACT center of a block
+    usage: /center
+  tp:
+    description: Teleport command
+    usage: /tp [player] {coords} OR /tp [coords]
+    aliases: [teleport]
+  tokenshop:
+    description: Open the token shop (WIP)
+    usage: /tokenshop
+    aliases: [tshop]
+  vanish:
+    description: Disappear from the server!
+    usage: /vanish
+    aliases: [v] 
+  vote:
+    description: View the vote links
+    usage: /vote
+  delwarp:
+    description: Delete a warp
+    usage: /delwarp [name]
+  setwarp:
+    description: Set a warp to your current location
+    usage: /setwarp [name]
+  warp:
+    description: Go to a warp
+    usage: /warp [name]
+  worth: 
+    description: Get the sell price for an item
+    usage: /worth {item} {meta}
+  setworth:
+    description: Set the sell price for an item
+    usage: /setworth {item} {meta} [price]
+  he:
+    description: Toggle your hub effects
+    usage: /he [off|on]
+    aliases: [hubeffects, hube]
+  lag:
+    description: Check the Server RAM and TPS
+    usage: /lag
+    aliases: [ram, tps, chunks, gc]
+  tell:
+    description: Send someone a private message
+    usage: /tell [player] [message]
+    aliases: [msg, w, whisper]
+  reply:
+    description: Reply to someone who send you a message
+    usage: /r [message]
+    aliases: [r]

@@ -48,12 +48,16 @@ import com.SirBlobman.blobcatraz.config.ConfigWarps;
 import com.SirBlobman.blobcatraz.economy.BlobcatrazEconomy;
 import com.SirBlobman.blobcatraz.enchant.Cure;
 import com.SirBlobman.blobcatraz.enchant.Ender;
+import com.SirBlobman.blobcatraz.enchant.Explosion;
 import com.SirBlobman.blobcatraz.enchant.Fireball;
 import com.SirBlobman.blobcatraz.enchant.Glow;
 import com.SirBlobman.blobcatraz.enchant.InstaKill;
 import com.SirBlobman.blobcatraz.enchant.Levitate;
+import com.SirBlobman.blobcatraz.enchant.LifeSteal;
+import com.SirBlobman.blobcatraz.enchant.Strength;
 import com.SirBlobman.blobcatraz.enchant.Wither;
 import com.SirBlobman.blobcatraz.enchant.XPDrain;
+import com.SirBlobman.blobcatraz.enchant.event.EnchantListener;
 import com.SirBlobman.blobcatraz.gui.GuiRandomTP;
 import com.SirBlobman.blobcatraz.gui.GuiTokenShop;
 import com.SirBlobman.blobcatraz.item.LightningRod;
@@ -107,6 +111,7 @@ public class Blobcatraz extends JavaPlugin
 		Util.regEvent(new Login());
 		configs();
 		listeners();
+		enchants();
 		commands();
 		
 		millis = config.getLong("random.combatLog.seconds") * 1000;
@@ -145,17 +150,6 @@ public class Blobcatraz extends JavaPlugin
 			Util.regEvent(new PortalWand());
 			Util.regEvent(new Portal());
 		}
-		if(config.getBoolean("random.customEnchants"))
-		{
-			Util.regEvent(new Cure());
-			Util.regEvent(new Ender());
-			Util.regEvent(new Fireball());
-			Util.regEvent(new Glow());
-			Util.regEvent(new InstaKill());
-			Util.regEvent(new Levitate());
-			Util.regEvent(new Wither());
-			Util.regEvent(new XPDrain());
-		}
 		if(config.getBoolean("random.customItems"))
 		{
 			Util.regEvent(new LightningRod());
@@ -190,6 +184,26 @@ public class Blobcatraz extends JavaPlugin
 		}
 		
 		Bukkit.getScheduler().runTaskTimerAsynchronously(this, new CommandDisco(), 0L, 7L);
+	}
+	
+	private void enchants()
+	{
+		if(config.getBoolean("random.customEnchants"))
+		{
+			Util.regEvent(new EnchantListener());
+			Util.regEvent(new Cure());
+			Util.regEvent(new Ender());
+			Util.regEvent(new Explosion());
+			Util.regEvent(new Fireball());
+			Util.regEvent(new Glow());
+			Util.regEvent(new InstaKill());
+			Util.regEvent(new Levitate());
+			Util.regEvent(new LifeSteal());
+			Util.regEvent(new Strength());
+			Util.regEvent(new Wither());
+			Util.regEvent(new XPDrain());
+			new EnchantListener().armor();
+		}
 	}
 	
 	private void configs()
