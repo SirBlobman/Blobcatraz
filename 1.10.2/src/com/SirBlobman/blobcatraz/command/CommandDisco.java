@@ -64,6 +64,14 @@ public class CommandDisco implements CommandExecutor,Listener,Runnable
 				if(args.length >= 1)
 				{
 					String type = args[0].toUpperCase();
+					if(type.equals("OFF")) 
+					{
+						PlayerInventory pi = p.getInventory();
+						ItemStack air = new ItemStack(Material.AIR);
+						pi.setArmorContents(new ItemStack[] {air, air, air, air});
+						p.sendMessage(Util.blobcatraz + "Your disco is now disabled");
+						return true;
+					}
 					DiscoType discot = DiscoType.match(type);;
 					String discom = "You now have disco ";
 					if(discot != null)

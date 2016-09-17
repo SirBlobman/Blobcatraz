@@ -20,6 +20,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryCreativeEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.Inventory;
@@ -98,12 +99,13 @@ public class CommandRecipe implements CommandExecutor,Listener
 	@EventHandler
 	public void show(InventoryClickEvent e)
 	{
+		if(e instanceof InventoryCreativeEvent) return;
 		HumanEntity he = e.getWhoClicked();
 		Inventory i = e.getClickedInventory();
 		if(he instanceof Player)
 		{
 			Player p = (Player) he;
-			InventoryType it= i.getType();
+			InventoryType it = i.getType();
 			InventoryType table = InventoryType.WORKBENCH;
 			InventoryType furnace = InventoryType.FURNACE;
 			if(it == table || it == furnace)

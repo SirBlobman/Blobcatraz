@@ -254,7 +254,7 @@ public class ConfigDatabase
 	{
 		if(op == null) return null;
 		String reason = load(op).getString("banned.reason");
-		if(reason == null) return null;
+		if(reason == null) return "";
 		String realReason = Util.format(reason);
 		return realReason;
 	}

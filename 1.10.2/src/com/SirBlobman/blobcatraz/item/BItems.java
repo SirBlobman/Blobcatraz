@@ -125,4 +125,39 @@ public class BItems
 		
 		return rod;
 	}
+	
+	public static ItemStack sandWand()
+	{
+		ItemStack wand = new ItemStack(Material.CARROT_STICK);
+		ItemMeta meta = wand.getItemMeta();
+		
+		String display = Util.format("&eSand &cWand");
+		List<String> lore = Arrays.asList
+		(
+			"Turns a block into sand"
+		);
+		
+		meta.setDisplayName(display);
+		meta.setLore(lore);
+		
+		wand.setItemMeta(meta);
+		return wand;
+	}
+
+	public static ItemStack uSandWand()
+	{
+		ItemStack wand = sandWand();
+		ItemMeta meta = wand.getItemMeta();
+		String display = Util.format("&5Upgraded &eSand &cWand");
+		List<String> lore = Arrays.asList
+		(
+			"Turns a 5x5 area of blocks into sand"
+		);
+		
+		meta.setDisplayName(display);
+		meta.setLore(lore);
+		
+		wand.setItemMeta(meta);
+		return wand;
+	}
 }

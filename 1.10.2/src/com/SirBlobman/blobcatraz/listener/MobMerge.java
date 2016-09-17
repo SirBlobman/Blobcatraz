@@ -10,6 +10,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Ageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -101,6 +102,7 @@ public class MobMerge implements Listener,Runnable
 	{
 		for(Entity e : w.getEntities())
 		{
+			if(e instanceof FallingBlock) return;
 			if(e instanceof LivingEntity && e.isValid())
 			{
 				LivingEntity le = (LivingEntity) e;

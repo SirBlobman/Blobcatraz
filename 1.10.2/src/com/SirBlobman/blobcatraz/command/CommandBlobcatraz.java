@@ -113,7 +113,9 @@ public class CommandBlobcatraz implements CommandExecutor
 					"op_sword",
 					"op_bow",
 					"loot_sword",
-					"portal_wand"
+					"portal_wand",
+					"sand_wand",
+					"sand_wand2"
 				);
 				Collections.sort(valid);
 				String items = String.join(",", valid);
@@ -139,6 +141,11 @@ public class CommandBlobcatraz implements CommandExecutor
 				case "portal_wand":
 					ItemUtil.give(p, BItems.portalWand());
 					return true;
+				case "sand_wand":
+					ItemUtil.give(p, BItems.sandWand());
+					return true;
+				case "sand_wand2":
+					ItemUtil.give(p, BItems.uSandWand());
 				default:
 					String msg = Util.blobcatraz + "§9" + item + " §cdoesn't exist!";
 					String msg2 = Util.blobcatraz + "§lValid Items:";

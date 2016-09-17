@@ -64,6 +64,7 @@ import com.SirBlobman.blobcatraz.gui.GuiTokenShop;
 import com.SirBlobman.blobcatraz.item.LightningRod;
 import com.SirBlobman.blobcatraz.item.PortalWand;
 import com.SirBlobman.blobcatraz.item.Recipes;
+import com.SirBlobman.blobcatraz.item.SandWand;
 import com.SirBlobman.blobcatraz.item.SonicScrewdriver;
 import com.SirBlobman.blobcatraz.listener.AFK;
 import com.SirBlobman.blobcatraz.listener.AutoPickup;
@@ -201,7 +202,7 @@ public class Blobcatraz extends JavaPlugin
 		}
 		if(config.getBoolean("custom items"))
 		{
-			Util.regEvents(new LightningRod(), new SonicScrewdriver());
+			Util.regEvents(new LightningRod(), new SonicScrewdriver(), new SandWand());
 			Recipes.load();
 		}
 		if(config.getBoolean("combat log.enabled")) 

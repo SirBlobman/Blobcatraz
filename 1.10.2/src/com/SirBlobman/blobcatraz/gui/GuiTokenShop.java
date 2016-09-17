@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -113,7 +114,9 @@ public class GuiTokenShop implements Listener
 		{
 			Player p = (Player) he;
 			Inventory i = e.getClickedInventory();
+			if(i.getType() == InventoryType.CREATIVE) return;
 			String iname = i.getName();
+			if(iname == null) return;
 			ItemStack is = e.getCurrentItem();
 			if(iname.equalsIgnoreCase(TITLE))
 			{
