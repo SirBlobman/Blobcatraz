@@ -1,0 +1,11 @@
+main: com.SirBlobman.blobcatraz.plugin.manager.Manager
+name: PluginManager
+version: 0.0.0.2
+author: SirBlobman
+description: Plugin Manager extension for Blobcatraz.
+depend: [Blobcatraz]
+commands:
+  pm:
+    description: Commands for managing server plugins
+    usage: /pm [enable|disable|load|unload|reload|sreload|show|list] <plugin name>
+    aliases: [pluginmanager, plm, pm]

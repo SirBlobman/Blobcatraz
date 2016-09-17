@@ -266,11 +266,21 @@ public class Util
 		return currency;
 	}
 	
+	/**
+	 * Gets what console is being used
+	 * @return {@link Server#getConsoleSender()}
+	 */
 	public static ConsoleCommandSender getConsole()
 	{
 		return S.getConsoleSender();
 	}
 	
+	/**
+	 * Gets the blocks between two points
+	 * @param l1 Location 1
+	 * @param l2 Location 2
+	 * @return a list of blocks
+	 */
 	public static List<Block> getBlocks(Location l1, Location l2)
 	{
 		List<Block> blocks = new ArrayList<Block>();

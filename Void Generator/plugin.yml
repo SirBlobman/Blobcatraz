@@ -1,0 +1,7 @@
+main: com.SirBlobman.blobcatraz.world.generator.Void
+name: VoidGenerator
+version: 0.0.0.2
+author: SirBlobman
+description: Void Generator extension for Blobcatraz
+depend: [Blobcatraz]
+load: STARTUP

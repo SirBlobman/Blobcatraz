@@ -21,24 +21,38 @@ public class WorldGuardUtil
 	private static Server S = Bukkit.getServer();
 	private static PluginManager PM = S.getPluginManager();
 	
+	/**
+	 * Checks if <i>WorldGuard</i> is enabled
+	 * @return 
+	 * 	<b>true</b> if WorldGuard is enabled
+	 * 	<br/><b>false</b> if WorldGuard isn't loaded or is null
+	 */
 	public static boolean isWGEnabled()
 	{
 		Plugin wg = PM.getPlugin("WorldGuard");
 		if(wg == null || !(wg instanceof WorldGuardPlugin)) return false;
-		return true;
+		return wg.isEnabled();
 	}
 	
+	/**
+	 * @return instance of WorldGuard
+	 */
 	public static WorldGuardPlugin getWG()
 	{
 		if(isWGEnabled()) return (WorldGuardPlugin) PM.getPlugin("WorldGuard");
 		return null;
 	}
 	
+	/**
+	 * Where is the player standing?
+	 * @param p Player
+	 * @return regions the player is currently in
+	 */
 	public static ApplicableRegionSet getRegions(Player p)
 	{
 		return getRegions(p.getLocation());
 	}
-
+	
 	public static ApplicableRegionSet getRegions(Location l)
 	{
 		World w = l.getWorld();
