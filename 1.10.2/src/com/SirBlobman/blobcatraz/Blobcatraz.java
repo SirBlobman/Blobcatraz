@@ -2,6 +2,16 @@ package com.SirBlobman.blobcatraz;
 
 import java.io.File;
 
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.ServicePriority;
+import org.bukkit.plugin.ServicesManager;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
+
 import com.SirBlobman.blobcatraz.command.CommandAFK;
 import com.SirBlobman.blobcatraz.command.CommandAutoPickup;
 import com.SirBlobman.blobcatraz.command.CommandBalance;
@@ -61,6 +71,7 @@ import com.SirBlobman.blobcatraz.enchant.XPDrain;
 import com.SirBlobman.blobcatraz.enchant.event.EnchantListener;
 import com.SirBlobman.blobcatraz.gui.GuiRandomTP;
 import com.SirBlobman.blobcatraz.gui.GuiTokenShop;
+import com.SirBlobman.blobcatraz.gui.GuiWarps;
 import com.SirBlobman.blobcatraz.item.LightningRod;
 import com.SirBlobman.blobcatraz.item.PortalWand;
 import com.SirBlobman.blobcatraz.item.Recipes;
@@ -86,16 +97,6 @@ import com.SirBlobman.blobcatraz.listener.VoteLogger;
 import com.SirBlobman.blobcatraz.utility.PlayerUtil;
 import com.SirBlobman.blobcatraz.utility.Util;
 
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.ServicePriority;
-import org.bukkit.plugin.ServicesManager;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
-
 import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.economy.Economy;
 
@@ -111,12 +112,12 @@ import net.milkbowl.vault.economy.Economy;
 public class Blobcatraz extends JavaPlugin 
 {
 	public static Blobcatraz instance;
-	public static YamlConfiguration config;
+	private static YamlConfiguration config;
 	public static File folder;
 	
-	public static PluginManager PM = Bukkit.getPluginManager();
-	public static ServicesManager SM = Bukkit.getServicesManager();
-	public static BukkitScheduler BS = Bukkit.getScheduler();
+	private static PluginManager PM = Bukkit.getPluginManager();
+	private static ServicesManager SM = Bukkit.getServicesManager();
+	private static BukkitScheduler BS = Bukkit.getScheduler();
 	
 	@Override
 	public void onEnable()
@@ -140,8 +141,8 @@ public class Blobcatraz extends JavaPlugin
 
 			Util.broadcast(Util.disabled);
 		} 
-		catch(Exception ex) {}
-		catch(Error er) {}
+		catch(Exception | Error ex) 
+		{System.out.println("Test");}
 	}
 	
 	@Override
@@ -182,6 +183,7 @@ public class Blobcatraz extends JavaPlugin
 		Util.regEvents(new Freeze());
 		Util.regEvents(new GuiRandomTP());
 		Util.regEvents(new GuiTokenShop());
+		Util.regEvents(new GuiWarps());
 		Util.regEvents(new Shop());
 		Util.regEvents(new JoinQuit());
 		Util.regEvents(new MOTD());
@@ -313,6 +315,7 @@ public class Blobcatraz extends JavaPlugin
 		c("delwarp", new CommandWarp());
 		c("setwarp", new CommandWarp());
 		c("warp", new CommandWarp());
+		c("warps", new CommandWarp());
 		c("worth", new CommandWorth());
 		c("setworth", new CommandWorth());
 		c("he", new HubEffects());

@@ -102,10 +102,12 @@ public class CommandRecipe implements CommandExecutor,Listener
 		if(e instanceof InventoryCreativeEvent) return;
 		HumanEntity he = e.getWhoClicked();
 		Inventory i = e.getClickedInventory();
+		if(i == null) return;
 		if(he instanceof Player)
 		{
 			Player p = (Player) he;
 			InventoryType it = i.getType();
+			if(it == null) return;
 			InventoryType table = InventoryType.WORKBENCH;
 			InventoryType furnace = InventoryType.FURNACE;
 			if(it == table || it == furnace)

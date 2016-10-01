@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.SirBlobman.blobcatraz.Blobcatraz;
-import com.SirBlobman.blobcatraz.utility.Util;
-
 import org.apache.commons.io.FilenameUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
+
+import com.SirBlobman.blobcatraz.Blobcatraz;
+import com.SirBlobman.blobcatraz.utility.Util;
 
 public class ConfigWarps
 {
@@ -29,9 +30,9 @@ public class ConfigWarps
 		return yc;
 	}
 	
-	public static void save(String name, Location l)
+	public static void save(String name, Location l, ItemStack icon)
 	{
-		if(name == null || l == null) return;
+		if(name == null || l == null || icon == null) return;
 		if(!folder.exists()) folder.mkdir();
 		
 		World w = l.getWorld();
@@ -58,6 +59,7 @@ public class ConfigWarps
 			YamlConfiguration yc = YamlConfiguration.loadConfiguration(warp);
 			yc.load(warp);
 			yc.set("name", name);
+			yc.set("icon", icon);
 			yc.set("world", world);
 			yc.set("x", x);
 			yc.set("y", y);
@@ -74,12 +76,24 @@ public class ConfigWarps
 	
 	public static void reload()
 	{
-		for(String s : ConfigWarps.getWarps())
+		for(String s : ConfigWarps.getStringWarps())
 		{
 			load(s);
 			Location warp = getWarp(s);
-			save(s, warp);
+			save(s, warp, getIcon(s));
 		}
+	}
+	
+	public static ItemStack getIcon(String name)
+	{
+		if(name == null) return null;
+		if(exists(name))
+		{
+			YamlConfiguration yc = load(name);
+			ItemStack icon = yc.getItemStack("icon");
+			return icon;
+		}
+		return null;
 	}
 	
 	public static Location getWarp(String name)
@@ -110,7 +124,7 @@ public class ConfigWarps
 		return null;
 	}
 	
-	public static List<String> getWarps()
+	public static List<String> getStringWarps()
 	{
 		if(!folder.exists()) folder.mkdir();
 		File[] files = folder.listFiles();
@@ -130,9 +144,23 @@ public class ConfigWarps
 		return warps;
 	}
 	
+	public static List<Warp> getWarps()
+	{
+		List<Warp> warps = new ArrayList<Warp>();
+		for(String s : getStringWarps())
+		{
+			String name = s;
+			ItemStack icon = getIcon(s);
+			Location warp = getWarp(name);
+			Warp w = new Warp(name, icon, warp);
+			warps.add(w);
+		}
+		return warps;
+	}
+	
 	public static boolean exists(String name)
 	{
-		return getWarps().contains(name);
+		return getStringWarps().contains(name);
 	}
 	
 	public static void delete(String name)

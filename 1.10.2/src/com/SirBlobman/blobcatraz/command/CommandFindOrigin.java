@@ -1,12 +1,7 @@
 package com.SirBlobman.blobcatraz.command;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import com.SirBlobman.blobcatraz.Blobcatraz;
-import com.SirBlobman.blobcatraz.utility.PlayerUtil;
-import com.SirBlobman.blobcatraz.utility.Util;
-import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -18,9 +13,15 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import com.SirBlobman.blobcatraz.Blobcatraz;
+import com.SirBlobman.blobcatraz.utility.PlayerUtil;
+import com.SirBlobman.blobcatraz.utility.Util;
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+
 public class CommandFindOrigin implements CommandExecutor
 {
-	static List<Hologram> holograms;
+	static List<Hologram> holograms = new ArrayList<Hologram>();
 	
 	@Override
 	public boolean onCommand(CommandSender cs, Command c, String label, String[] args)

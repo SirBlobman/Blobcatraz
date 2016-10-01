@@ -1,6 +1,6 @@
 main: com.SirBlobman.blobcatraz.Blobcatraz
 name: Blobcatraz
-version: 0.0.2.2
+version: 0.0.2.3
 description: Plugin made for the Blobcatraz server! Has a lot of useful stuff
 load: POSTWORLD
 author: SirBlobman
@@ -214,6 +214,9 @@ commands:
   warp:
     description: Go to a warp
     usage: /warp [name]
+  warps:
+    description: Open the WARP GUI
+    usage: /warps [page]
   worth: 
     description: Get the sell price for an item
     usage: /worth {item} {meta}

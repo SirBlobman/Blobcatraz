@@ -123,6 +123,7 @@ public class ConfigLanguage
 		set("gui.tokenshop", "&f&l&m---&8&l&m[--&9&l Token Shop &8&l&m--]&f&l&m---");
 		set("gui.sellall", "Sell your items");
 		set("gui.randomtp", "Select the TP distance...");
+		set("gui.warps", "Warp GUI");
 		
 		set("scoreboard.default.title", "&aBlobcatraz");
 		set("scoreboard.combat", "&4&ki&3&lCombat Log&4&ki&r");

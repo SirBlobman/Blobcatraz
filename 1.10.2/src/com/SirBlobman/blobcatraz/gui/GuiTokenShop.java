@@ -114,6 +114,8 @@ public class GuiTokenShop implements Listener
 		{
 			Player p = (Player) he;
 			Inventory i = e.getClickedInventory();
+			if(i == null) return;
+			if(i.getType() == null) return;
 			if(i.getType() == InventoryType.CREATIVE) return;
 			String iname = i.getName();
 			if(iname == null) return;

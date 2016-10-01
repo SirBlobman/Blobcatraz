@@ -2,17 +2,24 @@ package com.SirBlobman.blobcatraz.command;
 
 import java.util.List;
 
-import com.SirBlobman.blobcatraz.config.ConfigWarps;
-import com.SirBlobman.blobcatraz.utility.PlayerUtil;
-import com.SirBlobman.blobcatraz.utility.TeleportUtil;
-import com.SirBlobman.blobcatraz.utility.Util;
-
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import com.SirBlobman.blobcatraz.config.ConfigWarps;
+import com.SirBlobman.blobcatraz.config.Warp;
+import com.SirBlobman.blobcatraz.gui.GuiWarps;
+import com.SirBlobman.blobcatraz.utility.PlayerUtil;
+import com.SirBlobman.blobcatraz.utility.TeleportUtil;
+import com.SirBlobman.blobcatraz.utility.Util;
 
 public class CommandWarp implements CommandExecutor
 {
@@ -33,7 +40,7 @@ public class CommandWarp implements CommandExecutor
 					if(!PlayerUtil.hasPermission(le, permission2)) return true;
 					
 					StringBuffer list = new StringBuffer();
-					List<String> warps = ConfigWarps.getWarps();
+					List<String> warps = ConfigWarps.getStringWarps();
 					for(int i = 0; i < warps.size(); i++)
 					{
 						String warp = warps.get(i);
@@ -77,7 +84,10 @@ public class CommandWarp implements CommandExecutor
 					int y = warp.getBlockY();
 					int z = warp.getBlockZ();
 					String swarp = "§6" + world + " " + x + " " + y + " " + z;
-					ConfigWarps.save(name, warp);
+					ItemStack icon = new ItemStack(Material.END_BRICKS);
+					ItemMeta meta = icon.getItemMeta();
+					meta.setDisplayName(name);
+					ConfigWarps.save(name, warp, icon);
 					le.sendMessage(Util.blobcatraz + "Set warp §2" + name + " §rto " + swarp);
 					return true;
 				}
@@ -99,6 +109,39 @@ public class CommandWarp implements CommandExecutor
 				}
 				le.sendMessage(Util.NEA);
 				return false;
+			}
+			if(command.equals("warps"))
+			{
+				if(le instanceof Player)
+				{
+					Player p = (Player) le;
+					if(args.length == 1)
+					{
+						try
+						{
+							int page = 0;
+							page = Integer.parseInt(args[0]);
+							GuiWarps gw = new GuiWarps();
+							List<Warp> warps = ConfigWarps.getWarps();
+							if(warps.size() == 0)
+							{
+								p.sendMessage(Util.blobcatraz + "There are 0 warps");
+								return true;
+							}
+							Inventory gui = gw.warps(page);
+							PlayerUtil.open(p, gui);
+							return true;
+						} catch(Exception ex)
+						{
+							le.sendMessage(Util.IA);
+							return false;
+						}
+					}
+					le.sendMessage(Util.NEA);
+					return false;
+				}
+				le.sendMessage(Util.csNotPlayer);
+				return true;
 			}
 			return false;
 		}
