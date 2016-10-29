@@ -26,14 +26,14 @@ public class GuiWarps implements Listener
 	private final int warpSize = 26;
 	private final int invSize = 45;
 	
-	int page;
+	static int page;
 	
 	public Inventory warps(int page)
 	{
 		if(page < 1) throw new IllegalArgumentException("Page Number must be greater than 1!");
 		int start = (page * 27) - 27;
 		final int end = start + warpSize;
-		this.page = page;
+		GuiWarps.page = page;
 		Inventory i = Bukkit.createInventory(null, invSize, TITLE);
 		int item = 0;
 		List<Warp> warps = ConfigWarps.getWarps();
@@ -52,6 +52,7 @@ public class GuiWarps implements Listener
 		}
 		
 		if(page > 1) i.setItem(36, back());
+		i.setItem(40, page(page));
 		i.setItem(44, next());
 		return i;
 	}
@@ -75,13 +76,15 @@ public class GuiWarps implements Listener
 				if(is.equals(next()))
 				{
 					p.closeInventory();
-					p.performCommand("warps " + (page + 1));
+					int next = page + 1;
+					p.performCommand("warps " + next);
 					return;
 				}
 				if(is.equals(back()))
 				{
 					p.closeInventory();
-					p.performCommand("warps " + (page - 1));
+					int back = page - 1;
+					p.performCommand("warps " + back);
 					return;
 				}
 				if(ConfigWarps.exists(name))
@@ -115,5 +118,12 @@ public class GuiWarps implements Listener
 		meta.setDisplayName("§fBack");
 		next.setItemMeta(meta);
 		return next;
+	}
+	
+	public final ItemStack page(int page)
+	{
+		ItemStack paper = new ItemStack(Material.PAPER);
+		ItemUtil.rename(paper, "§9Page: §r" + page);
+		return paper;
 	}
 }

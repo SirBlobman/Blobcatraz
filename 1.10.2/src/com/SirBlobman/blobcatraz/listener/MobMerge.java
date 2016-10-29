@@ -47,7 +47,8 @@ public class MobMerge implements Listener,Runnable
 			{
 				EntityEquipment ee = le.getEquipment();
 				ItemStack[] armor = ee.getArmorContents();
-				clone.setCustomName(color + Integer.toString(count - 1));
+				int count1 = count - 1;
+				clone.setCustomName("" + color + count1);
 				EntityEquipment ec = clone.getEquipment();
 				ec.setArmorContents(armor);
 			}

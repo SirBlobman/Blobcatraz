@@ -49,8 +49,15 @@ public class CommandGamemode implements CommandExecutor
 				try {g = GameMode.valueOf(mode);}
 				catch(Exception ex)
 				{
-					cs.sendMessage(Util.blobcatraz + Util.message("command.gamemode.invalidID", mode));
-					return true;
+					try
+					{
+						mode = mode.toUpperCase();
+						g = GameMode.valueOf(mode);
+					} catch(Exception ex2)
+					{
+						cs.sendMessage(Util.blobcatraz + Util.message("command.gamemode.invalidID", mode));
+						return true;
+					}
 				}
 			}
 			

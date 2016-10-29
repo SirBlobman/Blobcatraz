@@ -23,12 +23,11 @@ public class Glow implements Listener
 		List<String> lore = e.getLore();
 		LivingEntity damaged = e.getDamaged();
 		PotionEffectType glow = PotionEffectType.GLOWING;
-		PotionEffect g1 = new PotionEffect(glow, 200, 1);
-		PotionEffect g2 = new PotionEffect(glow, 400, 3);
-		PotionEffect g3 = new PotionEffect(glow, 800, 7);
+		PotionEffect glowing = new PotionEffect(glow, 200, 1);
 		
-		if(lore.contains(glow1)) damaged.addPotionEffect(g1);
-		if(lore.contains(glow2)) damaged.addPotionEffect(g2);
-		if(lore.contains(glow3)) damaged.addPotionEffect(g3);
+		double chance = Math.random();
+		if(lore.contains(glow1) && chance <= 0.35) damaged.addPotionEffect(glowing);
+		if(lore.contains(glow2) && chance <= 0.45) damaged.addPotionEffect(glowing);
+		if(lore.contains(glow3) && chance <= 0.50) damaged.addPotionEffect(glowing);
 	}
 }

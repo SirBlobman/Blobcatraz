@@ -88,7 +88,9 @@ public class Explosion implements Listener
 			break;
 		}
 		
-		w.createExplosion(l.getX(), l.getY(), l.getZ(), power, false, WorldGuardUtil.canBreak(p, l.getBlock()));
+		boolean can = true;
+		try{can = WorldGuardUtil.canBreak(p, l.getBlock());} catch(Throwable ex) {return;}
+		w.createExplosion(l.getX(), l.getY(), l.getZ(), power, false, can);
 		cool.add(p);
 		Bukkit.getServer().getScheduler().runTaskLater(Blobcatraz.instance, new Cooldown(p), cooldown * 20L);
 	}

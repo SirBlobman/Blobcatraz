@@ -10,8 +10,8 @@ import java.util.Set;
 import java.util.UUID;
 
 import com.SirBlobman.blobcatraz.Blobcatraz;
-import com.SirBlobman.blobcatraz.utility.BalanceComparator;
 import com.SirBlobman.blobcatraz.utility.Util;
+import com.SirBlobman.blobcatraz.utility.comparator.BalanceComparator;
 import com.google.common.collect.Maps;
 
 import org.apache.commons.io.FilenameUtils;

@@ -90,6 +90,7 @@ public class ConfigBlobcatraz
 		set("mob merge.mobs", mergeMobs);
 		set("mob merge.disabled worlds", mergeMobsDisabledWorlds);
 		set("mob merge.radius", 5);
+		set("mob merge.period", 5);
 		set("mob merge.color", ChatColor.DARK_BLUE.name());
 		set("mob merge.limit", 100);
 		

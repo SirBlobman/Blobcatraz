@@ -84,7 +84,7 @@ public class CommandFly implements CommandExecutor
 			{
 				if(!PlayerUtil.hasPermission(p, toggle)) return true;
 				p.setAllowFlight(true);
-				p.sendMessage(Util.blobcatraz + "Flight is now" + on);
+				p.sendMessage(Util.blobcatraz + "Flight is now " + on);
 				cs.sendMessage(Util.blobcatraz + "§5" + p.getDisplayName() + "'s §rFlight is now " + on);
 				return true;
 			}
@@ -92,7 +92,7 @@ public class CommandFly implements CommandExecutor
 			{
 				if(!PlayerUtil.hasPermission(p, toggle)) return true;
 				p.setAllowFlight(false);
-				p.sendMessage(Util.blobcatraz + "Flight is now" + off);
+				p.sendMessage(Util.blobcatraz + "Flight is now " + off);
 				cs.sendMessage(Util.blobcatraz + "§5" + p.getDisplayName() + "'s §rFlight is now " + off);
 				return true;
 			}

@@ -7,6 +7,7 @@ import com.SirBlobman.blobcatraz.config.ConfigPortals;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -96,6 +97,7 @@ public class Portal implements Listener
 					tp.setYaw(yaw);
 					
 					p.teleport(tp);
+					p.playSound(l, Sound.BLOCK_PORTAL_TRAVEL, 100.0F, 1.0F);
 				}
 				else if(ConfigPortals.getPeopleInPortal().contains(uuid)) ConfigPortals.getPeopleInPortal().remove(uuid);
 			}

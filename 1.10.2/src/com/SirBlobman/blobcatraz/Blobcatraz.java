@@ -35,6 +35,7 @@ import com.SirBlobman.blobcatraz.command.CommandKit;
 import com.SirBlobman.blobcatraz.command.CommandLag;
 import com.SirBlobman.blobcatraz.command.CommandMOTD;
 import com.SirBlobman.blobcatraz.command.CommandMessage;
+import com.SirBlobman.blobcatraz.command.CommandOpenInv;
 import com.SirBlobman.blobcatraz.command.CommandPortal;
 import com.SirBlobman.blobcatraz.command.CommandRandom;
 import com.SirBlobman.blobcatraz.command.CommandRandomTP;
@@ -65,7 +66,12 @@ import com.SirBlobman.blobcatraz.enchant.Glow;
 import com.SirBlobman.blobcatraz.enchant.InstaKill;
 import com.SirBlobman.blobcatraz.enchant.Levitate;
 import com.SirBlobman.blobcatraz.enchant.LifeSteal;
+import com.SirBlobman.blobcatraz.enchant.LoosenUp;
+import com.SirBlobman.blobcatraz.enchant.NightWolf;
+import com.SirBlobman.blobcatraz.enchant.PoisonIvy;
+import com.SirBlobman.blobcatraz.enchant.Slow;
 import com.SirBlobman.blobcatraz.enchant.Strength;
+import com.SirBlobman.blobcatraz.enchant.ThunderStrike;
 import com.SirBlobman.blobcatraz.enchant.Wither;
 import com.SirBlobman.blobcatraz.enchant.XPDrain;
 import com.SirBlobman.blobcatraz.enchant.event.EnchantListener;
@@ -244,7 +250,26 @@ public class Blobcatraz extends JavaPlugin
 		{
 			EnchantListener EL = new EnchantListener();
 			EL.start();
-			Util.regEvents(EL, new Cure(), new Ender(), new Explosion(), new Fireball(), new Glow(), new InstaKill(), new Levitate(), new LifeSteal(), new Strength(), new Wither(), new XPDrain());
+			Util.regEvents
+			(
+				EL, 
+				new Cure(), 
+				new Ender(), 
+				new Explosion(), 
+				new Fireball(), 
+				new Glow(), 
+				new InstaKill(), 
+				new Levitate(), 
+				new LifeSteal(), 
+				new LoosenUp(), 
+				new NightWolf(), 
+				new PoisonIvy(), 
+				new Slow(), 
+				new Strength(), 
+				new ThunderStrike(), 
+				new Wither(), 
+				new XPDrain()
+			);
 		}
 	}
 	
@@ -298,6 +323,7 @@ public class Blobcatraz extends JavaPlugin
 		c("reply", new CommandMessage());
 		c("getmotd", new CommandMOTD());
 		c("setmotd", new CommandMOTD());
+		c("openinv", new CommandOpenInv());
 		c("portal", new CommandPortal());
 		c("random", new CommandRandom());
 		c("randomtp", new CommandRandomTP());

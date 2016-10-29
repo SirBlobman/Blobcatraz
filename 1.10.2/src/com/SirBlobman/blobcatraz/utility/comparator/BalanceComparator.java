@@ -1,4 +1,4 @@
-package com.SirBlobman.blobcatraz.utility;
+package com.SirBlobman.blobcatraz.utility.comparator;
 
 import java.util.Comparator;
 import java.util.UUID;

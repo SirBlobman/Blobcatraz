@@ -72,6 +72,9 @@ public class ConfigLanguage
 		set("command.enchant.un", "Successfully removed &7%s&r from your &6%s&r!");
 		set("command.enchant.failure", "You can't enchant AIR");
 		
+		set("command.gamemode.change", "&eYou are now in &3%s &emode");
+		set("command.gamemode.invalidID", "Invalid Gamemode: &5%s");
+		
 		set("command.heal.success", "You have been healed!");
 		set("command.heal.success.other", "You healed &5%s&r!");
 		

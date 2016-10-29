@@ -210,13 +210,8 @@ public class ItemUtil
 		if(isAir(is) || e == null || level <= 0 || level >= 32768) return false;
 		try
 		{
-			ItemMeta meta = is.getItemMeta();
 			String enchant = e.getName() + " §f" + Util.numberToRoman(level);
-			List<String> lore = meta.getLore();
-			lore.add(enchant);
-			meta.setLore(lore);
-			is.setItemMeta(meta);
-			return true;
+			return addLore(is, enchant);
 		} catch(Exception ex) {return false;}
 	}
 	

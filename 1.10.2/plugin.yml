@@ -1,6 +1,6 @@
 main: com.SirBlobman.blobcatraz.Blobcatraz
 name: Blobcatraz
-version: 0.0.2.3
+version: 0.0.2.4
 description: Plugin made for the Blobcatraz server! Has a lot of useful stuff
 load: POSTWORLD
 author: SirBlobman
@@ -239,3 +239,7 @@ commands:
     description: Reply to someone who send you a message
     usage: /r [message]
     aliases: [r]
+  openinv:
+    description: Open the inventory of another player
+    usage: /openinv [player]
+    aliases: [invsee, openinventory, inventorysee]
