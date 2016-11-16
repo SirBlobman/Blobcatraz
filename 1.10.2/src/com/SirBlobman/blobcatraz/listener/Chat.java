@@ -40,11 +40,16 @@ public class Chat implements Listener
 			String msg = e.getMessage().toLowerCase();
 			for(Player p2 : Bukkit.getOnlinePlayers())
 			{
-				String n1 = p.getName();
-				String n2 = p2.getName();
+				String n1 = p.getName().toLowerCase();
+				String n2 = p2.getName().toLowerCase();
 				String display = Util.uncolor(p2.getDisplayName().toLowerCase());
 				
-				if((!n1.equals(n2) && msg.contains(n2)) || msg.contains(display)) PlayerUtil.ping(p2);
+				boolean b1 = !n1.equals(n2);
+				boolean b2 = msg.contains(n2);
+				boolean b3 = msg.contains(display);
+				boolean b4 = b2 || b3;
+				boolean b5 = b1 && b4;
+				if(b5) PlayerUtil.ping(p2);
 			}
 		}
 	}
@@ -56,7 +61,7 @@ public class Chat implements Listener
 		if(emojis)
 		{
 			String msg = e.getMessage();
-			e.setMessage(Util.symbolize(msg));
+			e.setMessage(Util.format(msg));
 		}
 	}
 }

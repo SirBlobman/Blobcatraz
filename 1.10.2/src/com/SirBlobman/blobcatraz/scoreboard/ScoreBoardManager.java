@@ -15,7 +15,7 @@ public class ScoreBoardManager
 {
 	private static final Server S = Bukkit.getServer();
 	private static final ScoreboardManager SBM = S.getScoreboardManager();
-	private static final Scoreboard empty = SBM.getNewScoreboard();
+	private static final Scoreboard empty = SBM.getMainScoreboard();
 	
 	public static Objective getDefault(Player p)
 	{

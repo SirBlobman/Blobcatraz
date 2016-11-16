@@ -9,6 +9,8 @@ public class BalanceComparator implements Comparator<Entry<UUID, Double>>
 	@Override
 	public int compare(Entry<UUID, Double> o1, Entry<UUID, Double> o2)
 	{
-		return o1.getValue().compareTo(o2.getValue());
+		Double d1 = o1.getValue();
+		Double d2 = o2.getValue();
+		return d1.compareTo(d2);
 	}
 }

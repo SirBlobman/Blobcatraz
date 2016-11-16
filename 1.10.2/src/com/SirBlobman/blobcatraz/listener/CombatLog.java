@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.projectiles.ProjectileSource;
+import org.bukkit.scoreboard.ScoreboardManager;
 
 import com.SirBlobman.blobcatraz.Blobcatraz;
 import com.SirBlobman.blobcatraz.config.ConfigBlobcatraz;
@@ -42,7 +43,7 @@ public class CombatLog implements Listener
 						{
 							p.sendMessage(Util.blobcatraz + Util.message("player.outOfCombat"));
 							tagged.remove(p);
-							p.setScoreboard(ScoreBoardManager.setCombat(p, 0));
+							ScoreBoardManager.clear(p);
 						}
 						else
 						{

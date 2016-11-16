@@ -40,6 +40,7 @@ import com.SirBlobman.blobcatraz.command.CommandPortal;
 import com.SirBlobman.blobcatraz.command.CommandRandom;
 import com.SirBlobman.blobcatraz.command.CommandRandomTP;
 import com.SirBlobman.blobcatraz.command.CommandRecipe;
+import com.SirBlobman.blobcatraz.command.CommandRules;
 import com.SirBlobman.blobcatraz.command.CommandSpawn;
 import com.SirBlobman.blobcatraz.command.CommandTag;
 import com.SirBlobman.blobcatraz.command.CommandTeleport;
@@ -84,6 +85,7 @@ import com.SirBlobman.blobcatraz.item.Recipes;
 import com.SirBlobman.blobcatraz.item.SandWand;
 import com.SirBlobman.blobcatraz.item.SonicScrewdriver;
 import com.SirBlobman.blobcatraz.listener.AFK;
+import com.SirBlobman.blobcatraz.listener.AntiTNT;
 import com.SirBlobman.blobcatraz.listener.AutoPickup;
 import com.SirBlobman.blobcatraz.listener.BanChecker;
 import com.SirBlobman.blobcatraz.listener.Chat;
@@ -183,16 +185,20 @@ public class Blobcatraz extends JavaPlugin
 	private void listeners()
 	{
 	//Default
-		Util.regEvents(new AFK());
-		Util.regEvents(new BanChecker());
-		Util.regEvents(new Chat());
-		Util.regEvents(new Freeze());
-		Util.regEvents(new GuiRandomTP());
-		Util.regEvents(new GuiTokenShop());
-		Util.regEvents(new GuiWarps());
-		Util.regEvents(new Shop());
-		Util.regEvents(new JoinQuit());
-		Util.regEvents(new MOTD());
+		Util.regEvents
+		(
+			new AFK(), 
+			new AntiTNT(), 
+			new BanChecker(),
+			new Chat(),
+			new Freeze(),
+			new GuiRandomTP(),
+			new GuiTokenShop(),
+			new GuiWarps(),
+			new Shop(),
+			new JoinQuit(),
+			new MOTD()
+		);
 		BS.runTaskTimerAsynchronously(this, new CommandDisco(), 0L, 7L);
 		Util.regEvents(new CommandDisco());
 		Util.regEvents(new CommandRecipe());
@@ -328,6 +334,7 @@ public class Blobcatraz extends JavaPlugin
 		c("random", new CommandRandom());
 		c("randomtp", new CommandRandomTP());
 		c("recipe", new CommandRecipe());
+		c("rules", new CommandRules());
 		c("hub", new CommandSpawn());
 		c("spawn", new CommandSpawn());
 		c("sethub", new CommandSpawn());

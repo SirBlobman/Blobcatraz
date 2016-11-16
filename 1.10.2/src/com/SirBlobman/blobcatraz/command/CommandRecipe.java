@@ -142,6 +142,11 @@ public class CommandRecipe implements CommandExecutor,Listener
 	private void recipe(Player p, ItemStack is, int number)
 	{
 		List<Recipe> list = S.getRecipesFor(is);
+		if(list.size() > 0 && list.size() < number) 
+		{
+			p.sendMessage(Util.blobcatraz + "That item only has " + list.size() + " recipes");
+			number = list.size();
+		}
 		switch(list.size())
 		{
 		case 0:

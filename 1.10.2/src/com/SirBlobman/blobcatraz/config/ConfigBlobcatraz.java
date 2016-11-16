@@ -104,6 +104,9 @@ public class ConfigBlobcatraz
 		set("hub effects.enabled worlds", hubs);
 		set("hub effects.effects", effects);
 		
+		List<String> tntDisabledWorlds = Arrays.asList("Hub", "Lobby");
+		set("tnt.disabled worlds", tntDisabledWorlds);
+		
 		List<String> voteLinks = Arrays.asList("1", "2", "3", "4", "5", "6");
 		set("vote links", voteLinks);
 		

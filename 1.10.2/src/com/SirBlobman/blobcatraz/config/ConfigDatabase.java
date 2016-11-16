@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import com.SirBlobman.blobcatraz.Blobcatraz;
+import com.SirBlobman.blobcatraz.utility.PlayerUtil;
 import com.SirBlobman.blobcatraz.utility.Util;
 import com.SirBlobman.blobcatraz.utility.comparator.BalanceComparator;
 import com.google.common.collect.Maps;
@@ -42,13 +43,8 @@ public class ConfigDatabase
 		File f = new File(dataFolder, uuid + ".yml");
 		if(!dataFolder.exists()) dataFolder.mkdir();
 		if(!f.exists()) writeDefaults(uuid);
-		try
-		{
-			fc.save(f);
-		} catch (Exception ex)
-		{
-			Util.print("Failed to save " + op.getName() + "'s data file! There may be errors!");
-		}
+		try {fc.save(f);} 
+		catch (Exception ex) {Util.print("Failed to save " + op.getName() + "'s data file! There may be errors!");}
 	}
 	
 	/**
@@ -313,6 +309,7 @@ public class ConfigDatabase
 	public static void ban(String banner, OfflinePlayer op, String reason)
 	{
 		if(op == null) return;
+		if(op.equals(PlayerUtil.getOwner())) return;
 		FileConfiguration fc = load(op);
 		fc.set("banned.status", true);
 		fc.set("banned.reason", reason);
@@ -330,6 +327,7 @@ public class ConfigDatabase
 	public static void tempban(String banner, OfflinePlayer op, long length, String reason)
 	{
 		if(op == null) return;
+		if(op.equals(PlayerUtil.getOwner())) return;
 		long current = System.currentTimeMillis();
 		long end = current + length;
 		

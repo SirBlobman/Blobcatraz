@@ -3,7 +3,6 @@ package com.SirBlobman.blobcatraz.config;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
@@ -15,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.SirBlobman.blobcatraz.Blobcatraz;
 import com.SirBlobman.blobcatraz.utility.Util;
+import com.SirBlobman.blobcatraz.utility.comparator.WarpComparator;
 
 public class ConfigWarps
 {
@@ -156,16 +156,7 @@ public class ConfigWarps
 			Warp w = new Warp(name, icon, warp);
 			warps.add(w);
 		}
-		warps.sort(new Comparator<Warp>()
-		{
-			@Override
-			public int compare(Warp w1, Warp w2)
-			{
-				String n1 = w1.getName();
-				String n2 = w2.getName();
-				return n1.compareToIgnoreCase(n2);
-			}
-		});
+		warps.sort(new WarpComparator());
 		return warps;
 	}
 	

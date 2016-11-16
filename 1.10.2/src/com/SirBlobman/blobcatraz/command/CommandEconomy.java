@@ -28,7 +28,6 @@ public class CommandEconomy implements CommandExecutor
 					return clearall(cs);
 				case "reset":
 					return reset(cs, args);
-					
 				case "set":
 					return set(cs, args);
 				case "give":
@@ -180,6 +179,7 @@ public class CommandEconomy implements CommandExecutor
 				Player p = op.getPlayer();
 				p.sendMessage(msg2);
 			}
+			return true;
 		}
 		cs.sendMessage(Util.NEA);
 		return false;

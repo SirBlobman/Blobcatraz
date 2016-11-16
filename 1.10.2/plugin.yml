@@ -1,6 +1,6 @@
 main: com.SirBlobman.blobcatraz.Blobcatraz
 name: Blobcatraz
-version: 0.0.2.4
+version: 0.0.2.5
 description: Plugin made for the Blobcatraz server! Has a lot of useful stuff
 load: POSTWORLD
 author: SirBlobman
@@ -105,10 +105,10 @@ commands:
     description: Creative Mode
     usage: /gmc {player}
   gms:
-    description: Adventure Mode
+    description: Survival Mode
     usage: /gms {player}
   gmsp:
-    description: Adventure Mode
+    description: Spectator Mode
     usage: /gmsp {player}
   heal:
     description: Heal a player
@@ -243,3 +243,6 @@ commands:
     description: Open the inventory of another player
     usage: /openinv [player]
     aliases: [invsee, openinventory, inventorysee]
+  rules:
+    description: View the server rules
+    usage: /rules [page]
