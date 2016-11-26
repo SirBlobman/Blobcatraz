@@ -35,7 +35,7 @@ public class CommandPM implements CommandExecutor
 		if(args.length == 0)
 		{
 			//String[] options = new String[] {"Enable", "Disable", "Load", "Unload", "Reload", "SReload", "Show", "List", "ConfigReload"};
-			cs.sendMessage(Util.blobcatraz + Util.color("&aPlugin Manager Help"));
+			cs.sendMessage(Util.prefix + Util.color("&aPlugin Manager Help"));
 			cs.sendMessage(c.getUsage());
 			return true;
 		}
@@ -60,7 +60,7 @@ public class CommandPM implements CommandExecutor
 		case "list":
 			return list(cs, label, args);
 		}
-		cs.sendMessage(Util.blobcatraz + "Error executing §5/" + label);
+		cs.sendMessage(Util.prefix + "Error executing §5/" + label);
 		return true;
 	}
 	
@@ -74,12 +74,12 @@ public class CommandPM implements CommandExecutor
 		}
 		String name = Util.getFinal(args, 1);
 		Plugin p = pm.getPlugin(name);
-		if(p == null) cs.sendMessage(Util.blobcatraz + "Plugin doesn't exist: " + name);
-		else if(p.isEnabled()) cs.sendMessage(Util.blobcatraz + name + " is already enabled!");
+		if(p == null) cs.sendMessage(Util.prefix + "Plugin doesn't exist: " + name);
+		else if(p.isEnabled()) cs.sendMessage(Util.prefix + name + " is already enabled!");
 		else 
 		{
 			manager.enable(p);
-			cs.sendMessage(Util.blobcatraz + p.getName() + " has been enabled!");
+			cs.sendMessage(Util.prefix + p.getName() + " has been enabled!");
 		}
 		return true;
 	}
@@ -94,12 +94,12 @@ public class CommandPM implements CommandExecutor
 		}
 		String name = Util.getFinal(args, 1);
 		Plugin p = pm.getPlugin(name);
-		if(p == null) cs.sendMessage(Util.blobcatraz + "Plugin doesn't exist: " + name);
-		else if(!p.isEnabled()) cs.sendMessage(Util.blobcatraz + name + " is already disabled!");
+		if(p == null) cs.sendMessage(Util.prefix + "Plugin doesn't exist: " + name);
+		else if(!p.isEnabled()) cs.sendMessage(Util.prefix + name + " is already disabled!");
 		else
 		{
 			manager.disable(p);
-			cs.sendMessage(Util.blobcatraz + p.getName() + " has been disabled!");
+			cs.sendMessage(Util.prefix + p.getName() + " has been disabled!");
 		}
 		return true;
 	}
@@ -116,29 +116,29 @@ public class CommandPM implements CommandExecutor
 		File toLoad = new File("plugins" + File.separator + name + (name.endsWith(".jar") ? "" : ".jar"));
 		if(!toLoad.exists())
 		{
-			cs.sendMessage(Util.blobcatraz + toLoad + " doesn't exist!");
+			cs.sendMessage(Util.prefix + toLoad + " doesn't exist!");
 			return true;
 		}
 		PluginDescriptionFile pdf = manager.getDescription(toLoad);
 		if(pdf == null)
 		{
-			cs.sendMessage(Util.blobcatraz + toLoad + " doesn't have a proper description (plugin.yml)");
+			cs.sendMessage(Util.prefix + toLoad + " doesn't have a proper description (plugin.yml)");
 			return true;
 		}
 		if(pm.getPlugin(pdf.getName()) != null)
 		{
-			cs.sendMessage(Util.blobcatraz + pdf.getName() + " is already loaded!");
+			cs.sendMessage(Util.prefix + pdf.getName() + " is already loaded!");
 			return true;
 		}
 		Plugin p = null;
 		if((p = manager.load(toLoad)) != null)
 		{
 			manager.enable(p);
-			cs.sendMessage(Util.blobcatraz + "Successfully loaded " + p.getName() + p.getDescription().getVersion());
+			cs.sendMessage(Util.prefix + "Successfully loaded " + p.getName() + p.getDescription().getVersion());
 		}
 		else
 		{
-			cs.sendMessage(Util.blobcatraz + "Failed to load " + name);
+			cs.sendMessage(Util.prefix + "Failed to load " + name);
 		}
 		return true;
 	}
@@ -153,9 +153,9 @@ public class CommandPM implements CommandExecutor
 		}
 		String name = Util.getFinal(args, 1);
 		Plugin p = pm.getPlugin(name);
-		if(p == null) cs.sendMessage(Util.blobcatraz + "Plugin doesn't exist: " + name);
-		else if(manager.unload(p, true)) cs.sendMessage(Util.blobcatraz + p.getName() + " has been unloaded!");
-		else cs.sendMessage(Util.blobcatraz + "Failed to unload " + p.getName());
+		if(p == null) cs.sendMessage(Util.prefix + "Plugin doesn't exist: " + name);
+		else if(manager.unload(p, true)) cs.sendMessage(Util.prefix + p.getName() + " has been unloaded!");
+		else cs.sendMessage(Util.prefix + "Failed to unload " + p.getName());
 		return true;
 	}
 	
@@ -169,21 +169,21 @@ public class CommandPM implements CommandExecutor
 		}
 		String name = Util.getFinal(args, 1);
 		Plugin p = pm.getPlugin(name);
-		if(p == null) cs.sendMessage(Util.blobcatraz + "Plugin doesn't exist: " + name);
+		if(p == null) cs.sendMessage(Util.prefix + "Plugin doesn't exist: " + name);
 		else
 		{
 			File file = manager.getFile((JavaPlugin) p);
 			if(file == null)
 			{
-				cs.sendMessage(Util.blobcatraz + name + "'s Jar File is missing");
+				cs.sendMessage(Util.prefix + name + "'s Jar File is missing");
 				return true;
 			}
 			File unload = new File("plugins" + File.separator + file.getName());
 			JavaPlugin loaded = null;
-			if(!manager.unload(p, false)) cs.sendMessage(Util.blobcatraz + "Failed to unload " + name);
+			if(!manager.unload(p, false)) cs.sendMessage(Util.prefix + "Failed to unload " + name);
 			else if((loaded = (JavaPlugin) manager.load(unload)) == null) cs.sendMessage("Failed to reload " + name);
 			manager.enable(loaded);
-			cs.sendMessage(Util.blobcatraz + p.getName() + " has been reloaded");
+			cs.sendMessage(Util.prefix + p.getName() + " has been reloaded");
 		}
 		return true;
 	}
@@ -199,13 +199,13 @@ public class CommandPM implements CommandExecutor
 		}
 		String name = Util.getFinal(args, 1);
 		Plugin p = pm.getPlugin(name);
-		if(p == null) cs.sendMessage(Util.blobcatraz + "Plugin doesn't exist: " + name);
-		else if(!p.isEnabled()) cs.sendMessage(Util.blobcatraz + name + " is already disabled!");
+		if(p == null) cs.sendMessage(Util.prefix + "Plugin doesn't exist: " + name);
+		else if(!p.isEnabled()) cs.sendMessage(Util.prefix + name + " is already disabled!");
 		else
 		{
 			manager.disable(p);
 			manager.enable(p);
-			cs.sendMessage(Util.blobcatraz + p.getName() + ", " + p.getDescription().getVersion() + " soft-reloaded successfully");
+			cs.sendMessage(Util.prefix + p.getName() + ", " + p.getDescription().getVersion() + " soft-reloaded successfully");
 		}
 		return true;
 	}
@@ -220,11 +220,11 @@ public class CommandPM implements CommandExecutor
 		}
 		String name = Util.getFinal(args, 1);
 		Plugin p = pm.getPlugin(name);
-		if(p == null) cs.sendMessage(Util.blobcatraz + "Plugin doesn't exist: " + name);
+		if(p == null) cs.sendMessage(Util.prefix + "Plugin doesn't exist: " + name);
 		else
 		{
 			File file = manager.getFile((JavaPlugin) p);
-			cs.sendMessage(Util.blobcatraz + "§lDescription for §6§l" + p.getName() + "§r§l: ");
+			cs.sendMessage(Util.prefix + "§lDescription for §6§l" + p.getName() + "§r§l: ");
 			cs.sendMessage("  §lStatus:§r " + (p.isEnabled() ? "§2§lEnabled" : "§4§lDisabled"));
 			if(p.getDescription().getDescription() != null) cs.sendMessage("  §lDescription:§r " + p.getDescription().getDescription());
 			cs.sendMessage("  §lVersion:§r " + p.getDescription().getVersion());
@@ -261,7 +261,7 @@ public class CommandPM implements CommandExecutor
 			if(p.isEnabled()) plugins.append("§2" + p.getName());
 			else plugins.append("§4" + p.getName());
 		}
-		cs.sendMessage(Util.blobcatraz + "List of plugins: ");
+		cs.sendMessage(Util.prefix + "List of plugins: ");
 		cs.sendMessage(plugins.toString());
 		return true;
 	}
@@ -273,9 +273,9 @@ public class CommandPM implements CommandExecutor
 		if(args.length < 2) p = this.plugin;
 		else p = pm.getPlugin(Util.getFinal(args, 1));
 		String name = Util.getFinal(args, 1);
-		if(p == null) cs.sendMessage(Util.blobcatraz + "Plugin doesn't exist: " + name);
+		if(p == null) cs.sendMessage(Util.prefix + "Plugin doesn't exist: " + name);
 		p.reloadConfig();
-		cs.sendMessage(Util.blobcatraz + "Attempted to reload the config of " + p.getName());
+		cs.sendMessage(Util.prefix + "Attempted to reload the config of " + p.getName());
 		return true;
 	}
 }

@@ -42,6 +42,7 @@ public class Shop implements Listener
 				String[] lines = s.getLines();
 				String buy = Util.color("&1[Buy]");
 				String sell = Util.color("&1[Sell]");
+				boolean b1 = lines[0].equals(buy) || lines[0].equals(sell);
 				
 				Material mat = Material.AIR;
 				short data = 0;
@@ -56,7 +57,7 @@ public class Shop implements Listener
 					amount = Integer.parseInt(lines[2]);
 				} catch(Exception ex)
 				{
-					p.sendMessage(Util.blobcatraz + Util.message("shop.invalidSign"));
+					if(b1) p.sendMessage(Util.blobcatraz + Util.message("shop.invalidSign"));
 					return;
 				}
 				ItemStack is = new ItemStack(mat, amount, data);
@@ -73,6 +74,11 @@ public class Shop implements Listener
 		if(e.isCancelled()) return;
 		Player p = e.getPlayer();
 		String[] lines = e.getLines();
+		if(lines[0].equalsIgnoreCase("[sellall]"))
+		{
+			e.setLine(0, "&5[&4Sell All&5]&r");
+			return;
+		}
 		if(isShopSign(lines))
 		{
 			String buy = "[buy]", buy2 = Util.color("&1[Buy]");

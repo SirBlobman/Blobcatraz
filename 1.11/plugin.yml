@@ -1,0 +1,23 @@
+name: Blobcatraz
+version: 0.0.3.0-alpha1
+description: Main plugin for the Blobcatraz server
+load: POSTWORLD
+author: SirBlobman
+authors: [SirBlobman]
+website: http://sirblobman.ddns.net
+main: com.SirBlobman.blobcatraz.Blobcatraz
+database: false
+depend: []
+softdepend: [Vault]
+commands:
+  blobcatraz:
+    description: |
+      Base command
+      [] = Optional
+      <> = Required
+    aliases: [btraz]
+    usage: /blobcatraz [give|enchant] [item|enchantment] [level]
+  afk:
+    description: Set yourself as away from keyboard
+    aliases: [away]
+    usage: /afk <reason>

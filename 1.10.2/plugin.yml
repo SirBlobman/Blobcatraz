@@ -1,12 +1,11 @@
 main: com.SirBlobman.blobcatraz.Blobcatraz
 name: Blobcatraz
-version: 0.0.2.5
+version: 0.0.2.6
 description: Plugin made for the Blobcatraz server! Has a lot of useful stuff
 load: POSTWORLD
 author: SirBlobman
 website: http://sirblobman.ddns.net
 softdepend: [WorldGuard, Vault, Votifier]
-
 commands:
   blobcatraz:
     description: Blobcatraz base command. [] = Required | {} = Optional
