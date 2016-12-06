@@ -1,0 +1,28 @@
+name: BlobcatrazKits
+version: 0.0.1
+description: Kit extension for Blobcatraz
+author: SirBlobman
+authors: [SirBlobman]
+website: http://sirblobman.ddns.net
+main: com.SirBlobman.blobcatraz.Kits
+database: false
+depend: [Blobcatraz]
+softdepend: []
+commands:
+  kit:
+    description: List all the kits, or get a kit
+    aliases: [kits]
+    usage: /kit <name>
+  createkit:
+    description: Create a new kit using your inventory
+    usage: /createkit [name]
+  deletekit:
+    description: Delete an unwanted kit
+    aliases: [delkit]
+    usage: /deletekit [name]
+  chesttokit:
+    description: Turn a chest with items into a kit
+    usage: /chesttokit [name]
+  kittochest:
+    description: Put a pre-made kit into a chest
+    usage: /kittochest [name]

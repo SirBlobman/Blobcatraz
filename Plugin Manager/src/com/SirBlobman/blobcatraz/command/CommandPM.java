@@ -134,7 +134,7 @@ public class CommandPM implements CommandExecutor
 		if((p = manager.load(toLoad)) != null)
 		{
 			manager.enable(p);
-			cs.sendMessage(Util.prefix + "Successfully loaded " + p.getName() + p.getDescription().getVersion());
+			cs.sendMessage(Util.prefix + "Successfully loaded " + p.getName() + " " + p.getDescription().getVersion());
 		}
 		else
 		{

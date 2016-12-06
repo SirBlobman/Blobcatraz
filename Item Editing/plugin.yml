@@ -1,0 +1,28 @@
+name: BlobcatrazItemEditor
+version: 0.0.2
+author: SirBlobman
+main: com.SirBlobman.blobcatraz.ItemEditor
+depend: [Blobcatraz]
+commands:
+  item:
+    description: Cheat in some items for yourself!
+    aliases: [i, selfgive]
+    usage: /i <item[:meta]> [amount]
+  rename:
+    description: Change the name of the item you are holding
+    usage: /rename <new name>
+  addlore:
+    description: Add a line of lore for an item
+    usage: /addlore <lore>
+  setlore:
+    description: Force instead of adding lines of lore
+    usage: /setlore <lore>
+  clearlore:
+    description: Remove all the lore from an item
+    usage: /clearlore
+  removelore:
+    description: Remove a line of lore from an item
+    usage: /removelore <line>
+  resetitem:
+    description: Remove any metadata from an item
+    usage: /resetitem

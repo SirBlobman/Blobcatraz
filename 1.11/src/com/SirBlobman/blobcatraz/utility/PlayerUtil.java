@@ -185,4 +185,24 @@ public class PlayerUtil extends Util
 		chest.clear();
 		p.sendMessage(prefix + option("command.clear inventory.ender chest"));
 	}
+	
+	public static String join(Player p)
+	{
+		String name = p.getName();
+		String disp = p.getDisplayName();
+		String msg = option("player.join");
+		msg = msg.replace("{displayname}", disp);
+		msg = msg.replace("{username}", name);
+		return msg;
+	}
+	
+	public static String quit(Player p)
+	{
+		String name = p.getName();
+		String disp = p.getDisplayName();
+		String msg = option("player.quit");
+		msg = msg.replace("{displayname}", disp);
+		msg = msg.replace("{username}", name);
+		return msg;
+	}
 }

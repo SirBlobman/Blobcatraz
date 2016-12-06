@@ -227,10 +227,7 @@ public class PluginManager
 			Map<String, ?> loaderMap = (Map<String, ?>)loaders.get(jpl);
 			loaderMap.remove(plugin.getDescription().getName());
 		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		catch (Exception e) {}
 		ClassLoader cl = plugin.getClass().getClassLoader();
 		try
 		{
@@ -246,9 +243,6 @@ public class PluginManager
 				enable(load(getFile((JavaPlugin)reload.get(i))));
 			}
 		}
-		File loaded = getFile((JavaPlugin)plugin);
-		File unloaded = new File(getFile((JavaPlugin)plugin) + ".unloaded");
-
-		return loaded.renameTo(unloaded);
+		return true;
 	}
 }

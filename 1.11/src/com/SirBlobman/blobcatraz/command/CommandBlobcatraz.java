@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import com.SirBlobman.blobcatraz.enchant.Enchant;
 import com.SirBlobman.blobcatraz.item.BItems;
 import com.SirBlobman.blobcatraz.utility.ItemUtil;
+import com.SirBlobman.blobcatraz.utility.PlayerUtil;
 import com.SirBlobman.blobcatraz.utility.Util;
 
 public class CommandBlobcatraz implements CommandExecutor, TabCompleter
@@ -90,23 +91,25 @@ public class CommandBlobcatraz implements CommandExecutor, TabCompleter
 		if(cs instanceof Player)
 		{
 			Player p = (Player) cs;
+			String permission = "blobcatraz.give.special";
+			if(!PlayerUtil.hasPermission(p, permission)) return true;
 			if(args.length >= 2)
 			{
 				Collections.sort(items);
-				String sitems = String.join(",", items);
+				String sitems = String.join(", ", items);
 				
 				String item = args[1].toLowerCase();
 				switch(item)
 				{
-				case "sonic_screwdriver": ItemUtil.give(p, BItems.sonicScrewdriver());
-				case "lightning_rod": ItemUtil.give(p, BItems.lightningRod());
-				case "op_sword": ItemUtil.give(p, BItems.op(Material.DIAMOND_SWORD));
-				case "op_pickaxe": ItemUtil.give(p, BItems.op(Material.DIAMOND_PICKAXE));
-				case "op_bow": ItemUtil.give(p, BItems.op(Material.BOW));
-				case "loot_sword": ItemUtil.give(p, BItems.loot(Material.WOOD_SWORD));
-				case "portal_wand": ItemUtil.give(p, BItems.portalWand());
-				case "sand_wand": ItemUtil.give(p, BItems.sandWand());
-				case "sand_wand2": ItemUtil.give(p, BItems.uSandWand());
+				case "sonic_screwdriver": {ItemUtil.give(p, BItems.sonicScrewdriver()); return true;}
+				case "lightning_rod": {ItemUtil.give(p, BItems.lightningRod()); return true;}
+				case "op_sword": {ItemUtil.give(p, BItems.op(Material.DIAMOND_SWORD)); return true;}
+				case "op_pickaxe": {ItemUtil.give(p, BItems.op(Material.DIAMOND_PICKAXE)); return true;}
+				case "op_bow": {ItemUtil.give(p, BItems.op(Material.BOW)); return true;}
+				case "loot_sword": {ItemUtil.give(p, BItems.loot(Material.WOOD_SWORD)); return true;}
+				case "portal_wand": {ItemUtil.give(p, BItems.portalWand()); return true;}
+				case "sand_wand": {ItemUtil.give(p, BItems.sandWand()); return true;}
+				case "sand_wand2": {ItemUtil.give(p, BItems.uSandWand()); return true;}
 				default:
 					String[] msg = new String[]
 					{
@@ -114,9 +117,9 @@ public class CommandBlobcatraz implements CommandExecutor, TabCompleter
 						Util.prefix + Util.format("&lValid Items:")
 					};
 					p.sendMessage(msg);
-					p.sendMessage(sitems);
+					p.sendMessage(sitems); 
+					return true;
 				}
-				return true;
 			}
 			p.sendMessage(Util.NEA);
 			return false;
@@ -130,6 +133,8 @@ public class CommandBlobcatraz implements CommandExecutor, TabCompleter
 		if(cs instanceof Player)
 		{
 			Player p = (Player) cs;
+			String permission = "blobcatraz.enchant.custom";
+			if(!PlayerUtil.hasPermission(p, permission)) return true;
 			if(args.length >= 3)
 			{
 				String enchant = args[1].toUpperCase();
@@ -143,6 +148,7 @@ public class CommandBlobcatraz implements CommandExecutor, TabCompleter
 				
 				ItemStack held = ItemUtil.held(p);
 				ItemUtil.bEnchant(held, e, lvl);
+				p.updateInventory();
 				p.sendMessage(Util.prefix + Util.option("command.blobcatraz.enchant.success", ItemUtil.name(held), e, level));
 				return true;
 			}

@@ -116,6 +116,18 @@ public class ItemUtil extends Util
 		is.setDurability((short) 0);
 	}
 	
+	public static List<String> items()
+	{
+		Material[] mats = Material.values();
+		List<String> list = new ArrayList<String>();
+		for(Material mat : mats)
+		{
+			String name = mat.name();
+			list.add(name);
+		}
+		return list;
+	}
+	
 	public static void give(Player p, ItemStack is)
 	{
 		if(p == null || air(is)) return;
@@ -124,7 +136,7 @@ public class ItemUtil extends Util
 		{
 			String name = name(is);
 			int amount = is.getAmount();
-			String msg = prefix + option("command.give.recieve item", amount, name);
+			String msg = prefix + option("command.item.recieve item", amount, name);
 			pi.addItem(is);
 			p.sendMessage(msg);
 			return;

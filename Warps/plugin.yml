@@ -1,0 +1,25 @@
+name: BlobcatrazWarps
+version: 0.0.1
+description: Warp extension for Blobcatraz
+author: SirBlobman
+authors: [SirBlobman]
+website: http://sirblobman.ddns.net
+main: com.SirBlobman.blobcatraz.Warps
+database: false
+depend: [Blobcatraz]
+softdepend: []
+commands:
+  warp:
+    description: Go to a warp or list all warps
+    usage: /warp <name>
+  warps:
+    description: Open the warps GUI
+    usage: /warps [page]
+  createwarp:
+    description: Create a warp where you are standing
+    aliases: [setwarp]
+    usage: /createwarp [name]
+  deletewarp:
+    description: Delete a warp that is unused
+    aliases: [delwarp]
+    usage: /deletewarp [name]

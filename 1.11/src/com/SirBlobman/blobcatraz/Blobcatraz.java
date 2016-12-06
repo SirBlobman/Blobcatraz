@@ -12,6 +12,11 @@ import com.SirBlobman.blobcatraz.command.CommandAFK;
 import com.SirBlobman.blobcatraz.command.CommandBlobcatraz;
 import com.SirBlobman.blobcatraz.config.ConfigBlobcatraz;
 import com.SirBlobman.blobcatraz.config.ConfigLanguage;
+import com.SirBlobman.blobcatraz.listener.ListenAFK;
+import com.SirBlobman.blobcatraz.listener.ListenAntiTNT;
+import com.SirBlobman.blobcatraz.listener.ListenAutoPickup;
+import com.SirBlobman.blobcatraz.listener.ListenChat;
+import com.SirBlobman.blobcatraz.listener.ListenLoginLogout;
 import com.SirBlobman.blobcatraz.utility.Util;
 
 /**
@@ -35,6 +40,7 @@ public class Blobcatraz extends JavaPlugin
 		folder = getDataFolder();
 		configs();
 		commands();
+		events();
 		Util.broadcast(Util.enable);
 	}
 	
@@ -56,10 +62,22 @@ public class Blobcatraz extends JavaPlugin
 		c("afk", new CommandAFK(), null);
 	}
 	
-	private void c(String cmd, CommandExecutor ce, TabCompleter tc)
+	private void events()
+	{
+		Util.regEvents
+		(
+			new ListenAFK(),
+			new ListenAntiTNT(),
+			new ListenAutoPickup(),
+			new ListenChat(),
+			new ListenLoginLogout()
+		);
+	}
+	
+	protected void c(String cmd, CommandExecutor ce, TabCompleter tc)
 	{
 		PluginCommand pc = getCommand(cmd);
-		pc.setExecutor(ce);
+		if(ce != null) pc.setExecutor(ce);
 		if(tc != null) pc.setTabCompleter(tc);
 	}
 }

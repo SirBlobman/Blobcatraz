@@ -42,6 +42,8 @@ public class ConfigSymbols
 				return;
 			}
 		}
+		try{config.save(file);}
+		catch(Exception ex) {Util.print("Failed to save " + file + ": " + ex.getMessage()); return;}
 	}
 	
 	private static void defaults()

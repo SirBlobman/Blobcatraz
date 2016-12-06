@@ -51,6 +51,17 @@ public class ConfigLanguage
 		set("command.no permission", "&4No Permission: &3%s", false);
 		set("command.no permission1", "&4No Permission!", false);
 		set("command.no permission2", "&3%s", false);
+
+		set("command.item.recieve item", "You were given &6%s&r of &b%s&r", false);
+		set("command.item.invalid item", "&5%s&r is not a valid Item", false);
+		set("command.item.invalid meta", "&5%s&r must be between 1 and 32767", false);
+		set("command.item.invalid amount", "&5%s&r is not a valid amount!", false);
+		
+		set("command.editing.air", "AIR cannot be edited!", false);
+		set("command.editing.rename", "Renamed your &6%s&r to &b%s", false);
+
+		set("player.join", "{username} joined the game!", false);
+		set("player.quit", "{displayname} left us! :(", false);
 		save();
 	}
 	
