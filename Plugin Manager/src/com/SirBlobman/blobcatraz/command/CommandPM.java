@@ -1,13 +1,8 @@
 package com.SirBlobman.blobcatraz.command;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
-
-import com.SirBlobman.blobcatraz.Blobcatraz;
-import com.SirBlobman.blobcatraz.plugin.manager.Manager;
-import com.SirBlobman.blobcatraz.plugin.manager.PluginManager;
-import com.SirBlobman.blobcatraz.utility.PlayerUtil;
-import com.SirBlobman.blobcatraz.utility.Util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -16,6 +11,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.SirBlobman.blobcatraz.Blobcatraz;
+import com.SirBlobman.blobcatraz.plugin.manager.Manager;
+import com.SirBlobman.blobcatraz.plugin.manager.PluginManager;
+import com.SirBlobman.blobcatraz.utility.PlayerUtil;
+import com.SirBlobman.blobcatraz.utility.Util;
 
 public class CommandPM implements CommandExecutor 
 {
@@ -255,7 +256,9 @@ public class CommandPM implements CommandExecutor
 	{
 		if(!PlayerUtil.hasPermission(cs, "blobcatraz.pluginmanager.list")) return true;
 		StringBuffer plugins = new StringBuffer();
-		for(Plugin p : pm.getPlugins())
+		List<Plugin> list = Arrays.asList(pm.getPlugins());
+		list.sort(new PluginComparator());
+		for(Plugin p : list)
 		{
 			if(plugins.length() > 0) plugins.append("§r, ");
 			if(p.isEnabled()) plugins.append("§2" + p.getName());

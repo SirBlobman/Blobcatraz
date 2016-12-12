@@ -1,5 +1,5 @@
 name: BlobcatrazItemEditor
-version: 0.0.2
+version: 0.0.3
 author: SirBlobman
 main: com.SirBlobman.blobcatraz.ItemEditor
 depend: [Blobcatraz]
@@ -26,3 +26,11 @@ commands:
   resetitem:
     description: Remove any metadata from an item
     usage: /resetitem
+  openinv:
+    description: Open someone elses inventory
+    aliases: [invsee, openinventory]
+    usage: /openinv <player>
+  skull:
+    description: Get someone's head
+    aliases: [head, cranium]
+    usage: /skull <name>

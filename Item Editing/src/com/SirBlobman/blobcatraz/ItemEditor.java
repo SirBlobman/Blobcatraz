@@ -1,7 +1,9 @@
 package com.SirBlobman.blobcatraz;
 
 import com.SirBlobman.blobcatraz.command.CommandEdit;
+import com.SirBlobman.blobcatraz.command.CommandInventory;
 import com.SirBlobman.blobcatraz.command.CommandItem;
+import com.SirBlobman.blobcatraz.command.CommandSkull;
 import com.SirBlobman.blobcatraz.utility.Util;
 
 public class ItemEditor extends Blobcatraz
@@ -28,5 +30,7 @@ public class ItemEditor extends Blobcatraz
 		c("rename", new CommandEdit(), null);
 		c("resetitem", new CommandEdit(), null);
 		c("setlore", new CommandEdit(), null);
+		c("openinv", new CommandInventory(), null);
+		c("skull", new CommandSkull(), null);
 	}
 }

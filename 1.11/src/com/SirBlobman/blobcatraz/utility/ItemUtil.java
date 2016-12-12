@@ -44,6 +44,15 @@ public class ItemUtil extends Util
 		return m.name() + ":" + d;
 	}
 	
+	public static List<String> lore(ItemStack is)
+	{
+		if(air(is)) return null;
+		ItemMeta meta = is.getItemMeta();
+		boolean b = meta.hasLore();
+		if(b) return meta.getLore();
+		return null;
+	}
+	
 	public static ItemStack held(Player p)
 	{
 		if(p == null) return null;

@@ -60,8 +60,14 @@ public class ConfigLanguage
 		set("command.editing.air", "AIR cannot be edited!", false);
 		set("command.editing.rename", "Renamed your &6%s&r to &b%s", false);
 
+		set("command.afk.not", "&6&l* &7%s is no longer AFK", false);
+		
+		set("command.balance.self", "You have &2%s&r", false);
+		set("command.balance.other", "&3%s&r has &2%s&r", false);
+		
 		set("player.join", "{username} joined the game!", false);
 		set("player.quit", "{displayname} left us! :(", false);
+		
 		save();
 	}
 	

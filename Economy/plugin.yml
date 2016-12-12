@@ -1,0 +1,26 @@
+name: BlobcatrazEconomy
+version: 0.0.1
+description: Economy addon for Blobcatraz
+author: SirBlobman
+authors: [SirBlobman]
+website: http://sirblobman.ddns.net
+main: com.SirBlobman.blobcatraz.Economy
+database: false
+depend: [Blobcatraz]
+softdepend: [Vault]
+commands:
+  balance:
+    description: Check how much money you have
+    aliases: [money, bal]
+    usage: /balance [player]
+  baltop:
+    description: Get the top players on the server
+    aliases: [balancetop]
+    usage: /baltop
+  withdraw:
+    decription: Take out some money as a bank note
+    usage: /withdraw <amount>
+  economy:
+    description: Admin Command. Manage the server economy
+    aliases: [eco]
+    usage: /eco <give | take | set | reset | clearall> [player]

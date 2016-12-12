@@ -79,7 +79,8 @@ public class GuiWarps implements Listener
 	private final ItemStack page(int p)
 	{
 		ItemStack page = new ItemStack(Material.PAPER);
-		ItemUtil.rename(page, "&9Page: &r" + page);
+		ItemUtil.rename(page, "&9Page: &r" + GuiWarps.page);
+		page.setAmount(GuiWarps.page);
 		return page;
 	}
 	

@@ -1,5 +1,5 @@
 name: Blobcatraz
-version: 0.0.3.0-alpha2
+version: 0.0.3.0-alpha3
 description: Main plugin for the Blobcatraz server
 load: POSTWORLD
 author: SirBlobman
@@ -8,7 +8,6 @@ website: http://sirblobman.ddns.net
 main: com.SirBlobman.blobcatraz.Blobcatraz
 database: false
 depend: []
-softdepend: [Vault]
 commands:
   blobcatraz:
     description: |

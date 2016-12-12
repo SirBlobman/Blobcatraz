@@ -15,7 +15,6 @@ import com.SirBlobman.blobcatraz.config.ConfigLanguage;
 import com.SirBlobman.blobcatraz.listener.ListenAFK;
 import com.SirBlobman.blobcatraz.listener.ListenAntiTNT;
 import com.SirBlobman.blobcatraz.listener.ListenAutoPickup;
-import com.SirBlobman.blobcatraz.listener.ListenChat;
 import com.SirBlobman.blobcatraz.listener.ListenLoginLogout;
 import com.SirBlobman.blobcatraz.utility.Util;
 
@@ -69,7 +68,6 @@ public class Blobcatraz extends JavaPlugin
 			new ListenAFK(),
 			new ListenAntiTNT(),
 			new ListenAutoPickup(),
-			new ListenChat(),
 			new ListenLoginLogout()
 		);
 	}

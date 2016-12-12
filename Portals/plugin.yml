@@ -1,0 +1,13 @@
+name: BlobcatrazPortals
+version: 0.0.1
+description: Teleportation portals addon for Blobcatraz
+author: SirBlobman
+authors: [SirBlobman]
+website: http://sirblobman.ddns.net
+main: com.SirBlobman.blobcatraz.Portals
+database: false
+depend: [Blobcatraz]
+commands:
+  portal:
+    description: Edit or create some portals
+    usage: /portal <create | remove | wand | list> [name]
