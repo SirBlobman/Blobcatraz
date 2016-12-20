@@ -65,7 +65,10 @@ public class ConfigLanguage
 		set("command.balance.self", "You have &2%s&r", false);
 		set("command.balance.other", "&3%s&r has &2%s&r", false);
 		
-		set("player.join", "{username} joined the game!", false);
+		set("command.nickname.success", "Your name is now %s\nPlease logout to see the change", false);
+		set("command.nickname.other", "You changed &5%s's nickname to %s\nThey must logout to see the change!", false);
+		
+		set("player.join", "{username} joined the game! :)", false);
 		set("player.quit", "{displayname} left us! :(", false);
 		
 		save();
@@ -75,5 +78,6 @@ public class ConfigLanguage
 	{
 		boolean b1 = (config.get(path) == null);
 		if(b1 || force) config.set(path, msg);
+		if(force) save();
 	}
 }

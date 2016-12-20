@@ -11,8 +11,10 @@ softdepend: []
 commands:
   kit:
     description: List all the kits, or get a kit
-    aliases: [kits]
     usage: /kit <name>
+  kits:
+    description: Open the GUI for kits
+    usage: /kits <page>
   createkit:
     description: Create a new kit using your inventory
     usage: /createkit [name]

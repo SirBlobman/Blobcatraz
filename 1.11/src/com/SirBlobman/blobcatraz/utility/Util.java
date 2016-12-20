@@ -16,6 +16,7 @@ import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
@@ -37,9 +38,10 @@ public class Util
 	protected static Blobcatraz plugin = Blobcatraz.instance;
 	protected static final Server S = Bukkit.getServer();
 	protected static final PluginManager PM = S.getPluginManager();
-	protected static final YamlConfiguration CB = ConfigBlobcatraz.load();
-	protected static final YamlConfiguration CL = ConfigLanguage.load();
 	protected static final Random R = new Random();
+
+	protected static YamlConfiguration CB = ConfigBlobcatraz.load();
+	protected static YamlConfiguration CL = ConfigLanguage.load();
 	
 	public static final String prefix = option("prefix");
 	public static final String prefix2 = uncolor(prefix);
@@ -61,6 +63,7 @@ public class Util
 	 */
 	public static String option(String key, Object... format)
 	{
+		CL = ConfigLanguage.load();
 		String o = CL.getString(key);
 		if(o == null) o = key;
 		String f = format(o, format);
@@ -209,5 +212,18 @@ public class Util
         	}
         }
         return blocks;
+	}
+	
+	public static List<String> living()
+	{
+		List<String> list = new ArrayList<>();
+		EntityType[] types = EntityType.values();
+		for(EntityType et : types)
+		{
+			String type = et.name();
+			if(et.isAlive()) list.add(type);
+		}
+		list.remove("PLAYER");
+		return list;
 	}
 }

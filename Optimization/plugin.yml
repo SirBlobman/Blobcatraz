@@ -1,0 +1,14 @@
+name: BlobcatrazLagg
+version: 0.0.1
+description: Server Optimization extension for Blobcatraz
+author: SirBlobman
+authors: [SirBlobman]
+website: http://sirblobman.ddns.net
+main: com.SirBlobman.blobcatraz.Optimization
+database: false
+depend: [Blobcatraz]
+softdepend: []
+commands:
+  lagg:
+    description: Base command for optimization
+    usage: /lagg <sub>

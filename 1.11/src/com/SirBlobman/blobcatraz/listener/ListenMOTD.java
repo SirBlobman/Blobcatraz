@@ -15,6 +15,7 @@ public class ListenMOTD implements Listener
 	{
 		String msg = Util.option("motd");
 		msg = msg.replace("/n", "\n");
+		msg = msg.replace("\\n", "\n");
 		e.setMotd(msg);
 	}
 	

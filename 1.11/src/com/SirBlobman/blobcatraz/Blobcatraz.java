@@ -10,12 +10,18 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.SirBlobman.blobcatraz.command.CommandAFK;
 import com.SirBlobman.blobcatraz.command.CommandBlobcatraz;
+import com.SirBlobman.blobcatraz.command.CommandMOTD;
+import com.SirBlobman.blobcatraz.command.CommandSpawner;
 import com.SirBlobman.blobcatraz.config.ConfigBlobcatraz;
 import com.SirBlobman.blobcatraz.config.ConfigLanguage;
 import com.SirBlobman.blobcatraz.listener.ListenAFK;
 import com.SirBlobman.blobcatraz.listener.ListenAntiTNT;
 import com.SirBlobman.blobcatraz.listener.ListenAutoPickup;
+import com.SirBlobman.blobcatraz.listener.ListenFreeze;
+import com.SirBlobman.blobcatraz.listener.ListenHubEffects;
 import com.SirBlobman.blobcatraz.listener.ListenLoginLogout;
+import com.SirBlobman.blobcatraz.listener.ListenMOTD;
+import com.SirBlobman.blobcatraz.listener.ListenSlime;
 import com.SirBlobman.blobcatraz.utility.Util;
 
 /**
@@ -59,6 +65,8 @@ public class Blobcatraz extends JavaPlugin
 	{
 		c("blobcatraz", new CommandBlobcatraz(), new CommandBlobcatraz());
 		c("afk", new CommandAFK(), null);
+		c("setmotd", new CommandMOTD(), null);
+		c("spawner", new CommandSpawner(), new CommandSpawner());
 	}
 	
 	private void events()
@@ -68,7 +76,11 @@ public class Blobcatraz extends JavaPlugin
 			new ListenAFK(),
 			new ListenAntiTNT(),
 			new ListenAutoPickup(),
-			new ListenLoginLogout()
+			new ListenLoginLogout(),
+			new ListenFreeze(),
+			new ListenHubEffects(),
+			new ListenSlime(),
+			new ListenMOTD()
 		);
 	}
 	

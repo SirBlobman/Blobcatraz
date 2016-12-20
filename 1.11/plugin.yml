@@ -1,5 +1,5 @@
 name: Blobcatraz
-version: 0.0.3.0-alpha3
+version: 0.0.3.0-alpha4
 description: Main plugin for the Blobcatraz server
 load: POSTWORLD
 author: SirBlobman
@@ -10,7 +10,7 @@ database: false
 depend: []
 commands:
   blobcatraz:
-    description: |
+    description: |-
       Base command
       [] = Optional
       <> = Required
@@ -19,4 +19,10 @@ commands:
   afk:
     description: Set yourself as away from keyboard
     aliases: [away]
-    usage: /afk <reason>
+    usage: /afk [reason]
+  setmotd:
+    description: Change the server's MOTD
+    usage: /setmotd <motd>
+  spawner:
+    description: Change the spawner you are looking at
+    usage: /spawner <entity>

@@ -60,10 +60,6 @@ public class ConfigBlobcatraz
 		set("combat log.enable", true, false);
 		set("combat log.time", 30, false);
 		
-		set("chat.emojis", true, false);
-		set("chat.ping", true, false);
-		set("chat.disabled", false, false);
-		
 		List<String> portalWorlds = Arrays.asList("WoRlD", "Hub");
 		set("portals.enable", true, false);
 		set("portals.only blobcatraz portals", portalWorlds, false);

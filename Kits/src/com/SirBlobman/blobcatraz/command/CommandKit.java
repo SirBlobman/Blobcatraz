@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import com.SirBlobman.blobcatraz.config.ConfigKits;
+import com.SirBlobman.blobcatraz.gui.GuiKits;
 import com.SirBlobman.blobcatraz.utility.ItemUtil;
 import com.SirBlobman.blobcatraz.utility.PlayerUtil;
 import com.SirBlobman.blobcatraz.utility.Util;
@@ -31,6 +32,7 @@ public class CommandKit implements CommandExecutor
 			switch(cmd)
 			{
 			case "kit": return kit(p, args);
+			case "kits": return kits(p, args);
 			case "createkit": return createkit(p, args);
 			case "deletekit": return deletekit(p, args);
 			case "kittochest": return kitToChest(p, args);
@@ -48,7 +50,7 @@ public class CommandKit implements CommandExecutor
 		if(!PlayerUtil.hasPermission(p, permission)) return true;
 		
 		StringBuffer sb = new StringBuffer();
-		List<String> list = ConfigKits.kits();
+		List<String> list = ConfigKits.skits();
 		for(int i = 0; i < list.size(); i++)
 		{
 			String name = list.get(i);
@@ -83,6 +85,38 @@ public class CommandKit implements CommandExecutor
 		}
 		p.sendMessage(Util.prefix + Util.option("error.kit.does not exist"));
 		return true;
+	}
+	
+	private boolean kits(Player p, String[] args)
+	{
+		String permission = "blobcatraz.kits";
+		if(!PlayerUtil.hasPermission(p, permission)) return true;
+		
+		if(args.length > 0)
+		{
+			String pg = args[0];
+			int page = 1;
+			try{page = Integer.parseInt(pg);}
+			catch(Exception ex)
+			{
+				p.sendMessage(Util.IA);
+				return true;
+			}
+			
+			List<String> kits = ConfigKits.skits();
+			if(kits.isEmpty())
+			{
+				p.sendMessage(Util.prefix + Util.option("error.kits.none"));
+				return true;
+			}
+
+			GuiKits gui = new GuiKits();
+			Inventory i = gui.gui(page);
+			p.openInventory(i);
+			return true;
+		}
+		p.sendMessage(Util.NEA);
+		return false;
 	}
 	
 	private boolean createkit(Player p, String[] args)

@@ -98,10 +98,11 @@ public class CommandWarp implements CommandExecutor
 				List<Warp> list = ConfigWarps.warps();
 				if(list.size() == 0)
 				{
-					p.sendMessage(Util.prefix + "error.warps.none");
+					p.sendMessage(Util.prefix + Util.option("error.warps.none"));
 					return true;
 				}
 				
+				p.sendMessage(Util.prefix + Util.option("please wait"));
 				Inventory i = gui.warps(page);
 				p.openInventory(i);
 				return true;

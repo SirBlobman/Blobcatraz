@@ -83,6 +83,7 @@ public class ConfigDatabase
 		YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 		set(config, "name", op.getName(), false);
 		set(config, "prefix", "[Default] &f", false);
+		set(config, "nick", op.getName(), false);
 		set(config, "afk", false, false);
 		set(config, "frozen", false, false);
 		set(config, "banned.status", false, false);

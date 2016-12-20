@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.io.FilenameUtils;
+import org.bukkit.Material;
 import org.bukkit.block.Chest;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -63,11 +64,11 @@ public class ConfigKits
 	
 	public static boolean exists(String name)
 	{
-		List<String> kits = kits();
+		List<String> kits = skits();
 		return kits.contains(name);
 	}
 	
-	public static List<String> kits()
+	public static List<String> skits()
 	{
 		List<String> list = new ArrayList<String>();
 		if(!folder.exists()) folder.mkdirs();
@@ -81,11 +82,25 @@ public class ConfigKits
 				String f = FilenameUtils.getBaseName(name);
 				YamlConfiguration config = load(f);
 				String kit = config.getString("name");
-				list.add(kit);
+				if(kit != null) list.add(kit);
 			}
 		}
 		
-		Collections.sort(list);
+		if(list != null) Collections.sort(list);
+		return list;
+	}
+	
+	public static List<Kit> kits()
+	{
+		List<Kit> list = new ArrayList<Kit>();
+		List<String> slist = skits();
+		for(String s : slist)
+		{
+			List<ItemStack> items = kit(s);
+			ItemStack icon = items.get(0);
+			Kit kit = new Kit(s, icon, items);
+			list.add(kit);
+		}
 		return list;
 	}
 	
@@ -140,6 +155,7 @@ public class ConfigKits
 		if(i == null || name == null) return;
 		YamlConfiguration kit = load(name);
 		kit.set("name", name);
+		kit.set("icon", new ItemStack(Material.DIAMOND_SWORD));
 		int o = 0;
 		ItemStack[] items = i.getStorageContents();
 		for(ItemStack is : items)
