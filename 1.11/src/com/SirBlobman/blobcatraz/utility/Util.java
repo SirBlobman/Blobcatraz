@@ -52,6 +52,7 @@ public class Util
 	public static final String NEA = prefix + option("command.not enough arguments");
 	public static final String TMA = prefix + option("command.too many arguments");
 	public static final String notPlayer = prefix + option("error.not player");
+	public static final String notLiving = prefix + option("error.not living");
 	
 	public static final ItemStack AIR = new ItemStack(Material.AIR);
 	
@@ -78,6 +79,11 @@ public class Util
 		return f;
 	}
 	
+	/**
+	 * Add some color to a message
+	 * @param o String to add color
+	 * @return The colored message<br/><b>&amp;</b> will be replaced with <b>&sect;</b>
+	 */
 	public static String color(String o)
 	{
 		String c = ChatColor.translateAlternateColorCodes('&', o);

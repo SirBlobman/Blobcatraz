@@ -1,0 +1,43 @@
+name: BlobcatrazTeleportation
+version: 0.0.5
+description: Teleportation addon for Blobcatraz
+author: SirBlobman
+authors: [SirBlobman]
+website: http://sirblobman.ddns.net
+main: com.SirBlobman.blobcatraz.Teleportation
+database: false
+depend: [Blobcatraz]
+commands:
+  teleport:
+    description: Teleport around the server
+    aliases: [tp]
+    usage: |-
+      /tp <x> <y> <z>
+      /tp <player> <x> <y> <z>
+      /tp <player>
+      /tp <player> <other player>
+  center:
+    description: Teleport to the center of the block you are standing on
+    usage: /center
+    aliases: [middle, .5]
+  spawn:
+    description: Teleport to the spawn of the current world
+    usage: /spawn
+  setspawn:
+    description: Change the spawn of your current world
+    usage: /setspawn
+  world:
+    description: Teleport to a different world
+    usage: /world <world>
+  worldlist:
+    description: View the list of all worlds
+    usage: /worldlist
+    aliases: [wlist, worlds]
+  hub:
+    description: Teleport to the server's hub
+    usage: /hub
+    aliases: [lobby]
+  sethub:
+    description: Change the server's hub
+    usage: /sethub
+    aliases: [setlobby]

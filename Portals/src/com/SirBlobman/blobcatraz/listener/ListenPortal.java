@@ -17,6 +17,7 @@ import org.bukkit.event.player.PlayerPortalEvent;
 
 import com.SirBlobman.blobcatraz.config.ConfigBlobcatraz;
 import com.SirBlobman.blobcatraz.config.ConfigPortals;
+import com.SirBlobman.blobcatraz.utility.Util;
 
 public class ListenPortal implements Listener
 {
@@ -90,8 +91,6 @@ public class ListenPortal implements Listener
 						return;
 					}
 					
-					Location tp = new Location(null, 0, 0, 0);
-					
 					String path3 = portal + ".pos3.";
 					String w3 = portalc.getString(path3 + "world");
 					World world3 = Bukkit.getWorld(w3);
@@ -100,13 +99,8 @@ public class ListenPortal implements Listener
 					double z3 = portalc.getDouble(path3 + "z");
 					float pitch = (float) portalc.getDouble(path3 + "pitch");
 					float yaw = (float) portalc.getDouble(path3 + "yaw");
-					
-					tp.setWorld(world3);
-					tp.setX(x3);
-					tp.setY(y3);
-					tp.setZ(z3);
-					tp.setPitch(pitch);
-					tp.setYaw(yaw);
+					Location tp = new Location(world3, x3, y3, z3, yaw, pitch);
+					Util.print("teleported " + p.getName() + " to " + world3 + " " + x + " " + y + " " + z);
 					
 					p.teleport(tp);
 					p.playSound(l, Sound.BLOCK_PORTAL_TRAVEL, 100.0F, 1.0F);

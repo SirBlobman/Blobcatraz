@@ -1,0 +1,9 @@
+name: BlobcatrazSkyBlock
+version: 0.0.2
+description: SkyBlock Addon for SirBlobman
+author: SirBlobman
+authors: [SirBlobman]
+website: http://sirblobman.ddns.net
+main: com.SirBlobman.blobcatraz.SkyBlock
+database: false
+depend: [Blobcatraz]

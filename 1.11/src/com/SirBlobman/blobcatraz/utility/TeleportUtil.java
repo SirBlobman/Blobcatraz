@@ -62,4 +62,42 @@ public class TeleportUtil extends Util
 		p.setFallDistance(0.0F);
 		p.sendMessage(prefix + option("command.random tp", x, y, z));
 	}
+	
+	public static Location coords(Location o, String sx, String sy, String sz)
+	{
+		try
+		{
+			double ox = o.getX();
+			double oy = o.getY();
+			double oz = o.getZ();
+			
+			double x = relative(ox, sx);
+			double y = relative(oy, sy);
+			double z = relative(oz, sz);
+			
+			World w = o.getWorld();
+			float pi = o.getPitch();
+			float ya = o.getYaw();
+			Location l = new Location(w, x, y, z, ya, pi);
+			return l;
+		} catch(Exception ex)
+		{
+			String error = "Location Error:\n" + ex.getMessage();
+			Util.print(error);
+			return o;
+		}
+	}
+	
+	public static double relative(double o, String s)
+	{
+		if(s.equals("~")) return o;
+		if(s.startsWith("~"))
+		{
+			String s2 = s.replace("~", "");
+			double add = Double.parseDouble(s2);
+			double ret = o + add;
+			return ret;
+		}
+		return Double.parseDouble(s);
+	}
 }

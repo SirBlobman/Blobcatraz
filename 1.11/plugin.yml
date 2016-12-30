@@ -26,3 +26,19 @@ commands:
   spawner:
     description: Change the spawner you are looking at
     usage: /spawner <entity>
+  gamemode:
+    description: Change your gamemode
+    usage: /gamemode <mode> [player]
+    aliases: [gm]
+  gma:
+    description: Change your gamemode to adventure
+    usage: /gma [player]
+  gmc:
+    description: Change your gamemode to creative
+    usage: /gmc [player]
+  gms:
+    description: Change your gamemode to survival
+    usage: /gms [player]
+  gmsp:
+    description: Change your gamemode to spectator
+    usage: /gmc [player]
