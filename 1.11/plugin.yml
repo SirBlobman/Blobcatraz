@@ -3,8 +3,8 @@ version: 0.2.0
 description: Main plugin for the Blobcatraz server
 load: POSTWORLD
 author: SirBlobman
-authors: [SirBlobman]
-website: http://sirblobman.ddns.net
+authors: [SirBlobman, ToonBasic]
+website: http://blobcatraz.mc-srv.com
 main: com.SirBlobman.blobcatraz.Blobcatraz
 database: false
 depend: []

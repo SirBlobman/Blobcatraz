@@ -13,10 +13,13 @@ import com.SirBlobman.blobcatraz.utility.Util;
  */
 public class Blobcatraz extends JavaPlugin
 {
+	public static Blobcatraz instance;
+	
 	@Override
 	public void onEnable()
 	{
 		super.onEnable();
+		instance = this;
 		Util.broadcast("&2Enabling...");
 	}
 	

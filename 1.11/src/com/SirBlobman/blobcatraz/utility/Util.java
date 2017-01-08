@@ -5,7 +5,10 @@ import java.io.PrintStream;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
+
+import com.SirBlobman.blobcatraz.Blobcatraz;
 
 /**
  * Default Utility class for Blobcatraz
@@ -14,6 +17,7 @@ import org.bukkit.plugin.PluginManager;
  */
 public class Util
 {
+	private static final Blobcatraz PLUGIN = Blobcatraz.instance;
 	private static final Server SERVER = Bukkit.getServer();
 	private static final PluginManager PLUGIN_MANAGER = SERVER.getPluginManager();
 	
@@ -65,5 +69,18 @@ public class Util
 	{
 		String o = ChatColor.stripColor(c);
 		return o;
+	}
+	
+	/**
+	 * Register your {@link Listener} classes to bukkit
+	 * @param listeners any amount of listeners you want to register
+	 */
+	public static void regEvents(Listener... listeners)
+	{
+		for(Listener l : listeners)
+		{
+			boolean b1 = (l != null);
+			if(b1) PLUGIN_MANAGER.registerEvents(l, PLUGIN);
+		}
 	}
 }
