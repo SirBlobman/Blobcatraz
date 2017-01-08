@@ -52,6 +52,9 @@ public class ConfigLanguage
 		set("command.no permission1", "&4No Permission!", false);
 		set("command.no permission2", "&3%s", false);
 
+		set("command.blobcatraz.enchant.success", "Successfully enchanted your &6%s&r with &c%s (Level %s)", false);
+		set("command.setmotd.success", "The Server's MOTD was changed to:\n%s", false);
+		
 		set("command.item.recieve item", "You were given &6%s&r of &b%s&r", false);
 		set("command.item.invalid item", "&5%s&r is not a valid Item", false);
 		set("command.item.invalid meta", "&5%s&r must be between 1 and 32767", false);
@@ -68,8 +71,17 @@ public class ConfigLanguage
 		set("command.nickname.success", "Your name is now %s\nPlease logout to see the change", false);
 		set("command.nickname.other", "You changed &5%s's nickname to %s\nThey must logout to see the change!", false);
 		
+		set("command.gamemode.1", "Your game mode is now &e%s&r", false);
+		set("command.gamemode.sender", "%s&r is now in &e%s&r mode", false);
+		set("command.gamemode.target", "Your game mode was changed to &e%s", false);
+		
 		set("player.join", "{username} joined the game! :)", false);
 		set("player.quit", "{displayname} left us! :(", false);
+		
+		set("error.target.does not exist", "&5%s&r does not exist!", false);
+		set("error.gamemode.does not exist", "&3%s&r is not a valid GameMode!", false);
+		set("error.number.parse", "&a%s&r is not a Number!", false);
+		set("error.enchant.invalid", "&a%s&r is not a valid custom enchantment!", false);
 		
 		save();
 	}

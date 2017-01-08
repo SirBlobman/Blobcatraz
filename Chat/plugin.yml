@@ -1,0 +1,21 @@
+name: BlobcatrazChat
+version: 0.0.1
+description: Chat addon for Blobcatraz
+author: SirBlobman
+authors: [SirBlobman]
+website: http://sirblobman.ddns.net
+main: com.SirBlobman.blobcatraz.BlobChat
+database: false
+depend: [Blobcatraz]
+commands:
+  setprefix:
+    description: Change someone's prefix
+    usage: /setprefix <player> <prefix>
+    aliases: [changeprefix]
+  nick:
+    description: Change how your name looks!
+    usage: /nick <name>
+    aliases: [nickname, changename]
+  chat:
+    description: Mess with the chat
+    usage: /chat [on | off | clear]

@@ -161,6 +161,9 @@ public class CommandPortal implements CommandExecutor
 	
 	private boolean remove(CommandSender cs, String[] args)
 	{
+		String permission = "blobcatraz.portal.remove";
+		if(!PlayerUtil.hasPermission(cs, permission)) return true;
+		
 		YamlConfiguration config = ConfigPortals.load();
 		List<String> list = ConfigPortals.portals();
 		String portal = args[1];

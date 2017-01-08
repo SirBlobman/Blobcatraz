@@ -62,7 +62,7 @@ public class CommandGamemode implements CommandExecutor
 				GameMode gm = gamemode(mode);
 				if(gm == null)
 				{
-					String error = Util.prefix + Util.option("error.gamemode.doesn't exist", mode);
+					String error = Util.prefix + Util.option("error.gamemode.does not exist", mode);
 					p.sendMessage(error);
 					return true;
 				}
@@ -84,7 +84,7 @@ public class CommandGamemode implements CommandExecutor
 			GameMode gm = gamemode(mode);
 			if(gm == null)
 			{
-				String error = Util.prefix + Util.option("error.gamemode.doesn't exist", mode);
+				String error = Util.prefix + Util.option("error.gamemode.does not exist", mode);
 				cs.sendMessage(error);
 				return true;
 			}

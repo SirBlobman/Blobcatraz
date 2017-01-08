@@ -34,8 +34,6 @@ public class CommandBlobcatraz implements CommandExecutor, TabCompleter
 				String sub = args[0].toLowerCase();
 				switch(sub)
 				{
-				case "reload": return reload(cs);
-				case "restart": return reload(cs);
 				case "give": return give(cs, args);
 				case "enchant": return enchant(cs, args);
 				default: return thanks(cs);
@@ -70,18 +68,9 @@ public class CommandBlobcatraz implements CommandExecutor, TabCompleter
 		String[] msg = new String[]
 		{
 			Util.format(Util.prefix + "Sub Commands:"),
-			Util.format("&lreload: &rReload all the configs"),
-			Util.format("&lrestart: &rRestart the plugin (may cause errors)"),
 			Util.format("&lgive: &rCheat in a special item"),
 			Util.format("&lenchant: &rAdd custom enchantments to the item you are holding")
 		};
-		cs.sendMessage(msg);
-		return true;
-	}
-	
-	private boolean reload(CommandSender cs)
-	{
-		String msg = Util.format("This feature was removed because it was useless");
 		cs.sendMessage(msg);
 		return true;
 	}
@@ -141,7 +130,7 @@ public class CommandBlobcatraz implements CommandExecutor, TabCompleter
 				String level = args[2];
 				int lvl = 0;
 				try{lvl = Integer.parseInt(level);}
-				catch(Exception ex) {p.sendMessage(Util.prefix + Util.option("error.number.parse",level)); return true;}
+				catch(Exception ex) {p.sendMessage(Util.prefix + Util.option("error.number.parse", level)); return true;}
 				Enchant e;
 				try{e = Enchant.valueOf(enchant);}
 				catch(Exception ex) {p.sendMessage(Util.prefix + Util.option("error.enchant.invalid", enchant)); return true;}

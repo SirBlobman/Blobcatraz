@@ -42,3 +42,12 @@ commands:
   gmsp:
     description: Change your gamemode to spectator
     usage: /gmc [player]
+  fly:
+    description: Lets you enable or disable your ability to fly
+    usage: /fly <on | off> [player]
+  heal:
+    description: Gives you maximum health, feeds you, and removes all potions
+    usage: /heal [player]
+  feed:
+    description: Sets your food level and saturation to maximum
+    usage: /feed [player]

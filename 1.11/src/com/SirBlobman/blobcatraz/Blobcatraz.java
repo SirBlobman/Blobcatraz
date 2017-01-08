@@ -11,7 +11,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.SirBlobman.blobcatraz.command.CommandAFK;
 import com.SirBlobman.blobcatraz.command.CommandBlobcatraz;
+import com.SirBlobman.blobcatraz.command.CommandFly;
 import com.SirBlobman.blobcatraz.command.CommandGamemode;
+import com.SirBlobman.blobcatraz.command.CommandHeal;
 import com.SirBlobman.blobcatraz.command.CommandMOTD;
 import com.SirBlobman.blobcatraz.command.CommandSpawner;
 import com.SirBlobman.blobcatraz.config.ConfigBlobcatraz;
@@ -30,7 +32,7 @@ import com.SirBlobman.blobcatraz.utility.Util;
 /**
  * Main class for the plugin "Blobcatraz"<br/>
  * Used by all the extensions to make sure they work<br/>
- * Copyright &copy; SirBlobman 2016
+ * Copyright &copy; SirBlobman 2017
  * @author SirBlobman
  * @see JavaPlugin
  */
@@ -70,12 +72,16 @@ public class Blobcatraz extends JavaPlugin
 	private void commands()
 	{
 		c("blobcatraz", new CommandBlobcatraz(), new CommandBlobcatraz());
+		
 		c("afk", new CommandAFK(), null);
+		c("fly", new CommandFly(), null);
+		c("feed", new CommandHeal(), null);
 		c("gamemode", new CommandGamemode(), null);
 		c("gma", new CommandGamemode(), null);
 		c("gmc", new CommandGamemode(), null);
 		c("gms", new CommandGamemode(), null);
 		c("gmsp", new CommandGamemode(), null);
+		c("heal", new CommandHeal(), null);
 		c("setmotd", new CommandMOTD(), null);
 		c("spawner", new CommandSpawner(), new CommandSpawner());
 	}

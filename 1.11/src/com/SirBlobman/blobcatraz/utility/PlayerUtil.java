@@ -9,6 +9,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -120,7 +122,9 @@ public class PlayerUtil extends Util
 	
 	public static void heal(Player p)
 	{
-		p.setHealth(p.getMaxHealth());
+		AttributeInstance ai = p.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+		double max = ai.getBaseValue();
+		p.setHealth(max);
 		for(PotionEffect pe : p.getActivePotionEffects())
 		{
 			PotionEffectType pet = pe.getType();

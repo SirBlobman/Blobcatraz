@@ -74,7 +74,7 @@ public class ListenPortal implements Listener
 				boolean bx1 = (x > Math.min(x1, x2));
 				boolean bx2 = (x < (Math.max(x1, x2) + 1.0D));
 				boolean by1 = (y >= Math.min(y1, y2));
-				boolean by2 = (y >= Math.max(y1, y2));
+				boolean by2 = (y <= Math.max(y1, y2));
 				boolean bz1 = (z > Math.min(z1, z2));
 				boolean bz2 = (z < (Math.max(z1, z2) + 1.0D));
 				boolean b4 = (bx1 && bx2 && by1 && by2 && bz1 && bz2);

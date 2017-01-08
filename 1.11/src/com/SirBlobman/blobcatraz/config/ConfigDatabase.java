@@ -82,7 +82,7 @@ public class ConfigDatabase
 		File file = new File(folder, f);
 		YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 		set(config, "name", op.getName(), false);
-		set(config, "prefix", "[Default] &f", false);
+		set(config, "prefix", "&eMember &f", false);
 		set(config, "nick", op.getName(), false);
 		set(config, "afk", false, false);
 		set(config, "frozen", false, false);

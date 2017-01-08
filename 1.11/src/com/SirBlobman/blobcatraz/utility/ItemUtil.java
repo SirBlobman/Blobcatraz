@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.ItemMeta.Spigot;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import com.SirBlobman.blobcatraz.enchant.Enchant;
@@ -180,8 +179,7 @@ public class ItemUtil extends Util
 		try
 		{
 			ItemMeta meta = is.getItemMeta();
-			Spigot s = meta.spigot();
-			return s.isUnbreakable();
+			return meta.isUnbreakable();
 		} catch(Exception ex) {return false;}
 	}
 	
@@ -192,8 +190,7 @@ public class ItemUtil extends Util
 		{
 			ItemMeta meta = is.getItemMeta();
 			boolean u = unbreakable(is);
-			Spigot s = meta.spigot();
-			s.setUnbreakable(!u);
+			meta.setUnbreakable(!u);
 			is.setItemMeta(meta);
 		} catch(Exception ex) {return;}
 	}
