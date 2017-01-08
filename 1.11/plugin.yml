@@ -1,5 +1,5 @@
 name: Blobcatraz
-version: 0.0.3.0-alpha4
+version: 0.2.0
 description: Main plugin for the Blobcatraz server
 load: POSTWORLD
 author: SirBlobman
@@ -8,46 +8,3 @@ website: http://sirblobman.ddns.net
 main: com.SirBlobman.blobcatraz.Blobcatraz
 database: false
 depend: []
-commands:
-  blobcatraz:
-    description: |-
-      Base command
-      [] = Optional
-      <> = Required
-    aliases: [btraz]
-    usage: /blobcatraz [give|enchant] [item|enchantment] [level]
-  afk:
-    description: Set yourself as away from keyboard
-    aliases: [away]
-    usage: /afk [reason]
-  setmotd:
-    description: Change the server's MOTD
-    usage: /setmotd <motd>
-  spawner:
-    description: Change the spawner you are looking at
-    usage: /spawner <entity>
-  gamemode:
-    description: Change your gamemode
-    usage: /gamemode <mode> [player]
-    aliases: [gm]
-  gma:
-    description: Change your gamemode to adventure
-    usage: /gma [player]
-  gmc:
-    description: Change your gamemode to creative
-    usage: /gmc [player]
-  gms:
-    description: Change your gamemode to survival
-    usage: /gms [player]
-  gmsp:
-    description: Change your gamemode to spectator
-    usage: /gmc [player]
-  fly:
-    description: Lets you enable or disable your ability to fly
-    usage: /fly <on | off> [player]
-  heal:
-    description: Gives you maximum health, feeds you, and removes all potions
-    usage: /heal [player]
-  feed:
-    description: Sets your food level and saturation to maximum
-    usage: /feed [player]
